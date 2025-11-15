@@ -18,3 +18,28 @@ in APPPATH\Config\Routes.php on line 11.
  5 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
  6 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
  7 SYSTEMPATH\rewrite.php(44): require_once('D:\\laragon\\www\\projek_kai\\public\\index.php')
+CRITICAL - 2025-11-14 12:38:04 --> CodeIgniter\Router\Exceptions\RouterException: The namespace delimiter is a backslash (\), not a slash (/). Route handler: "\App\Controllers\Dashboard/InputController::index"
+[Method: GET, Route: input-manual]
+in SYSTEMPATH\Router\Router.php on line 496.
+ 1 SYSTEMPATH\Router\Router.php(496): CodeIgniter\Router\Exceptions\RouterException::forInvalidControllerName('\\App\\Controllers\\Dashboard/InputController::index')
+ 2 SYSTEMPATH\Router\Router.php(213): CodeIgniter\Router\Router->checkRoutes('input-manual')
+ 3 SYSTEMPATH\CodeIgniter.php(832): CodeIgniter\Router\Router->handle('input-manual')
+ 4 SYSTEMPATH\CodeIgniter.php(455): CodeIgniter\CodeIgniter->tryToRouteIt(Object(CodeIgniter\Router\RouteCollection))
+ 5 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 6 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 7 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 8 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 9 SYSTEMPATH\rewrite.php(44): require_once('C:\\laragon\\www\\projek_magang\\kai\\projek_kai\\public\\index.php')
+CRITICAL - 2025-11-14 13:06:24 --> CodeIgniter\View\Exceptions\ViewException: Invalid file: "pages/input-manual.php"
+[Method: GET, Route: input-manual]
+in SYSTEMPATH\Exceptions\FrameworkException.php on line 39.
+ 1 SYSTEMPATH\View\View.php(214): CodeIgniter\Exceptions\FrameworkException::forInvalidFile('pages/input-manual.php')
+ 2 SYSTEMPATH\Common.php(1167): CodeIgniter\View\View->render('pages/input-manual', [], true)
+ 3 APPPATH\Controllers\InputController.php(16): view('pages/input-manual', [...])
+ 4 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\InputController->index()
+ 5 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\InputController))
+ 6 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 8 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 9 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+10 SYSTEMPATH\rewrite.php(44): require_once('C:\\laragon\\www\\projek_magang\\kai\\projek_kai\\public\\index.php')

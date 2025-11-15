@@ -1,0 +1,112 @@
+ERROR - 2025-11-15 08:49:04 --> mysqli_sql_exception: Unknown column 'password' in 'field list' in C:\laragon\www\projek_magang\kai\projek_kai\system\Database\MySQLi\Connection.php:327
+Stack trace:
+#0 C:\laragon\www\projek_magang\kai\projek_kai\system\Database\MySQLi\Connection.php(327): mysqli->query('INSERT INTO `us...', 0)
+#1 C:\laragon\www\projek_magang\kai\projek_kai\system\Database\BaseConnection.php(729): CodeIgniter\Database\MySQLi\Connection->execute('INSERT INTO `us...')
+#2 C:\laragon\www\projek_magang\kai\projek_kai\system\Database\BaseConnection.php(646): CodeIgniter\Database\BaseConnection->simpleQuery('INSERT INTO `us...')
+#3 C:\laragon\www\projek_magang\kai\projek_kai\system\Database\BaseBuilder.php(2345): CodeIgniter\Database\BaseConnection->query('INSERT INTO `us...', Array, false)
+#4 C:\laragon\www\projek_magang\kai\projek_kai\system\Model.php(394): CodeIgniter\Database\BaseBuilder->insert()
+#5 C:\laragon\www\projek_magang\kai\projek_kai\system\BaseModel.php(838): CodeIgniter\Model->doInsert(Array)
+#6 C:\laragon\www\projek_magang\kai\projek_kai\system\Model.php(797): CodeIgniter\BaseModel->insert(Array, true)
+#7 C:\laragon\www\projek_magang\kai\projek_kai\app\Controllers\AuthController.php(76): CodeIgniter\Model->insert(Array)
+#8 C:\laragon\www\projek_magang\kai\projek_kai\system\CodeIgniter.php(933): App\Controllers\AuthController->processRegister()
+#9 C:\laragon\www\projek_magang\kai\projek_kai\system\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\AuthController))
+#10 C:\laragon\www\projek_magang\kai\projek_kai\system\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#11 C:\laragon\www\projek_magang\kai\projek_kai\system\Boot.php(363): CodeIgniter\CodeIgniter->run()
+#12 C:\laragon\www\projek_magang\kai\projek_kai\system\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+#13 C:\laragon\www\projek_magang\kai\projek_kai\public\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+#14 C:\laragon\www\projek_magang\kai\projek_kai\system\rewrite.php(44): require_once('C:\\laragon\\www\\...')
+#15 {main}
+ERROR - 2025-11-15 08:49:29 --> mysqli_sql_exception: Unknown column 'password' in 'field list' in C:\laragon\www\projek_magang\kai\projek_kai\system\Database\MySQLi\Connection.php:327
+Stack trace:
+#0 C:\laragon\www\projek_magang\kai\projek_kai\system\Database\MySQLi\Connection.php(327): mysqli->query('INSERT INTO `us...', 0)
+#1 C:\laragon\www\projek_magang\kai\projek_kai\system\Database\BaseConnection.php(729): CodeIgniter\Database\MySQLi\Connection->execute('INSERT INTO `us...')
+#2 C:\laragon\www\projek_magang\kai\projek_kai\system\Database\BaseConnection.php(646): CodeIgniter\Database\BaseConnection->simpleQuery('INSERT INTO `us...')
+#3 C:\laragon\www\projek_magang\kai\projek_kai\system\Database\BaseBuilder.php(2345): CodeIgniter\Database\BaseConnection->query('INSERT INTO `us...', Array, false)
+#4 C:\laragon\www\projek_magang\kai\projek_kai\system\Model.php(394): CodeIgniter\Database\BaseBuilder->insert()
+#5 C:\laragon\www\projek_magang\kai\projek_kai\system\BaseModel.php(838): CodeIgniter\Model->doInsert(Array)
+#6 C:\laragon\www\projek_magang\kai\projek_kai\system\Model.php(797): CodeIgniter\BaseModel->insert(Array, true)
+#7 C:\laragon\www\projek_magang\kai\projek_kai\app\Controllers\AuthController.php(76): CodeIgniter\Model->insert(Array)
+#8 C:\laragon\www\projek_magang\kai\projek_kai\system\CodeIgniter.php(933): App\Controllers\AuthController->processRegister()
+#9 C:\laragon\www\projek_magang\kai\projek_kai\system\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\AuthController))
+#10 C:\laragon\www\projek_magang\kai\projek_kai\system\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#11 C:\laragon\www\projek_magang\kai\projek_kai\system\Boot.php(363): CodeIgniter\CodeIgniter->run()
+#12 C:\laragon\www\projek_magang\kai\projek_kai\system\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+#13 C:\laragon\www\projek_magang\kai\projek_kai\public\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+#14 C:\laragon\www\projek_magang\kai\projek_kai\system\rewrite.php(44): require_once('C:\\laragon\\www\\...')
+#15 {main}
+ERROR - 2025-11-15 08:51:33 --> mysqli_sql_exception: Unknown column 'password' in 'field list' in C:\laragon\www\projek_magang\kai\projek_kai\system\Database\MySQLi\Connection.php:327
+Stack trace:
+#0 C:\laragon\www\projek_magang\kai\projek_kai\system\Database\MySQLi\Connection.php(327): mysqli->query('INSERT INTO `us...', 0)
+#1 C:\laragon\www\projek_magang\kai\projek_kai\system\Database\BaseConnection.php(729): CodeIgniter\Database\MySQLi\Connection->execute('INSERT INTO `us...')
+#2 C:\laragon\www\projek_magang\kai\projek_kai\system\Database\BaseConnection.php(646): CodeIgniter\Database\BaseConnection->simpleQuery('INSERT INTO `us...')
+#3 C:\laragon\www\projek_magang\kai\projek_kai\system\Database\BaseBuilder.php(2345): CodeIgniter\Database\BaseConnection->query('INSERT INTO `us...', Array, false)
+#4 C:\laragon\www\projek_magang\kai\projek_kai\system\Model.php(394): CodeIgniter\Database\BaseBuilder->insert()
+#5 C:\laragon\www\projek_magang\kai\projek_kai\system\BaseModel.php(838): CodeIgniter\Model->doInsert(Array)
+#6 C:\laragon\www\projek_magang\kai\projek_kai\system\Model.php(797): CodeIgniter\BaseModel->insert(Array, true)
+#7 C:\laragon\www\projek_magang\kai\projek_kai\app\Controllers\AuthController.php(76): CodeIgniter\Model->insert(Array)
+#8 C:\laragon\www\projek_magang\kai\projek_kai\system\CodeIgniter.php(933): App\Controllers\AuthController->processRegister()
+#9 C:\laragon\www\projek_magang\kai\projek_kai\system\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\AuthController))
+#10 C:\laragon\www\projek_magang\kai\projek_kai\system\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#11 C:\laragon\www\projek_magang\kai\projek_kai\system\Boot.php(363): CodeIgniter\CodeIgniter->run()
+#12 C:\laragon\www\projek_magang\kai\projek_kai\system\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+#13 C:\laragon\www\projek_magang\kai\projek_kai\public\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+#14 C:\laragon\www\projek_magang\kai\projek_kai\system\rewrite.php(44): require_once('C:\\laragon\\www\\...')
+#15 {main}
+ERROR - 2025-11-15 08:54:18 --> mysqli_sql_exception: Unknown column 'updated_at' in 'field list' in C:\laragon\www\projek_magang\kai\projek_kai\system\Database\MySQLi\Connection.php:327
+Stack trace:
+#0 C:\laragon\www\projek_magang\kai\projek_kai\system\Database\MySQLi\Connection.php(327): mysqli->query('INSERT INTO `us...', 0)
+#1 C:\laragon\www\projek_magang\kai\projek_kai\system\Database\BaseConnection.php(729): CodeIgniter\Database\MySQLi\Connection->execute('INSERT INTO `us...')
+#2 C:\laragon\www\projek_magang\kai\projek_kai\system\Database\BaseConnection.php(646): CodeIgniter\Database\BaseConnection->simpleQuery('INSERT INTO `us...')
+#3 C:\laragon\www\projek_magang\kai\projek_kai\system\Database\BaseBuilder.php(2345): CodeIgniter\Database\BaseConnection->query('INSERT INTO `us...', Array, false)
+#4 C:\laragon\www\projek_magang\kai\projek_kai\system\Model.php(394): CodeIgniter\Database\BaseBuilder->insert()
+#5 C:\laragon\www\projek_magang\kai\projek_kai\system\BaseModel.php(838): CodeIgniter\Model->doInsert(Array)
+#6 C:\laragon\www\projek_magang\kai\projek_kai\system\Model.php(797): CodeIgniter\BaseModel->insert(Array, true)
+#7 C:\laragon\www\projek_magang\kai\projek_kai\app\Controllers\AuthController.php(76): CodeIgniter\Model->insert(Array)
+#8 C:\laragon\www\projek_magang\kai\projek_kai\system\CodeIgniter.php(933): App\Controllers\AuthController->processRegister()
+#9 C:\laragon\www\projek_magang\kai\projek_kai\system\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\AuthController))
+#10 C:\laragon\www\projek_magang\kai\projek_kai\system\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#11 C:\laragon\www\projek_magang\kai\projek_kai\system\Boot.php(363): CodeIgniter\CodeIgniter->run()
+#12 C:\laragon\www\projek_magang\kai\projek_kai\system\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+#13 C:\laragon\www\projek_magang\kai\projek_kai\public\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+#14 C:\laragon\www\projek_magang\kai\projek_kai\system\rewrite.php(44): require_once('C:\\laragon\\www\\...')
+#15 {main}
+ERROR - 2025-11-15 08:56:31 --> mysqli_sql_exception: Unknown column 'updated_at' in 'field list' in C:\laragon\www\projek_magang\kai\projek_kai\system\Database\MySQLi\Connection.php:327
+Stack trace:
+#0 C:\laragon\www\projek_magang\kai\projek_kai\system\Database\MySQLi\Connection.php(327): mysqli->query('INSERT INTO `us...', 0)
+#1 C:\laragon\www\projek_magang\kai\projek_kai\system\Database\BaseConnection.php(729): CodeIgniter\Database\MySQLi\Connection->execute('INSERT INTO `us...')
+#2 C:\laragon\www\projek_magang\kai\projek_kai\system\Database\BaseConnection.php(646): CodeIgniter\Database\BaseConnection->simpleQuery('INSERT INTO `us...')
+#3 C:\laragon\www\projek_magang\kai\projek_kai\system\Database\BaseBuilder.php(2345): CodeIgniter\Database\BaseConnection->query('INSERT INTO `us...', Array, false)
+#4 C:\laragon\www\projek_magang\kai\projek_kai\system\Model.php(394): CodeIgniter\Database\BaseBuilder->insert()
+#5 C:\laragon\www\projek_magang\kai\projek_kai\system\BaseModel.php(838): CodeIgniter\Model->doInsert(Array)
+#6 C:\laragon\www\projek_magang\kai\projek_kai\system\Model.php(797): CodeIgniter\BaseModel->insert(Array, true)
+#7 C:\laragon\www\projek_magang\kai\projek_kai\app\Controllers\AuthController.php(76): CodeIgniter\Model->insert(Array)
+#8 C:\laragon\www\projek_magang\kai\projek_kai\system\CodeIgniter.php(933): App\Controllers\AuthController->processRegister()
+#9 C:\laragon\www\projek_magang\kai\projek_kai\system\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\AuthController))
+#10 C:\laragon\www\projek_magang\kai\projek_kai\system\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#11 C:\laragon\www\projek_magang\kai\projek_kai\system\Boot.php(363): CodeIgniter\CodeIgniter->run()
+#12 C:\laragon\www\projek_magang\kai\projek_kai\system\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+#13 C:\laragon\www\projek_magang\kai\projek_kai\public\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+#14 C:\laragon\www\projek_magang\kai\projek_kai\system\rewrite.php(44): require_once('C:\\laragon\\www\\...')
+#15 {main}
+CRITICAL - 2025-11-15 08:59:13 --> ErrorException: Undefined array key "password"
+[Method: POST, Route: auth/processLogin]
+in APPPATH\Controllers\AuthController.php on line 157.
+ 1 APPPATH\Controllers\AuthController.php(157): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key "password"', 'C:\\laragon\\www\\projek_magang\\kai\\projek_kai\\app\\Controllers\\AuthController.php', 157)
+ 2 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\AuthController->processLogin()
+ 3 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\AuthController))
+ 4 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 7 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 8 SYSTEMPATH\rewrite.php(44): require_once('C:\\laragon\\www\\projek_magang\\kai\\projek_kai\\public\\index.php')
+CRITICAL - 2025-11-15 08:59:25 --> ErrorException: Undefined array key "password"
+[Method: POST, Route: auth/processLogin]
+in APPPATH\Controllers\AuthController.php on line 157.
+ 1 APPPATH\Controllers\AuthController.php(157): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key "password"', 'C:\\laragon\\www\\projek_magang\\kai\\projek_kai\\app\\Controllers\\AuthController.php', 157)
+ 2 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\AuthController->processLogin()
+ 3 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\AuthController))
+ 4 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 7 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 8 SYSTEMPATH\rewrite.php(44): require_once('C:\\laragon\\www\\projek_magang\\kai\\projek_kai\\public\\index.php')
