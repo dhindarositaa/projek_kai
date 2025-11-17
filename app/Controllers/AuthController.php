@@ -194,7 +194,7 @@ public function processLogin()
     return $this->response->setJSON([
         'status' => 'success',
         'message' => 'Login berhasil!',
-        'redirect' => site_url('/input-manual')
+        'redirect' => site_url('/home')
     ]);
 }
 

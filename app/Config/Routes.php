@@ -11,8 +11,8 @@ use App\Controllers\AuthController;
 
 // app/Config/Routes.php
 
-$routes->get('/', [HomeController::class, 'index']);
-$routes->get('login', [AuthController::class, 'login']);
+$routes->get('/home', [HomeController::class, 'index']);
+$routes->get('/', [AuthController::class, 'login']);
 $routes->get('register', [AuthController::class, 'register']);
 $routes->post('auth/processRegister', [AuthController::class, 'processRegister']);
 $routes->post('auth/processLogin', [AuthController::class, 'processLogin']);
@@ -21,3 +21,6 @@ $routes->get('auth/logout', [AuthController::class, 'logout']);
 $routes->get('/input-manual', 'InputController::index');
 $routes->get('/bulk-input', 'BulkInputController::index');
 $routes->get('/barang', 'BarangController::index');
+
+$routes->post('import/process', 'ImportExcel::process');
+$routes->get('import/logs', 'ImportExcel::downloadLogs');
