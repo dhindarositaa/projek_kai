@@ -1,0 +1,31 @@
+ERROR - 2025-11-17 05:39:35 --> mysqli_sql_exception: Unknown column 'first_name' in 'field list' in C:\laragon\www\projekz\projek_kai\system\Database\MySQLi\Connection.php:327
+Stack trace:
+#0 C:\laragon\www\projekz\projek_kai\system\Database\MySQLi\Connection.php(327): mysqli->query('\r\n            I...', 0)
+#1 C:\laragon\www\projekz\projek_kai\system\Database\BaseConnection.php(729): CodeIgniter\Database\MySQLi\Connection->execute('\r\n            I...')
+#2 C:\laragon\www\projekz\projek_kai\system\Database\BaseConnection.php(646): CodeIgniter\Database\BaseConnection->simpleQuery('\r\n            I...')
+#3 C:\laragon\www\projekz\projek_kai\app\Database\Migrations\2025-11-15-063734_Register.php(61): CodeIgniter\Database\BaseConnection->query('\r\n            I...')
+#4 C:\laragon\www\projekz\projek_kai\system\Database\MigrationRunner.php(876): App\Database\Migrations\UpdateUsersTableToSimple->up()
+#5 C:\laragon\www\projekz\projek_kai\system\Database\MigrationRunner.php(182): CodeIgniter\Database\MigrationRunner->migrate('up', Object(stdClass))
+#6 C:\laragon\www\projekz\projek_kai\system\Commands\Database\Migrate.php(85): CodeIgniter\Database\MigrationRunner->latest(NULL)
+#7 C:\laragon\www\projekz\projek_kai\system\CLI\Commands.php(74): CodeIgniter\Commands\Database\Migrate->run(Array)
+#8 C:\laragon\www\projekz\projek_kai\system\CLI\Console.php(47): CodeIgniter\CLI\Commands->run('migrate', Array)
+#9 C:\laragon\www\projekz\projek_kai\system\Boot.php(388): CodeIgniter\CLI\Console->run()
+#10 C:\laragon\www\projekz\projek_kai\system\Boot.php(133): CodeIgniter\Boot::runCommand(Object(CodeIgniter\CLI\Console))
+#11 C:\laragon\www\projekz\projek_kai\spark(87): CodeIgniter\Boot::bootSpark(Object(Config\Paths))
+#12 {main}
+ERROR - 2025-11-17 07:08:34 --> mysqli_sql_exception: Column 'unit_id' cannot be NOT NULL: needed in a foreign key constraint 'assets_unit_id_foreign' SET NULL in C:\laragon\www\projekz\projek_kai\system\Database\MySQLi\Connection.php:327
+Stack trace:
+#0 C:\laragon\www\projekz\projek_kai\system\Database\MySQLi\Connection.php(327): mysqli->query('CREATE TABLE `a...', 0)
+#1 C:\laragon\www\projekz\projek_kai\system\Database\BaseConnection.php(729): CodeIgniter\Database\MySQLi\Connection->execute('CREATE TABLE `a...')
+#2 C:\laragon\www\projekz\projek_kai\system\Database\BaseConnection.php(646): CodeIgniter\Database\BaseConnection->simpleQuery('CREATE TABLE `a...')
+#3 C:\laragon\www\projekz\projek_kai\system\Database\Forge.php(570): CodeIgniter\Database\BaseConnection->query('CREATE TABLE `a...')
+#4 C:\laragon\www\projekz\projek_kai\app\Database\Migrations\2025-11-17-070729_CreateAssetsTables.php(236): CodeIgniter\Database\Forge->createTable('assets', true)
+#5 C:\laragon\www\projekz\projek_kai\system\Database\MigrationRunner.php(876): App\Database\Migrations\CreateAssetsTables->up()
+#6 C:\laragon\www\projekz\projek_kai\system\Database\MigrationRunner.php(182): CodeIgniter\Database\MigrationRunner->migrate('up', Object(stdClass))
+#7 C:\laragon\www\projekz\projek_kai\system\Commands\Database\Migrate.php(85): CodeIgniter\Database\MigrationRunner->latest(NULL)
+#8 C:\laragon\www\projekz\projek_kai\system\CLI\Commands.php(74): CodeIgniter\Commands\Database\Migrate->run(Array)
+#9 C:\laragon\www\projekz\projek_kai\system\CLI\Console.php(47): CodeIgniter\CLI\Commands->run('migrate', Array)
+#10 C:\laragon\www\projekz\projek_kai\system\Boot.php(388): CodeIgniter\CLI\Console->run()
+#11 C:\laragon\www\projekz\projek_kai\system\Boot.php(133): CodeIgniter\Boot::runCommand(Object(CodeIgniter\CLI\Console))
+#12 C:\laragon\www\projekz\projek_kai\spark(87): CodeIgniter\Boot::bootSpark(Object(Config\Paths))
+#13 {main}
