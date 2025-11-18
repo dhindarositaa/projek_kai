@@ -4,9 +4,9 @@ namespace App\Controllers;
 
 use CodeIgniter\Controller;
 use Config\Services;
-use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Shared\Date as PhpExcelDate;
 use CodeIgniter\HTTP\ResponseInterface;
+use Throwable;
 
 class ImportExcel extends Controller
 {
@@ -14,7 +14,6 @@ class ImportExcel extends Controller
     protected $request;
     protected $validation;
 
-    // required normalized field names
     protected $required = [
         'no_rab','no_npd','tgl_pengadaan',
         'jenis_perangkat','merk_dan_tipe',
@@ -29,48 +28,70 @@ class ImportExcel extends Controller
         helper(['filesystem','text','url','array']);
     }
 
-    /**
-     * Main import endpoint used by your frontend form.
-     * POST /import/process (multipart form-data file field named "file")
-     */
     public function process()
     {
+        // quick check: ensure PhpSpreadsheet class available; try to require composer autoload if not
+        if (!class_exists(\PhpOffice\PhpSpreadsheet\IOFactory::class)) {
+            $vendorAutoload = ROOTPATH . 'vendor/autoload.php';
+            if (file_exists($vendorAutoload)) {
+                @require_once $vendorAutoload;
+            }
+        }
+
+        if (!class_exists(\PhpOffice\PhpSpreadsheet\IOFactory::class)) {
+            log_message('error', 'PhpSpreadsheet not found. Please run: composer require phpoffice/phpspreadsheet');
+            return $this->respondJSON([
+                'status' => 'error',
+                'message' => 'Library PhpSpreadsheet tidak ditemukan. Pastikan dependency sudah terpasang (composer require phpoffice/phpspreadsheet).'
+            ], ResponseInterface::HTTP_INTERNAL_SERVER_ERROR);
+        }
+
         $file = $this->request->getFile('file');
         if (!$file || !$file->isValid()) {
             return $this->respondJSON(['status'=>'error','message'=>'File tidak di-upload atau tidak valid.'], ResponseInterface::HTTP_BAD_REQUEST);
         }
 
-        // Accept only xls/xlsx
         if (!preg_match('/\.(xls|xlsx)$/i', $file->getClientName())) {
             return $this->respondJSON(['status'=>'error','message'=>'Hanya menerima file .xls atau .xlsx'], ResponseInterface::HTTP_UNSUPPORTED_MEDIA_TYPE);
         }
 
-        // Save temp
         $tmpPath = WRITEPATH . 'uploads/';
-        if (!is_dir($tmpPath)) mkdir($tmpPath, 0755, true);
+        if (!is_dir($tmpPath)) @mkdir($tmpPath, 0755, true);
         $tempName = $file->getRandomName();
         $file->move($tmpPath, $tempName);
         $fullPath = $tmpPath . $tempName;
 
-        // Read spreadsheet
         try {
-            $reader = IOFactory::createReaderForFile($fullPath);
+            // gunakan fully-qualified class just-in-case
+            $reader = \PhpOffice\PhpSpreadsheet\IOFactory::createReaderForFile($fullPath);
             $spreadsheet = $reader->load($fullPath);
             $sheet = $spreadsheet->getActiveSheet();
+            // toArray dengan nullValue, calculateFormulas true, formatData true, returnCellRef true
             $rows = $sheet->toArray(null, true, true, true);
-        } catch (\Throwable $e) {
+        } catch (Throwable $e) {
+            // log lengkap
+            log_message('error', 'Gagal membaca file Excel: ' . $e->getMessage() . ' in ' . $e->getFile() . ':' . $e->getLine());
             @unlink($fullPath);
-            return $this->respondJSON(['status'=>'error','message'=>'Gagal membaca file Excel: '.$e->getMessage()], ResponseInterface::HTTP_INTERNAL_SERVER_ERROR);
+            $resp = ['status'=>'error','message'=>'Gagal membaca file Excel: '.$e->getMessage()];
+            if (ENVIRONMENT !== 'production') {
+                $resp['exception'] = [
+                    'type' => get_class($e),
+                    'file' => $e->getFile(),
+                    'line' => $e->getLine(),
+                    'trace' => $e->getTraceAsString()
+                ];
+            }
+            return $this->respondJSON($resp, ResponseInterface::HTTP_INTERNAL_SERVER_ERROR);
         }
 
-        // Detect header
+        // DETECT HEADER ROW (mengembalikan index baris numerik sesuai key $rows)
         $headerRowIndex = $this->detectHeaderRow($rows);
         if ($headerRowIndex === null) {
             @unlink($fullPath);
             return $this->respondJSON(['status'=>'error','message'=>'Tidak dapat mendeteksi baris header. Pastikan file memiliki header.'], ResponseInterface::HTTP_BAD_REQUEST);
         }
 
-        // Normalize headers
+        // Baca header dan normalisasi
         $headers = [];
         foreach ($rows[$headerRowIndex] as $col => $value) {
             $normalized = $this->normalizeHeader((string)$value);
@@ -78,11 +99,24 @@ class ImportExcel extends Controller
             $headers[$col] = $normalized;
         }
 
-        // counters and log table
-        $inserted = $updated = $failed = $conflicts = 0;
+        // log unknown headers
         $logTable = $this->db->table('import_logs');
+        $knownKeys = array_keys($this->headerSynonymMap());
+        foreach ($headers as $col => $name) {
+            if (strpos($name, 'col_') === 0) continue;
+            if (!in_array($name, $knownKeys, true)) {
+                $logTable->insert([
+                    'imported_at' => date('Y-m-d H:i:s'),
+                    'source_file' => $file->getClientName(),
+                    'row_number' => $headerRowIndex,
+                    'status' => 'unknown_header',
+                    'message' => 'Unmapped header detected: '.$rows[$headerRowIndex][$col]
+                ]);
+            }
+        }
 
-        // transaction
+        $inserted = $updated = $failed = $conflicts = 0;
+
         $this->db->transStart();
 
         $maxRow = max(array_keys($rows));
@@ -93,11 +127,18 @@ class ImportExcel extends Controller
             foreach ($headers as $col => $name) {
                 $val = isset($rawRow[$col]) ? trim((string)$rawRow[$col]) : '';
                 if ($val !== '') $allEmpty = false;
-                $mapped[$name] = $val;
+                // map synonyms: if header is a synonym, convert to canonical name
+                $synMap = $this->headerSynonymMap();
+                if (isset($synMap[$name])) {
+                    $canonical = $synMap[$name];
+                } else {
+                    $canonical = $name;
+                }
+                $mapped[$canonical] = $val;
             }
             if ($allEmpty) continue;
 
-            // validate required
+            // required check
             $missing = [];
             foreach ($this->required as $req) {
                 if (empty($mapped[$req])) $missing[] = $req;
@@ -132,7 +173,7 @@ class ImportExcel extends Controller
 
             $jenis_perangkat = $mapped['jenis_perangkat'];
             $brand_type = $mapped['merk_dan_tipe'];
-            // split brand & model
+
             $brand = $brand_type;
             $model = $brand_type;
             if (strpos($brand_type, ' - ') !== false) {
@@ -146,9 +187,9 @@ class ImportExcel extends Controller
             }
 
             $serial = $mapped['serial_number'];
-            $asset_code = $mapped['no_inventaris'];
+            $asset_code = $mapped['no_inventaris'] ?? ($mapped['no_inventaris_bmn'] ?? null);
             $unit_name = $mapped['unit'];
-            $nama = $mapped['nama'] ?? null;
+            $nama = $mapped['nama'] ?? ($mapped['nama_pj'] ?? null);
             $nipp = $mapped['nipp'] ?? null;
             $specs = $mapped['spesifikasi'] ?? null;
             $label = $mapped['sudah_ditempel'] ?? null;
@@ -156,25 +197,32 @@ class ImportExcel extends Controller
             $no_wo = $mapped['no_wo_bast'] ?? ($mapped['no_wo'] ?? null);
             $link_file = $mapped['link_file'] ?? null;
 
-            // upsert procurement
+            // upserts (simple implementations)
             $procurementId = $this->upsertProcurement($no_rab, $no_npd, $tgl_pengadaan);
-
-            // upsert model
             $modelId = $this->upsertAssetModel($brand, $model, $specs);
-
-            // upsert unit
             $unitId = $this->upsertUnit($unit_name);
 
-            // upsert employee optional
+            // defensive checks: ensure required foreign ids exist to avoid FK violations
+            if (empty($procurementId) || empty($modelId)) {
+                $failed++;
+                $logTable->insert([
+                    'imported_at' => date('Y-m-d H:i:s'),
+                    'source_file' => $file->getClientName(),
+                    'row_number' => $r,
+                    'status' => 'failed',
+                    'message' => 'Missing procurementId or modelId (procurementId=' . (int)$procurementId . ', modelId=' . (int)$modelId . ') - skipping row'
+                ]);
+                continue;
+            }
+
             $employeeId = null;
             if (!empty($nipp) || !empty($nama)) {
                 $employeeId = $this->upsertEmployee($nipp, $nama);
             }
 
-            // check existing assets
             $assetTable = $this->db->table('assets');
-            $existingBySerial = $assetTable->where('serial_number', $serial)->get()->getRow();
-            $existingByCode = $assetTable->where('asset_code', $asset_code)->get()->getRow();
+            $existingBySerial = $serial ? $assetTable->where('serial_number', $serial)->get()->getRow() : null;
+            $existingByCode = $asset_code ? $assetTable->where('asset_code', $asset_code)->get()->getRow() : null;
 
             if ($existingBySerial && $existingByCode && $existingBySerial->id !== $existingByCode->id) {
                 $conflicts++;
@@ -188,7 +236,6 @@ class ImportExcel extends Controller
                 continue;
             }
 
-            // upsert asset
             if ($existingBySerial) {
                 $assetTable->update([
                     'asset_code' => $asset_code,
@@ -203,13 +250,7 @@ class ImportExcel extends Controller
 
                 $updated++;
                 $assetIdToUse = $existingBySerial->id;
-                $logTable->insert([
-                    'imported_at' => date('Y-m-d H:i:s'),
-                    'source_file' => $file->getClientName(),
-                    'row_number' => $r,
-                    'status' => 'updated',
-                    'message' => 'Updated asset id='.$existingBySerial->id
-                ]);
+                $logTable->insert(['imported_at'=>date('Y-m-d H:i:s'),'source_file'=>$file->getClientName(),'row_number'=>$r,'status'=>'updated','message'=>'Updated asset id='.$existingBySerial->id]);
             } elseif ($existingByCode) {
                 $assetTable->update([
                     'serial_number' => $serial,
@@ -224,13 +265,7 @@ class ImportExcel extends Controller
 
                 $updated++;
                 $assetIdToUse = $existingByCode->id;
-                $logTable->insert([
-                    'imported_at' => date('Y-m-d H:i:s'),
-                    'source_file' => $file->getClientName(),
-                    'row_number' => $r,
-                    'status' => 'updated',
-                    'message' => 'Updated asset id='.$existingByCode->id
-                ]);
+                $logTable->insert(['imported_at'=>date('Y-m-d H:i:s'),'source_file'=>$file->getClientName(),'row_number'=>$r,'status'=>'updated','message'=>'Updated asset id='.$existingByCode->id]);
             } else {
                 $assetTable->insert([
                     'asset_code' => $asset_code,
@@ -245,16 +280,9 @@ class ImportExcel extends Controller
                 ]);
                 $assetIdToUse = $this->db->insertID();
                 $inserted++;
-                $logTable->insert([
-                    'imported_at' => date('Y-m-d H:i:s'),
-                    'source_file' => $file->getClientName(),
-                    'row_number' => $r,
-                    'status' => 'inserted',
-                    'message' => 'Inserted asset id='.$assetIdToUse
-                ]);
+                $logTable->insert(['imported_at'=>date('Y-m-d H:i:s'),'source_file'=>$file->getClientName(),'row_number'=>$r,'status'=>'inserted','message'=>'Inserted asset id='.$assetIdToUse]);
             }
 
-            // documents
             if (!empty($no_bast) || !empty($no_wo) || !empty($link_file)) {
                 $docTable = $this->db->table('documents');
                 $docTable->insert([
@@ -266,11 +294,10 @@ class ImportExcel extends Controller
                     'uploaded_at' => date('Y-m-d H:i:s')
                 ]);
             }
-        } // end loop rows
+        }
 
         $this->db->transComplete();
 
-        // remove temp file
         @unlink($fullPath);
 
         $summary = [
@@ -283,158 +310,266 @@ class ImportExcel extends Controller
     }
 
     /**
-     * Export import_logs CSV
+     * Heuristik mencari header row dari array hasil toArray()
+     * Mengembalikan numeric index baris (sesuai key $rows) atau null kalau tidak ketemu
      */
-    public function downloadLogs()
+    protected function detectHeaderRow(array $rows, int $maxCheck = 10)
     {
-        $builder = $this->db->table('import_logs');
-        $rows = $builder->orderBy('imported_at','DESC')->get()->getResultArray();
-
-        $filename = 'import_logs_'.date('Ymd_His').'.csv';
-        $fh = fopen('php://memory','w');
-        fputcsv($fh, ['id','imported_at','source_file','row_number','status','message']);
-        foreach ($rows as $r) {
-            fputcsv($fh, [$r['id'],$r['imported_at'],$r['source_file'],$r['row_number'],$r['status'],$r['message']]);
-        }
-        rewind($fh);
-        $csv = stream_get_contents($fh);
-        fclose($fh);
-
-        return $this->response->setHeader('Content-Type','text/csv')
-                              ->setHeader('Content-Disposition','attachment; filename="'.$filename.'"')
-                              ->setBody($csv);
-    }
-
-    // ---------------- Helper Methods ----------------
-
-    protected function detectHeaderRow(array $rows)
-    {
-        foreach ($rows as $idx => $row) {
-            $nonEmpty = 0;
-            $content = '';
-            foreach ($row as $cell) {
-                if ($cell !== null && trim((string)$cell) !== '') $nonEmpty++;
-                $content .= ' '.(string)$cell;
-            }
-            if ($nonEmpty >= 3 && $this->rowLooksLikeHeader($content)) {
-                return $idx;
+        $keys = array_keys($rows);
+        $maxToCheck = min($maxCheck, count($keys));
+        for ($i = 0; $i < $maxToCheck; $i++) {
+            $rowIndex = $keys[$i];
+            $row = $rows[$rowIndex];
+            if ($this->rowLooksLikeHeader($row)) {
+                return $rowIndex;
             }
         }
-        return array_key_first($rows);
+        // juga coba cek baris pertama non-empty kalau heuristik gagal
+        foreach ($rows as $idx => $r) {
+            if (array_filter($r, function($v){ return trim((string)$v) !== ''; })) {
+                return $idx; // fallback
+            }
+        }
+        return null;
     }
 
-    protected function rowLooksLikeHeader($text)
+    /**
+     * Menilai apakah satu baris tampak seperti header (mengandung banyak token teks)
+     */
+    protected function rowLooksLikeHeader(array $row): bool
     {
-        $keywords = ['no rab','no npd','tgl','merk','serial','inventaris','unit'];
-        $lower = strtolower($text);
-        $count = 0;
-        foreach ($keywords as $k) { if (strpos($lower,$k) !== false) $count++; }
-        return $count >= 2;
+        $nonEmpty = 0;
+        $textTokens = 0;
+        foreach ($row as $cell) {
+            $val = trim((string)$cell);
+            if ($val === '') continue;
+            $nonEmpty++;
+            // jika cell mengandung huruf (label biasanya mengandung huruf)
+            if (preg_match('/[A-Za-z\p{L}]/u', $val)) $textTokens++;
+            // jika ada spasi dan panjang pendek, anggap label
+            if (strlen($val) <= 40 && preg_match('/^[\p{L}\p{N}_\s\-\/]+$/u', $val)) $textTokens++;
+        }
+        if ($nonEmpty === 0) return false;
+        // heuristik: setidaknya 40% sel non-empty terlihat seperti label teks
+        return ($textTokens >= max(1, intval($nonEmpty * 0.4)));
     }
 
-    protected function normalizeHeader(string $h)
+    /**
+     * Map semua kemungkinan header ke canonical key yang dipakai di proses
+     * key = normalized header (hasil normalizeHeader), value = canonical field name
+     */
+    protected function headerSynonymMap(): array
     {
-        $h = trim($h);
-        $h = strtolower($h);
-        $h = preg_replace('/[^\p{L}\p{Nd}]+/u', '_', $h);
-        $h = preg_replace('/_+/', '_', $h);
-        $h = trim($h, '_');
+        return [
+            // canonical => canonical (so keys searchable)
+            'no_rab' => 'no_rab',
+            'no rab' => 'no_rab',
+            'norab' => 'no_rab',
 
-        $map = [
-            'no_rab' => ['no rab','no_rab','rab'],
-            'no_npd' => ['no npd','no_npd','npd'],
-            'tgl_pengadaan' => ['tgl pengadaan','tanggal pengadaan','tgl_pengadaan','tanggal'],
-            'jenis_perangkat' => ['jenis perangkat','perangkat','type','jenis'],
-            'merk_dan_tipe' => ['merk dan tipe','brand series','merk_tipe','merk'],
-            'serial_number' => ['serial number','serial_number','serial'],
-            'no_inventaris' => ['no inventaris','no_inventaris','inventaris','asset_code'],
-            'unit' => ['unit','lokasi','unit_kerja'],
-            'nama' => ['nama','penanggung jawab','petugas'],
-            'nipp' => ['nipp','nip'],
-            'spesifikasi' => ['spesifikasi','specs','spec'],
-            'sudah_ditempel' => ['sudah ditempel','label'],
-            'no_bast_bmc' => ['no bast bmc','no_bast_bmc','no_bast'],
-            'no_wo_bast' => ['no wo bast','no_wo_bast','no_wo'],
-            'link_file' => ['link file','link_file','file']
+            'no_npd' => 'no_npd',
+            'no npd' => 'no_npd',
+            'nonpd' => 'no_npd',
+
+            'tgl_pengadaan' => 'tgl_pengadaan',
+            'tanggal_pengadaan' => 'tgl_pengadaan',
+            'tgl pembelian' => 'tgl_pengadaan',
+
+            'jenis_perangkat' => 'jenis_perangkat',
+            'jenis perangkat' => 'jenis_perangkat',
+            'type' => 'jenis_perangkat',
+
+            'merk_dan_tipe' => 'merk_dan_tipe',
+            'merk & tipe' => 'merk_dan_tipe',
+            'merk tipe' => 'merk_dan_tipe',
+            'merk' => 'merk_dan_tipe',
+
+            'serial_number' => 'serial_number',
+            'serial number' => 'serial_number',
+            'sn' => 'serial_number',
+
+            'no_inventaris' => 'no_inventaris',
+            'no inventaris' => 'no_inventaris',
+            'kode_barang' => 'no_inventaris',
+            'asset_code' => 'no_inventaris',
+
+            'unit' => 'unit',
+            'unit kerja' => 'unit',
+
+            'nama' => 'nama',
+            'nama_pj' => 'nama_pj',
+            'nama penanggung jawab' => 'nama_pj',
+
+            'nipp' => 'nipp',
+            'nip' => 'nipp',
+
+            'spesifikasi' => 'spesifikasi',
+            'spec' => 'spesifikasi',
+            'specs' => 'spesifikasi',
+
+            'sudah_ditempel' => 'sudah_ditempel',
+            'label' => 'sudah_ditempel',
+
+            'no_bast' => 'no_bast_bmc',
+            'no_bast_bmc' => 'no_bast_bmc',
+
+            'no_wo' => 'no_wo_bast',
+            'no_wo_bast' => 'no_wo_bast',
+
+            'link_file' => 'link_file',
         ];
-
-        foreach ($map as $key=>$syns) {
-            foreach ($syns as $s) {
-                $skey = preg_replace('/[^a-z0-9_]+/','',$s);
-                if ($h === $skey) return $key;
-            }
-        }
-
-        foreach ($map as $key=>$syns) {
-            foreach ($syns as $s) {
-                if (strpos($h, str_replace(' ','_', $s)) !== false) return $key;
-            }
-        }
-
-        return $h;
     }
 
+    /**
+     * Normalize header: lower, remove diacritics, replace non-alnum dengan space, compress spaces
+     * Return bentuk kunci yang mudah dibandingkan
+     */
+    protected function normalizeHeader(string $header): string
+    {
+        $h = trim(mb_strtolower($header));
+        // remove BOM and weird chars
+        $h = preg_replace('/[\x00-\x1F\x7F]/u', '', $h);
+        // replace non-alnum (except underscore) with space
+        $h = preg_replace('/[^\p{L}\p{Nd}_]+/u', ' ', $h);
+        $h = preg_replace('/\s+/', ' ', $h);
+        $h = trim($h);
+        // map via synonym map keys: find best match
+        $map = $this->headerSynonymMap();
+        // try direct match
+        if (isset($map[$h])) return $map[$h];
+        // try removing spaces
+        $noSpace = str_replace(' ', '', $h);
+        if (isset($map[$noSpace])) return $map[$noSpace];
+        // try with underscores
+        $under = str_replace(' ', '_', $h);
+        if (isset($map[$under])) return $map[$under];
+        // otherwise return as-is slug
+        return $under;
+    }
+
+    /**
+     * Parse tanggal yang mungkin berupa:
+     * - Excel serial number (numeric)
+     * - dd/mm/yyyy atau dd-mm-yyyy
+     * - yyyy-mm-dd
+     * Return yyyy-mm-dd string or false jika gagal
+     */
     protected function parseDate($value)
     {
-        if ($value === null || $value === '') return null;
-        if (is_numeric($value)) {
+        $v = trim((string)$value);
+        if ($v === '') return false;
+
+        // numeric Excel serial
+        if (is_numeric($v)) {
             try {
-                $dt = PhpExcelDate::excelToDateTimeObject($value);
+                $dt = PhpExcelDate::excelToDateTimeObject((float)$v);
                 return $dt->format('Y-m-d');
-            } catch (\Throwable $e) {
-                return null;
+            } catch (\Exception $e) {
+                // fallback
             }
         }
-        $d = date_create($value);
-        if ($d === false) return null;
-        return $d->format('Y-m-d');
+
+        // try several formats
+        $formats = ['d/m/Y','d-m-Y','Y-m-d','Y/m/d','d M Y','j M Y'];
+        foreach ($formats as $f) {
+            $d = \DateTime::createFromFormat($f, $v);
+            if ($d && $d->format($f) === $v) {
+                return $d->format('Y-m-d');
+            }
+        }
+
+        // try strtotime
+        $ts = strtotime($v);
+        if ($ts !== false) {
+            return date('Y-m-d', $ts);
+        }
+
+        return false;
     }
 
-    // ---------------- Upsert helpers ----------------
-
-    protected function upsertProcurement($no_rab, $no_npd, $date)
+    /**
+     * Upsert procurement: cari berdasarkan no_rab & no_npd, jika ada return id, jika tidak insert
+     */
+    protected function upsertProcurement($no_rab, $no_npd, $tgl)
     {
-        $t = $this->db->table('procurements');
-        $row = $t->where('no_rab', $no_rab)->where('no_npd', $no_npd)->get()->getRow();
+        $tbl = $this->db->table('procurements');
+        $row = $tbl->where('no_rab', $no_rab)->where('no_npd', $no_npd)->get()->getRow();
         if ($row) return $row->id;
-        $t->insert(['no_rab'=>$no_rab,'no_npd'=>$no_npd,'procurement_date'=>$date]);
+        $tbl->insert([
+            'no_rab' => $no_rab,
+            'no_npd' => $no_npd,
+            'procurement_date' => $tgl,
+            'created_at' => date('Y-m-d H:i:s')
+        ]);
         return $this->db->insertID();
     }
 
-    protected function upsertAssetModel($brand, $model, $specs=null)
+    /**
+     * Upsert asset model
+     * Updated: sesuai migration kamu, kolom specs digunakan (bukan 'specification')
+     */
+    protected function upsertAssetModel($brand, $model, $specs = null)
     {
-        $t = $this->db->table('asset_models');
-        $row = $t->where('brand', $brand)->where('model', $model)->get()->getRow();
+        $tbl = $this->db->table('asset_models');
+        $row = $tbl->where('brand', $brand)->where('model', $model)->get()->getRow();
         if ($row) return $row->id;
-        $t->insert(['brand'=>$brand,'model'=>$model,'specs'=>$specs]);
+
+        $data = [
+            'brand' => $brand,
+            'model' => $model,
+        ];
+
+        // migration kamu menggunakan 'specs' sebagai nama kolom
+        if ($specs !== null && $this->db->fieldExists('specs', 'asset_models')) {
+            $data['specs'] = $specs;
+        }
+
+        if ($this->db->fieldExists('created_at', 'asset_models')) {
+            $data['created_at'] = date('Y-m-d H:i:s');
+        }
+
+        $tbl->insert($data);
         return $this->db->insertID();
     }
 
+    /**
+     * Upsert unit
+     */
     protected function upsertUnit($name)
     {
-        $t = $this->db->table('units');
-        $row = $t->where('name', $name)->get()->getRow();
+        $name = trim((string)$name);
+        if ($name === '') return null;
+        $tbl = $this->db->table('units');
+        $row = $tbl->where('name', $name)->get()->getRow();
         if ($row) return $row->id;
-        $t->insert(['name'=>$name]);
+        $tbl->insert(['name' => $name, 'created_at' => date('Y-m-d H:i:s')]);
         return $this->db->insertID();
     }
 
-    protected function upsertEmployee($nipp, $name)
+    /**
+     * Upsert employee by nipp or name (simple)
+     */
+    protected function upsertEmployee($nipp = null, $name = null)
     {
-        $t = $this->db->table('employees');
-        if (!empty($nipp)) {
-            $row = $t->where('nipp',$nipp)->get()->getRow();
-            if ($row) return $row->id;
-        } else {
-            $row = $t->where('name',$name)->get()->getRow();
+        $nipp = trim((string)$nipp);
+        $name = trim((string)$name);
+        $tbl = $this->db->table('employees');
+        if ($nipp !== '') {
+            $row = $tbl->where('nipp', $nipp)->get()->getRow();
             if ($row) return $row->id;
         }
-        $t->insert(['nipp'=>$nipp,'name'=>$name]);
+        if ($name !== '') {
+            $row = $tbl->where('name', $name)->get()->getRow();
+            if ($row) return $row->id;
+        }
+        // insert
+        $data = ['name' => $name ?: null, 'nipp' => $nipp ?: null, 'created_at' => date('Y-m-d H:i:s')];
+        $tbl->insert($data);
         return $this->db->insertID();
     }
 
     protected function respondJSON($data, int $code = ResponseInterface::HTTP_OK)
     {
+        // ensure JSON_UNESCAPED_UNICODE for readability
         return $this->response->setStatusCode($code)
                               ->setHeader('Content-Type','application/json')
                               ->setBody(json_encode($data, JSON_UNESCAPED_UNICODE));
