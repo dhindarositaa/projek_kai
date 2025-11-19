@@ -9,8 +9,8 @@
     <nav class="flex-1 overflow-y-auto">
       <p class="text-xs text-gray-400 uppercase font-semibold mb-2">Menu</p>
       <ul class="space-y-1 text-sm">
-        <li><a href="<?= base_url() ?>" class="flex items-center gap-3 px-3 py-2 rounded hover:bg-gray-50">📊 Dashboard</a></li>
-        <li><a href="<?= base_url('inventory') ?>" class="flex items-center gap-3 px-3 py-2 rounded hover:bg-gray-50">📦 Inventaris</a></li>
+        <li><a href="<?= base_url('/home') ?>" class="flex items-center gap-3 px-3 py-2 rounded hover:bg-gray-50">📊 Dashboard</a></li>
+        <li><a href="<?= base_url('/assets') ?>" class="flex items-center gap-3 px-3 py-2 rounded hover:bg-gray-50">📦 Daftar Barang</a></li>
         <li><a href="<?= base_url('reports') ?>" class="flex items-center gap-3 px-3 py-2 rounded hover:bg-gray-50">📋 Laporan</a></li>
         <li><a href="<?= base_url('settings') ?>" class="flex items-center gap-3 px-3 py-2 rounded hover:bg-gray-50">⚙️ Pengaturan</a></li>
       </ul>

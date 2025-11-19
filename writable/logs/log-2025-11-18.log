@@ -11973,3 +11973,35 @@ in APPPATH\Views\dashboard\barang.php on line 75.
 10 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
 11 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
 12 SYSTEMPATH\rewrite.php(44): require_once('C:\\laragon\\www\\projekz\\projek_kai\\public\\index.php')
+ERROR - 2025-11-18 18:37:14 --> Error connecting to the database: mysqli_sql_exception: No connection could be made because the target machine actively refused it in C:\laragon\www\projek_magang\kai\projek_kai\system\Database\MySQLi\Connection.php:201
+Stack trace:
+#0 C:\laragon\www\projek_magang\kai\projek_kai\system\Database\MySQLi\Connection.php(201): mysqli->real_connect('localhost', 'root', Object(SensitiveParameterValue), 'projek_kai', 3306, '', 0)
+#1 C:\laragon\www\projek_magang\kai\projek_kai\system\Database\BaseConnection.php(419): CodeIgniter\Database\MySQLi\Connection->connect(false)
+#2 C:\laragon\www\projek_magang\kai\projek_kai\system\Database\BaseConnection.php(614): CodeIgniter\Database\BaseConnection->initialize()
+#3 C:\laragon\www\projek_magang\kai\projek_kai\system\Database\BaseConnection.php(1525): CodeIgniter\Database\BaseConnection->query('SHOW TABLES FRO...')
+#4 C:\laragon\www\projek_magang\kai\projek_kai\system\Database\BaseConnection.php(1545): CodeIgniter\Database\BaseConnection->listTables()
+#5 C:\laragon\www\projek_magang\kai\projek_kai\system\Database\MigrationRunner.php(768): CodeIgniter\Database\BaseConnection->tableExists('migrations')
+#6 C:\laragon\www\projek_magang\kai\projek_kai\system\Database\MigrationRunner.php(162): CodeIgniter\Database\MigrationRunner->ensureTable()
+#7 C:\laragon\www\projek_magang\kai\projek_kai\system\Commands\Database\Migrate.php(85): CodeIgniter\Database\MigrationRunner->latest(NULL)
+#8 C:\laragon\www\projek_magang\kai\projek_kai\system\CLI\Commands.php(74): CodeIgniter\Commands\Database\Migrate->run(Array)
+#9 C:\laragon\www\projek_magang\kai\projek_kai\system\CLI\Console.php(47): CodeIgniter\CLI\Commands->run('migrate', Array)
+#10 C:\laragon\www\projek_magang\kai\projek_kai\system\Boot.php(388): CodeIgniter\CLI\Console->run()
+#11 C:\laragon\www\projek_magang\kai\projek_kai\system\Boot.php(133): CodeIgniter\Boot::runCommand(Object(CodeIgniter\CLI\Console))
+#12 C:\laragon\www\projek_magang\kai\projek_kai\spark(87): CodeIgniter\Boot::bootSpark(Object(Config\Paths))
+#13 {main}
+
+Next CodeIgniter\Database\Exceptions\DatabaseException: No connection could be made because the target machine actively refused it in C:\laragon\www\projek_magang\kai\projek_kai\system\Database\MySQLi\Connection.php:246
+Stack trace:
+#0 C:\laragon\www\projek_magang\kai\projek_kai\system\Database\BaseConnection.php(419): CodeIgniter\Database\MySQLi\Connection->connect(false)
+#1 C:\laragon\www\projek_magang\kai\projek_kai\system\Database\BaseConnection.php(614): CodeIgniter\Database\BaseConnection->initialize()
+#2 C:\laragon\www\projek_magang\kai\projek_kai\system\Database\BaseConnection.php(1525): CodeIgniter\Database\BaseConnection->query('SHOW TABLES FRO...')
+#3 C:\laragon\www\projek_magang\kai\projek_kai\system\Database\BaseConnection.php(1545): CodeIgniter\Database\BaseConnection->listTables()
+#4 C:\laragon\www\projek_magang\kai\projek_kai\system\Database\MigrationRunner.php(768): CodeIgniter\Database\BaseConnection->tableExists('migrations')
+#5 C:\laragon\www\projek_magang\kai\projek_kai\system\Database\MigrationRunner.php(162): CodeIgniter\Database\MigrationRunner->ensureTable()
+#6 C:\laragon\www\projek_magang\kai\projek_kai\system\Commands\Database\Migrate.php(85): CodeIgniter\Database\MigrationRunner->latest(NULL)
+#7 C:\laragon\www\projek_magang\kai\projek_kai\system\CLI\Commands.php(74): CodeIgniter\Commands\Database\Migrate->run(Array)
+#8 C:\laragon\www\projek_magang\kai\projek_kai\system\CLI\Console.php(47): CodeIgniter\CLI\Commands->run('migrate', Array)
+#9 C:\laragon\www\projek_magang\kai\projek_kai\system\Boot.php(388): CodeIgniter\CLI\Console->run()
+#10 C:\laragon\www\projek_magang\kai\projek_kai\system\Boot.php(133): CodeIgniter\Boot::runCommand(Object(CodeIgniter\CLI\Console))
+#11 C:\laragon\www\projek_magang\kai\projek_kai\spark(87): CodeIgniter\Boot::bootSpark(Object(Config\Paths))
+#12 {main}
