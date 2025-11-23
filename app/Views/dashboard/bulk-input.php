@@ -2,18 +2,18 @@
 
 <?= $this->section('content') ?>
 
-<div class="max-w-xl w-full mx-auto py-6">
+<div class="w-full mx-auto py-6 px-4 lg:px-8">
   <form id="uploadForm" method="post" enctype="multipart/form-data" action="<?= site_url('import/process') ?>">
     <?= csrf_field() ?>
 
     <label id="dropzoneLabel" for="fileInput" class="sr-only">Unggah file</label>
 
     <div id="dropzone"
-         class="relative bg-white rounded-lg p-4 md:p-5 border border-gray-200 shadow-sm"
+         class="relative bg-white rounded-lg p-4 md:p-5 border border-gray-200 shadow-sm w-full max-w-full"
          aria-labelledby="dropzoneLabel">
 
       <!-- Simple dashed area (non-absolute, compact) -->
-      <div id="dropzoneInner" class="rounded-md border-2 border-dashed border-blue-200 p-4 flex items-center gap-4 cursor-pointer" role="button" tabindex="0">
+      <div id="dropzoneInner" class="rounded-md border-2 border-dashed border-blue-200 p-4 flex items-center gap-4 cursor-pointer w-full" role="button" tabindex="0">
         <!-- Icon -->
         <div class="w-10 h-10 flex-shrink-0 flex items-center justify-center">
           <svg viewBox="0 0 24 24" fill="none" class="w-8 h-8" aria-hidden="true">
@@ -31,21 +31,21 @@
         </div>
 
         <div class="text-xs text-slate-500">
-          <span id="fileNameCompact" class="block max-w-[10rem] truncate"></span>
+          <span id="fileNameCompact" class="block max-w-[26rem] truncate"></span>
         </div>
       </div>
 
-      <!-- preview area (compact) -->
-      <div id="previewCompact" class="mt-3"></div>
+      <!-- preview area (full width) -->
+      <div id="previewCompact" class="mt-3 w-full"></div>
 
       <input id="fileInput" name="file" type="file" class="hidden" accept=".xlsx,.xls" />
       <p id="errorCompact" class="mt-2 text-xs text-red-600 hidden" role="alert"></p>
 
       <!-- actions -->
-      <div class="mt-4 flex items-center gap-3">
+      <div class="mt-4 flex flex-col sm:flex-row items-start sm:items-center gap-3">
         <button id="uploadBtn" type="button" class="bg-blue-600 text-white px-4 py-2 rounded disabled:opacity-60" disabled>Upload & Import</button>
         <button id="clearBtn" type="button" class="text-sm text-gray-600">Batal</button>
-        <div id="progressWrap" class="flex-1 hidden">
+        <div id="progressWrap" class="flex-1 w-full hidden">
           <div class="w-full bg-gray-100 rounded h-2 overflow-hidden">
             <div id="progressBar" class="h-2 bg-blue-500" style="width:0%"></div>
           </div>
@@ -57,8 +57,8 @@
   </form>
 
   <!-- hasil -->
-  <div id="result" class="mt-4 hidden">
-    <div id="summaryBox" class="bg-white border p-3 rounded shadow-sm">
+  <div id="result" class="mt-4 hidden w-full">
+    <div id="summaryBox" class="bg-white border p-3 rounded shadow-sm w-full max-w-full">
       <h3 class="font-medium text-sm">Hasil Import</h3>
       <div id="summaryContent" class="text-sm text-slate-700 mt-2"></div>
       <div class="mt-2">
@@ -69,9 +69,11 @@
 </div>
 
 <style>
-  /* compact dragover visual */
+  /* responsive dragover visual */
   #dropzoneInner.dragover { box-shadow: 0 6px 20px rgba(30,144,255,0.08); transform: translateY(-1px); }
   .thumb-compact { width:48px; height:48px; border-radius:.5rem; object-fit:cover; }
+  /* ensure long JSON in failed rows wraps nicely */
+  .whitespace-pre-wrap { white-space: pre-wrap; word-break: break-word; }
 </style>
 
 <script>
@@ -90,7 +92,7 @@
   const result = document.getElementById('result');
   const summaryContent = document.getElementById('summaryContent');
   const downloadLogBtn = document.getElementById('downloadLogBtn');
-  const MAX_BYTES = 25 * 1024 * 1024; // safer: 25MB limit
+  const MAX_BYTES = 25 * 1024 * 1024; // 25MB
 
   function humanFileSize(bytes) {
     if (bytes === 0) return '0 B';
@@ -109,6 +111,8 @@
     progressText.textContent = '0%';
     progressWrap.classList.add('hidden');
     result.classList.add('hidden');
+    const fr = document.getElementById('failedRowsContainer');
+    if (fr) fr.remove();
   }
 
   function showError(msg) {
@@ -129,8 +133,8 @@
     wrap.appendChild(icon);
 
     const meta = document.createElement('div');
-    meta.className = 'text-xs';
-    meta.innerHTML = '<div class="font-medium text-slate-800 truncate">'+file.name+'</div><div class="text-slate-500">'+humanFileSize(file.size)+'</div>';
+    meta.className = 'text-sm flex-1 min-w-0';
+    meta.innerHTML = '<div class="font-medium text-slate-800 truncate">'+file.name+'</div><div class="text-slate-500 text-xs">'+humanFileSize(file.size)+'</div>';
 
     const btn = document.createElement('button');
     btn.type = 'button';
@@ -139,7 +143,7 @@
     btn.addEventListener('click', () => { fileInput.value=''; clearPreview(); });
 
     const container = document.createElement('div');
-    container.className = 'flex items-center gap-3';
+    container.className = 'flex items-center gap-3 w-full';
     container.appendChild(wrap);
     container.appendChild(meta);
     container.appendChild(btn);
@@ -151,7 +155,6 @@
   function handleFiles(files) {
     const file = files[0];
     if (!file) return;
-    // type check: accept xlsx/xls by extension
     if (!/\.(xlsx|xls)$/i.test(file.name)) {
       showError('Format tidak valid — gunakan file .xlsx atau .xls');
       fileInput.value = '';
@@ -205,7 +208,6 @@
     const form = document.getElementById('uploadForm');
     const formData = new FormData(form);
 
-    // show progress UI
     progressWrap.classList.remove('hidden');
     uploadBtn.disabled = true;
 
@@ -236,12 +238,18 @@
                 <div>Failed: <strong>${res.summary.failed}</strong></div>
                 <div>Conflicts: <strong>${res.summary.conflicts}</strong></div>
               `;
-              // show download log button if you implement an endpoint to fetch logs
               downloadLogBtn.classList.remove('hidden');
               downloadLogBtn.onclick = () => {
-                // implement route /import/logs or similar to download logs (not implemented here)
                 window.location.href = '<?= site_url('import/logs') ?>';
               };
+
+              if (res.failed_rows && res.failed_rows.length) {
+                renderFailedRows(res.failed_rows);
+              } else {
+                const old = document.getElementById('failedRowsContainer');
+                if (old) old.remove();
+              }
+
             } else {
               showError(res.message || 'Import gagal. Cek server log.');
             }
@@ -265,6 +273,77 @@
 
   // init
   clearPreview();
+
+  // Render failed rows details
+  function renderFailedRows(failedRows) {
+    const failedContainerId = 'failedRowsContainer';
+    let container = document.getElementById(failedContainerId);
+    if (!container) {
+      container = document.createElement('div');
+      container.id = failedContainerId;
+      container.className = 'mt-4 bg-white border p-3 rounded shadow-sm w-full';
+      summaryContent.parentNode.appendChild(container);
+    }
+    if (!failedRows || !failedRows.length) {
+      container.innerHTML = '<div class="text-sm text-slate-600">Tidak ada baris yang gagal.</div>';
+      return;
+    }
+
+    let html = '<h4 class="font-medium text-sm mb-2">Detail Baris Gagal</h4>';
+    html += '<div class="overflow-x-auto"><table class="min-w-full text-sm text-left border-collapse"><thead class="text-xs text-gray-600"><tr><th class="py-2 px-2 border">Baris</th><th class="py-2 px-2 border">Alasan</th><th class="py-2 px-2 border">Data (lengkap)</th></tr></thead><tbody>';
+    failedRows.forEach(fr => {
+      const reasons = (fr.errors || []).map(e => escapeHtml(e)).join('<br>');
+      html += `<tr><td class="py-2 px-2 border align-top">${escapeHtml(String(fr.row))}</td><td class="py-2 px-2 border align-top">${reasons}</td><td class="py-2 px-2 border whitespace-pre-wrap"><pre class="text-xs">${escapeHtml(JSON.stringify(fr.data, null, 2))}</pre></td></tr>`;
+    });
+    html += '</tbody></table></div>';
+    html += '<div class="mt-2"><button id="downloadFailedCsv" class="text-xs text-blue-600 underline">Download daftar gagal (CSV)</button></div>';
+
+    container.innerHTML = html;
+
+    const dlBtn = document.getElementById('downloadFailedCsv');
+    if (dlBtn) {
+      dlBtn.addEventListener('click', function () {
+        downloadFailedAsCsv(failedRows);
+      });
+    }
+  }
+
+  function escapeHtml(str) {
+    return String(str).replace(/[&<>"']/g, function(m) {
+      return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[m];
+    });
+  }
+
+  function downloadFailedAsCsv(failedRows) {
+    if (!failedRows || !failedRows.length) return;
+    const keySet = new Set();
+    failedRows.forEach(fr => {
+      if (fr.data) Object.keys(fr.data).forEach(k => keySet.add(k));
+    });
+    const keys = Array.from(keySet);
+    const header = ['row','errors'].concat(keys);
+    const lines = [header.join(',')];
+
+    failedRows.forEach(fr => {
+      const row = [fr.row, '"' + (fr.errors || []).join(' | ').replace(/"/g,'""') + '"'];
+      keys.forEach(k => {
+        const v = fr.data && fr.data[k] !== undefined ? String(fr.data[k]).replace(/"/g,'""') : '';
+        row.push('"' + v + '"');
+      });
+      lines.push(row.join(','));
+    });
+
+    const blob = new Blob([lines.join("\r\n")], {type: 'text/csv;charset=utf-8;'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'import_failed_rows.csv';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  }
+
 })();
 </script>
 

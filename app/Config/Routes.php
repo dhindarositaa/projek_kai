@@ -22,7 +22,8 @@ $routes->post('auth/checkEmail', [AuthController::class, 'checkEmail']);
 $routes->get('auth/logout', [AuthController::class, 'logout']);
 
 // pages
-$routes->get('/input-manual', [InputController::class, 'index']);
+$routes->get('input', 'InputController::index');
+$routes->post('input/store', 'InputController::store');
 $routes->get('/bulk-input', [BulkInputController::class, 'index']);
 $routes->get('/barang', [BarangController::class, 'index']);
 
@@ -30,7 +31,7 @@ $routes->get('/barang', [BarangController::class, 'index']);
 $routes->post('import/process', [ImportExcel::class, 'process']);
 $routes->get('import/logs', [ImportExcel::class, 'downloadLogs']);
 
-// Assets CRUD
+// Assets CRUD                  
 $routes->get('assets', 'Assets::index');
 $routes->get('assets/create', 'Assets::create');
 $routes->post('assets', 'Assets::store');
@@ -38,9 +39,10 @@ $routes->get('assets/(:num)', 'Assets::show/$1');
 $routes->get('assets/(:num)/edit', 'Assets::edit/$1');
 $routes->post('assets/(:num)/update', 'Assets::update/$1');
 $routes->post('assets/(:num)/delete', 'Assets::delete/$1');
-
+$routes->get('assets/monitoring', 'Assets::monitoring');
 
 // optional API
 $routes->get('api/assets', 'Assets::apiList');
 
 // --------------------------------------------------------------------
+$routes->get('/test', 'Test::index');

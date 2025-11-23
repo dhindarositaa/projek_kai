@@ -24,6 +24,59 @@
             </div>
         <?php endif; ?>
 
+        <?php 
+            $request   = \Config\Services::request();
+            $q         = $request->getGet('q');
+            $condition = $request->getGet('condition');
+            $perPage   = (int)($request->getGet('perPage') ?? ($pager['perPage'] ?? 10));
+            if (! in_array($perPage, [10,20,50,100])) $perPage = $pager['perPage'] ?? 10;
+        ?>
+
+        <!-- FILTER & SEARCH & PERPAGE -->
+        <form method="get" action="<?= site_url('assets') ?>" class="mb-4 flex flex-col md:flex-row gap-3 items-start md:items-end">
+            <div class="flex-1">
+                <label for="q" class="block text-xs text-gray-600 mb-1">Pencarian</label>
+                <input
+                    type="text"
+                    id="q"
+                    name="q"
+                    value="<?= esc($q) ?>"
+                    placeholder="Cari jenis, unit, no inventaris, NPD, pengguna..."
+                    class="w-full border rounded px-3 py-2 text-sm"
+                >
+            </div>
+
+            <div>
+                <label for="condition" class="block text-xs text-gray-600 mb-1">Sort / Filter Keadaan</label>
+                <select id="condition" name="condition" class="border rounded px-3 py-2 text-sm">
+                    <option value="">Semua kondisi</option>
+                    <option value="baik"     <?= $condition === 'baik'     ? 'selected' : '' ?>>Baik</option>
+                    <option value="rusak"    <?= $condition === 'rusak'    ? 'selected' : '' ?>>Rusak</option>
+                    <option value="dipinjam" <?= $condition === 'dipinjam' ? 'selected' : '' ?>>Dipinjam</option>
+                    <option value="disposal" <?= $condition === 'disposal' ? 'selected' : '' ?>>Disposal</option>
+                </select>
+            </div>
+
+            <div>
+                <label for="perPage" class="block text-xs text-gray-600 mb-1">Tampilkan</label>
+                <select id="perPage" name="perPage" class="border rounded px-3 py-2 text-sm">
+                    <option value="10"  <?= $perPage === 10  ? 'selected' : '' ?>>10</option>
+                    <option value="20"  <?= $perPage === 20  ? 'selected' : '' ?>>20</option>
+                    <option value="50"  <?= $perPage === 50  ? 'selected' : '' ?>>50</option>
+                    <option value="100" <?= $perPage === 100 ? 'selected' : '' ?>>100</option>
+                </select>
+            </div>
+
+            <div class="flex gap-2">
+                <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded text-sm mt-1 md:mt-0">
+                    Terapkan
+                </button>
+                <a href="<?= site_url('assets') ?>" class="px-4 py-2 bg-gray-200 rounded text-sm mt-1 md:mt-0">
+                    Reset
+                </a>
+            </div>
+        </form>
+
         <!-- TABLE ASSETS -->
         <div class="overflow-x-auto">
             <table class="min-w-full text-left">
@@ -78,10 +131,73 @@
                     <?php endif; ?>
                 </tbody>
             </table>
+        </div>
 
-            <div class="mt-4 text-sm text-gray-600">
-                Menampilkan <?= count($assets ?? []) ?> dari <?= esc($pager['total'] ?? 0) ?> item
+        <?php
+            $total     = $pager['total']   ?? 0;
+            $page      = $pager['page']    ?? 1;
+            $perPage   = $pager['perPage'] ?? 10;
+            $totalPage = $total > 0 ? (int)ceil($total / $perPage) : 1;
+
+            if ($page > $totalPage) $page = $totalPage;
+
+            // base param utk pagination link
+            $baseParams = [
+                'q'         => $q,
+                'condition' => $condition,
+                'perPage'   => $perPage,
+            ];
+            function pageUrlLocal($pageNum, $baseParams) {
+                $params = array_merge($baseParams, ['page' => $pageNum]);
+                return site_url('assets') . '?' . http_build_query($params);
+            }
+        ?>
+
+        <!-- INFO + PAGINATION DI LUAR DIV TABLE (BIAR GA NGARUH KE TABEL) -->
+        <div class="mt-4 space-y-2 text-sm text-gray-600">
+            <div>
+                Menampilkan <?= count($assets ?? []) ?> dari <?= esc($total) ?> item
             </div>
+
+            <?php if ($totalPage > 1): ?>
+                <div class="flex justify-center">
+                    <nav class="inline-flex items-center gap-1">
+                        <!-- Previous -->
+                        <?php if ($page > 1): ?>
+                            <a href="<?= pageUrlLocal($page-1, $baseParams) ?>"
+                               class="px-2 py-1 border rounded hover:bg-gray-100 text-xs">&laquo;</a>
+                        <?php endif; ?>
+
+                        <?php
+                            // kalau halaman banyak, batasi range angka biar nggak kepanjangan
+                            $start = max(1, $page - 2);
+                            $end   = min($totalPage, $page + 2);
+
+                            if ($start > 1) {
+                                echo '<span class="px-2 py-1 text-xs">...</span>';
+                            }
+
+                            for ($i = $start; $i <= $end; $i++):
+                                $isActive = $i == $page;
+                        ?>
+                            <a href="<?= pageUrlLocal($i, $baseParams) ?>"
+                               class="px-3 py-1 border rounded text-xs <?= $isActive ? 'bg-blue-600 text-white border-blue-600' : 'hover:bg-gray-100' ?>">
+                                <?= $i ?>
+                            </a>
+                        <?php endfor; ?>
+
+                        <?php if ($end < $totalPage): ?>
+                            <span class="px-2 py-1 text-xs">...</span>
+                        <?php endif; ?>
+
+                        <!-- Next -->
+                        <?php if ($page < $totalPage): ?>
+                            <a href="<?= pageUrlLocal($page+1, $baseParams) ?>"
+                               class="px-2 py-1 border rounded hover:bg-gray-100 text-xs">&raquo;</a>
+                        <?php endif; ?>
+                    </nav>
+                </div>
+            <?php endif; ?>
         </div>
     </div>
 </div>
@@ -110,7 +226,7 @@
                 </a>
 
                 <!-- Halaman Input Manual -->
-                <a href="<?= site_url('/input-manual') ?>"
+                <a href="<?= site_url('/input') ?>"
                    class="flex-1 px-4 py-2 bg-blue-600 text-white rounded text-sm text-center hover:bg-blue-700">
                     Input Manual
                 </a>
