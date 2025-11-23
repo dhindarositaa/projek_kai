@@ -1,0 +1,94 @@
+CRITICAL - 2025-11-21 08:33:09 --> CodeIgniter\View\Exceptions\ViewException: Invalid file: "dashboard/barang_edit.php"
+[Method: GET, Route: assets/610/edit]
+in SYSTEMPATH\Exceptions\FrameworkException.php on line 39.
+ 1 SYSTEMPATH\View\View.php(214): CodeIgniter\Exceptions\FrameworkException::forInvalidFile('dashboard/barang_edit.php')
+ 2 SYSTEMPATH\Common.php(1167): CodeIgniter\View\View->render('dashboard/barang_edit', [], true)
+ 3 APPPATH\Controllers\Assets.php(130): view('dashboard/barang_edit', [...])
+ 4 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Assets->edit('610')
+ 5 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Assets))
+ 6 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 8 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 9 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+10 SYSTEMPATH\rewrite.php(44): require_once('C:\\laragon\\www\\projek_magang\\kai\\projek_kai\\public\\index.php')
+CRITICAL - 2025-11-21 09:08:58 --> CodeIgniter\View\Exceptions\ViewException: Invalid file: "dashboard/barang_detail.php"
+[Method: GET, Route: assets/614]
+in SYSTEMPATH\Exceptions\FrameworkException.php on line 39.
+ 1 SYSTEMPATH\View\View.php(214): CodeIgniter\Exceptions\FrameworkException::forInvalidFile('dashboard/barang_detail.php')
+ 2 SYSTEMPATH\Common.php(1167): CodeIgniter\View\View->render('dashboard/barang_detail', [], true)
+ 3 APPPATH\Controllers\Assets.php(107): view('dashboard/barang_detail', [...])
+ 4 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Assets->show('614')
+ 5 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Assets))
+ 6 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 8 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 9 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+10 SYSTEMPATH\rewrite.php(44): require_once('C:\\laragon\\www\\projek_magang\\kai\\projek_kai\\public\\index.php')
+CRITICAL - 2025-11-21 09:35:42 --> CodeIgniter\View\Exceptions\ViewException: Invalid file: "dashboard/barang_detail.php"
+[Method: GET, Route: assets/614]
+in SYSTEMPATH\Exceptions\FrameworkException.php on line 39.
+ 1 SYSTEMPATH\View\View.php(214): CodeIgniter\Exceptions\FrameworkException::forInvalidFile('dashboard/barang_detail.php')
+ 2 SYSTEMPATH\Common.php(1167): CodeIgniter\View\View->render('dashboard/barang_detail', [], true)
+ 3 APPPATH\Controllers\Assets.php(107): view('dashboard/barang_detail', [...])
+ 4 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Assets->show('614')
+ 5 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Assets))
+ 6 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 8 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 9 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+10 SYSTEMPATH\rewrite.php(44): require_once('C:\\laragon\\www\\projek_magang\\kai\\projek_kai\\public\\index.php')
+ERROR - 2025-11-21 10:43:18 --> mysqli_sql_exception: Unknown column 'status' in 'field list' in C:\laragon\www\projek_magang\kai\projek_kai\system\Database\MySQLi\Connection.php:327
+Stack trace:
+#0 C:\laragon\www\projek_magang\kai\projek_kai\system\Database\MySQLi\Connection.php(327): mysqli->query('INSERT INTO `as...', 0)
+#1 C:\laragon\www\projek_magang\kai\projek_kai\system\Database\BaseConnection.php(729): CodeIgniter\Database\MySQLi\Connection->execute('INSERT INTO `as...')
+#2 C:\laragon\www\projek_magang\kai\projek_kai\system\Database\BaseConnection.php(646): CodeIgniter\Database\BaseConnection->simpleQuery('INSERT INTO `as...')
+#3 C:\laragon\www\projek_magang\kai\projek_kai\system\Database\BaseBuilder.php(2345): CodeIgniter\Database\BaseConnection->query('INSERT INTO `as...', Array, false)
+#4 C:\laragon\www\projek_magang\kai\projek_kai\app\Controllers\Assets.php(176): CodeIgniter\Database\BaseBuilder->insert(Array)
+#5 C:\laragon\www\projek_magang\kai\projek_kai\system\CodeIgniter.php(933): App\Controllers\Assets->store()
+#6 C:\laragon\www\projek_magang\kai\projek_kai\system\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Assets))
+#7 C:\laragon\www\projek_magang\kai\projek_kai\system\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#8 C:\laragon\www\projek_magang\kai\projek_kai\system\Boot.php(363): CodeIgniter\CodeIgniter->run()
+#9 C:\laragon\www\projek_magang\kai\projek_kai\system\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+#10 C:\laragon\www\projek_magang\kai\projek_kai\public\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+#11 C:\laragon\www\projek_magang\kai\projek_kai\system\rewrite.php(44): require_once('C:\\laragon\\www\\...')
+#12 {main}
+ERROR - 2025-11-21 10:43:18 --> mysqli_sql_exception: Unknown column 'created_at' in 'field list' in C:\laragon\www\projek_magang\kai\projek_kai\system\Database\MySQLi\Connection.php:327
+Stack trace:
+#0 C:\laragon\www\projek_magang\kai\projek_kai\system\Database\MySQLi\Connection.php(327): mysqli->query('INSERT INTO `do...', 0)
+#1 C:\laragon\www\projek_magang\kai\projek_kai\system\Database\BaseConnection.php(729): CodeIgniter\Database\MySQLi\Connection->execute('INSERT INTO `do...')
+#2 C:\laragon\www\projek_magang\kai\projek_kai\system\Database\BaseConnection.php(646): CodeIgniter\Database\BaseConnection->simpleQuery('INSERT INTO `do...')
+#3 C:\laragon\www\projek_magang\kai\projek_kai\system\Database\BaseBuilder.php(2345): CodeIgniter\Database\BaseConnection->query('INSERT INTO `do...', Array, false)
+#4 C:\laragon\www\projek_magang\kai\projek_kai\app\Controllers\Assets.php(189): CodeIgniter\Database\BaseBuilder->insert(Array)
+#5 C:\laragon\www\projek_magang\kai\projek_kai\system\CodeIgniter.php(933): App\Controllers\Assets->store()
+#6 C:\laragon\www\projek_magang\kai\projek_kai\system\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Assets))
+#7 C:\laragon\www\projek_magang\kai\projek_kai\system\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#8 C:\laragon\www\projek_magang\kai\projek_kai\system\Boot.php(363): CodeIgniter\CodeIgniter->run()
+#9 C:\laragon\www\projek_magang\kai\projek_kai\system\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+#10 C:\laragon\www\projek_magang\kai\projek_kai\public\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+#11 C:\laragon\www\projek_magang\kai\projek_kai\system\rewrite.php(44): require_once('C:\\laragon\\www\\...')
+#12 {main}
+ERROR - 2025-11-21 10:46:29 --> mysqli_sql_exception: Unknown column 'model_name' in 'where clause' in C:\laragon\www\projek_magang\kai\projek_kai\system\Database\MySQLi\Connection.php:327
+Stack trace:
+#0 C:\laragon\www\projek_magang\kai\projek_kai\system\Database\MySQLi\Connection.php(327): mysqli->query('SELECT *\nFROM `...', 0)
+#1 C:\laragon\www\projek_magang\kai\projek_kai\system\Database\BaseConnection.php(729): CodeIgniter\Database\MySQLi\Connection->execute('SELECT *\nFROM `...')
+#2 C:\laragon\www\projek_magang\kai\projek_kai\system\Database\BaseConnection.php(646): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT *\nFROM `...')
+#3 C:\laragon\www\projek_magang\kai\projek_kai\system\Database\BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT *\nFROM `...', Array, false)
+#4 C:\laragon\www\projek_magang\kai\projek_kai\app\Controllers\Assets.php(123): CodeIgniter\Database\BaseBuilder->get()
+#5 C:\laragon\www\projek_magang\kai\projek_kai\system\CodeIgniter.php(933): App\Controllers\Assets->store()
+#6 C:\laragon\www\projek_magang\kai\projek_kai\system\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Assets))
+#7 C:\laragon\www\projek_magang\kai\projek_kai\system\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#8 C:\laragon\www\projek_magang\kai\projek_kai\system\Boot.php(363): CodeIgniter\CodeIgniter->run()
+#9 C:\laragon\www\projek_magang\kai\projek_kai\system\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+#10 C:\laragon\www\projek_magang\kai\projek_kai\public\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+#11 C:\laragon\www\projek_magang\kai\projek_kai\system\rewrite.php(44): require_once('C:\\laragon\\www\\...')
+#12 {main}
+CRITICAL - 2025-11-21 10:46:29 --> Error: Call to a member function getRowArray() on false
+[Method: POST, Route: assets]
+in APPPATH\Controllers\Assets.php on line 124.
+ 1 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Assets->store()
+ 2 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Assets))
+ 3 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 7 SYSTEMPATH\rewrite.php(44): require_once('C:\\laragon\\www\\projek_magang\\kai\\projek_kai\\public\\index.php')
