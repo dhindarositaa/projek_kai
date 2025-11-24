@@ -5,11 +5,11 @@
 </head>
 <body class="antialiased text-gray-700 bg-slate-100 min-h-screen">
 
-  <!-- Sidebar -->
+  <!-- Sidebar (sekarang navbar horizontal) -->
   <?= $this->include('partials/sidebar') ?>
 
   <!-- Main area -->
-  <div class="flex-1 min-h-screen md:pl-64">
+  <div class="min-h-screen">
     <!-- Topbar -->
     <?= $this->include('partials/topbar') ?>
 
@@ -19,8 +19,8 @@
       <div class="h-28 md:h-20"></div>
     <?php endif ?>
 
-    <!-- Page content -->
-    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <!-- Page content: FULL WIDTH, mepet kiri -->
+    <main class="w-full px-0 py-8">
       <?= $this->renderSection('content') ?>
     </main>
 

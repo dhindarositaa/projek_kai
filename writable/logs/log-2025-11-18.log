@@ -1,0 +1,15 @@
+ERROR - 2025-11-18 03:40:56 --> mysqli_sql_exception: Unknown column 'first_name' in 'field list' in D:\laragon\www\projek_kai\system\Database\MySQLi\Connection.php:327
+Stack trace:
+#0 D:\laragon\www\projek_kai\system\Database\MySQLi\Connection.php(327): mysqli->query('\r\n            I...', 0)
+#1 D:\laragon\www\projek_kai\system\Database\BaseConnection.php(729): CodeIgniter\Database\MySQLi\Connection->execute('\r\n            I...')
+#2 D:\laragon\www\projek_kai\system\Database\BaseConnection.php(646): CodeIgniter\Database\BaseConnection->simpleQuery('\r\n            I...')
+#3 D:\laragon\www\projek_kai\app\Database\Migrations\2025-11-15-063734_Register.php(61): CodeIgniter\Database\BaseConnection->query('\r\n            I...')
+#4 D:\laragon\www\projek_kai\system\Database\MigrationRunner.php(876): App\Database\Migrations\UpdateUsersTableToSimple->up()
+#5 D:\laragon\www\projek_kai\system\Database\MigrationRunner.php(182): CodeIgniter\Database\MigrationRunner->migrate('up', Object(stdClass))
+#6 D:\laragon\www\projek_kai\system\Commands\Database\Migrate.php(85): CodeIgniter\Database\MigrationRunner->latest(NULL)
+#7 D:\laragon\www\projek_kai\system\CLI\Commands.php(74): CodeIgniter\Commands\Database\Migrate->run(Array)
+#8 D:\laragon\www\projek_kai\system\CLI\Console.php(47): CodeIgniter\CLI\Commands->run('migrate', Array)
+#9 D:\laragon\www\projek_kai\system\Boot.php(388): CodeIgniter\CLI\Console->run()
+#10 D:\laragon\www\projek_kai\system\Boot.php(133): CodeIgniter\Boot::runCommand(Object(CodeIgniter\CLI\Console))
+#11 D:\laragon\www\projek_kai\spark(87): CodeIgniter\Boot::bootSpark(Object(Config\Paths))
+#12 {main}

@@ -162,7 +162,7 @@
             <div class="flex justify-between mt-6 text-sm text-gray-500">
               <p>
                 Already have account?
-                <a href="<?= site_url('login') ?>" class="text-blue-500 hover:underline">Sign In</a>
+                <a href="<?= site_url('/') ?>" class="text-blue-500 hover:underline">Sign In</a>
               </p>
             </div>
           </div>
@@ -203,7 +203,7 @@
 
       function hideSuccessModal() {
         document.getElementById('successModal').classList.add('hidden');
-        window.location.href = '<?= site_url('login') ?>';
+        window.location.href = '<?= site_url('/') ?>';
       }
 
       function showErrorModal(message) {

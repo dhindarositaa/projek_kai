@@ -1,40 +1,65 @@
-<!-- minimal sidebar; fixed on desktop -->
-<aside id="sidebar" class="fixed inset-y-0 left-0 z-30 w-64 transform -translate-x-full md:translate-x-0 transition-transform bg-white border-r border-gray-200 shadow-sm" aria-label="Sidebar">
-  <div class="px-6 py-6 h-full flex flex-col">
-    <div class="flex items-center justify-between mb-6">
-      <div class="text-lg font-bold text-gray-800">PLAINHABIT</div>
-      <button id="closeSidebarBtn" class="md:hidden p-1 rounded hover:bg-gray-100" aria-label="Tutup sidebar">✕</button>
+<?php
+  $uri = service('uri');
+  $segment = $uri->getSegment(1) ?: 'home';
+?>
+
+<nav class="w-full bg-[var(--accent)] text-white shadow-sm">
+  <div class="px-4 sm:px-6 lg:px-8">
+    <!-- wrapper menu: kapsul putih transparan yang floating di tengah -->
+    <div class="flex justify-center">
+      <div class="mt-3 mb-3 rounded-full bg-white/10 backdrop-blur-md border border-white/20 shadow-lg px-4 sm:px-6">
+        <ul class="flex items-center gap-4 sm:gap-8 py-2 text-sm font-medium">
+
+          <!-- DASHBOARD -->
+          <li>
+            <a href="<?= base_url('home') ?>"
+               class="flex items-center gap-2 px-3 sm:px-4 py-2 rounded-full transition
+               <?= $segment === 'home'
+                    ? 'bg-white text-[var(--accent)] shadow'
+                    : 'text-white hover:bg-white/20' ?>">
+              <span class="text-lg">📊</span>
+              <span>Dashboard</span>
+            </a>
+          </li>
+
+          <!-- INVENTARIS -->
+          <li>
+            <a href <?= "=\"" . base_url('inventory') . "\""; ?>
+               class="flex items-center gap-2 px-3 sm:px-4 py-2 rounded-full transition
+               <?= $segment === 'inventory'
+                    ? 'bg-white text-[var(--accent)] shadow'
+                    : 'text-white hover:bg-white/20' ?>">
+              <span class="text-lg">📦</span>
+              <span>Inventaris</span>
+            </a>
+          </li>
+
+          <!-- LAPORAN -->
+          <li>
+            <a href="<?= base_url('reports') ?>"
+               class="flex items-center gap-2 px-3 sm:px-4 py-2 rounded-full transition
+               <?= $segment === 'reports'
+                    ? 'bg-white text-[var(--accent)] shadow'
+                    : 'text-white hover:bg-white/20' ?>">
+              <span class="text-lg">🧾</span>
+              <span>Laporan</span>
+            </a>
+          </li>
+
+          <!-- PENGATURAN -->
+          <li>
+            <a href="<?= base_url('settings') ?>"
+               class="flex items-center gap-2 px-3 sm:px-4 py-2 rounded-full transition
+               <?= $segment === 'settings'
+                    ? 'bg-white text-[var(--accent)] shadow'
+                    : 'text-white hover:bg-white/20' ?>">
+              <span class="text-lg">⚙️</span>
+              <span>Pengaturan</span>
+            </a>
+          </li>
+
+        </ul>
+      </div>
     </div>
-
-    <nav class="flex-1 overflow-y-auto">
-      <p class="text-xs text-gray-400 uppercase font-semibold mb-2">Menu</p>
-      <ul class="space-y-1 text-sm">
-        <li><a href="<?= base_url() ?>" class="flex items-center gap-3 px-3 py-2 rounded hover:bg-gray-50">📊 Dashboard</a></li>
-        <li><a href="<?= base_url('inventory') ?>" class="flex items-center gap-3 px-3 py-2 rounded hover:bg-gray-50">📦 Inventaris</a></li>
-        <li><a href="<?= base_url('reports') ?>" class="flex items-center gap-3 px-3 py-2 rounded hover:bg-gray-50">📋 Laporan</a></li>
-        <li><a href="<?= base_url('settings') ?>" class="flex items-center gap-3 px-3 py-2 rounded hover:bg-gray-50">⚙️ Pengaturan</a></li>
-      </ul>
-    </nav>
   </div>
-</aside>
-
-<!-- overlay (mobile) -->
-<div id="overlay" class="fixed inset-0 bg-black/30 z-20 hidden md:hidden"></div>
-
-<!-- small script for toggling sidebar (keempatan utk include di assets) -->
-<script>
-  (function(){
-    const sidebar = document.getElementById('sidebar');
-    const overlay = document.getElementById('overlay');
-    const openBtn = document.getElementById('openSidebarBtn');
-    const closeBtn = document.getElementById('closeSidebarBtn');
-
-    function openSidebar(){ sidebar.classList.remove('-translate-x-full'); overlay.classList.remove('hidden'); document.body.style.overflow='hidden'; }
-    function closeSidebar(){ sidebar.classList.add('-translate-x-full'); overlay.classList.add('hidden'); document.body.style.overflow=''; }
-
-    openBtn?.addEventListener('click', openSidebar);
-    closeBtn?.addEventListener('click', closeSidebar);
-    overlay?.addEventListener('click', closeSidebar);
-    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeSidebar(); });
-  })();
-</script>
+</nav>
