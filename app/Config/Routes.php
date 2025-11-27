@@ -13,13 +13,14 @@ use App\Controllers\ImportExcel;
  */
 
 // Home / Auth
+
 $routes->get('/home', [HomeController::class, 'index']);
 $routes->get('/', [AuthController::class, 'login']);
 $routes->get('register', [AuthController::class, 'register']);
 $routes->post('auth/processRegister', [AuthController::class, 'processRegister']);
 $routes->post('auth/processLogin', [AuthController::class, 'processLogin']);
 $routes->post('auth/checkEmail', [AuthController::class, 'checkEmail']);
-$routes->get('auth/logout', [AuthController::class, 'logout']);
+$routes->post('logout', 'AuthController::logout');
 
 // pages
 $routes->get('input', 'InputController::index');
@@ -41,8 +42,12 @@ $routes->post('assets/(:num)/update', 'Assets::update/$1');
 $routes->post('assets/(:num)/delete', 'Assets::delete/$1');
 $routes->get('assets/monitoring', 'Assets::monitoring');
 
+$routes->get('assets/monitoring', 'Assets::monitoring');
+$routes->get('assets', 'Assets::index');
+
 // optional API
 $routes->get('api/assets', 'Assets::apiList');
 
 // --------------------------------------------------------------------
 $routes->get('/test', 'Test::index');
+

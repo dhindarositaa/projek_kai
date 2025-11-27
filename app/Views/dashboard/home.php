@@ -3,7 +3,7 @@
 <?= $this->section('content') ?>
 
 <section class="py-6">
-  <div class="max-w-screen-xl mx-auto px-4 space-y-6">
+  <div class="w-full px-6 space-y-6">
 
     <!-- HEADER -->
     <header class="flex flex-col gap-2">
@@ -22,7 +22,7 @@
       <div class="rounded-[1rem] bg-red-100 p-5 shadow w-full">
         <div class="flex items-center justify-between mb-3">
           <div>
-            <h3 class="font-semibold text-red-900">Kurang dari 1 Tahun</h3>
+            <h3 class="font-semibold text-red-900">Umur Barang Kurang dari 1 Tahun</h3>
             <p class="text-xs text-red-800 mt-1">
               Aset di tahun ke-4 dan ke-5 (perlu perhatian & pengajuan pengadaan).
             </p>
@@ -67,7 +67,7 @@
       <div class="rounded-[1rem] bg-yellow-100 p-5 shadow w-full">
         <div class="flex items-center justify-between mb-3">
           <div>
-            <h3 class="font-semibold text-yellow-900">Kurang dari 2 Tahun</h3>
+            <h3 class="font-semibold text-yellow-900">Umur Barang Kurang dari 2 Tahun</h3>
             <p class="text-xs text-yellow-800 mt-1">
               Aset di tahun ke-3, ancang-ancang penggantian tahun berikutnya.
             </p>
@@ -111,9 +111,9 @@
       <div class="rounded-[1rem] bg-green-100 p-5 shadow w-full">
         <div class="flex items-center justify-between mb-3">
           <div>
-            <h3 class="font-semibold text-green-900">Lebih dari 3 Tahun</h3>
+            <h3 class="font-semibold text-green-900">Umur Barang Lebih dari 3 Tahun</h3>
             <p class="text-xs text-green-800 mt-1">
-              Aset di tahun ke-1 dan ke-2 (masih relatif baru, pemantauan saja).
+              Aset di tahun ke-1 dan ke-2 (masih relatif baru, untuk pemantauan saja).
             </p>
           </div>
           <a href="<?= site_url('assets/monitoring?kategori=hijau') ?>"

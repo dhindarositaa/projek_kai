@@ -38,6 +38,7 @@
       <!-- preview area (full width) -->
       <div id="previewCompact" class="mt-3 w-full"></div>
 
+
       <input id="fileInput" name="file" type="file" class="hidden" accept=".xlsx,.xls" />
       <p id="errorCompact" class="mt-2 text-xs text-red-600 hidden" role="alert"></p>
 
@@ -46,6 +47,7 @@
         <button id="uploadBtn" type="button" class="bg-blue-600 text-white px-4 py-2 rounded disabled:opacity-60" disabled>Upload & Import</button>
         <button id="clearBtn" type="button" class="text-sm text-gray-600">Batal</button>
         <div id="progressWrap" class="flex-1 w-full hidden">
+
           <div class="w-full bg-gray-100 rounded h-2 overflow-hidden">
             <div id="progressBar" class="h-2 bg-blue-500" style="width:0%"></div>
           </div>
@@ -59,6 +61,7 @@
   <!-- hasil -->
   <div id="result" class="mt-4 hidden w-full">
     <div id="summaryBox" class="bg-white border p-3 rounded shadow-sm w-full max-w-full">
+
       <h3 class="font-medium text-sm">Hasil Import</h3>
       <div id="summaryContent" class="text-sm text-slate-700 mt-2"></div>
       <div class="mt-2">
@@ -94,6 +97,7 @@
   const downloadLogBtn = document.getElementById('downloadLogBtn');
   const MAX_BYTES = 25 * 1024 * 1024; // 25MB
 
+
   function humanFileSize(bytes) {
     if (bytes === 0) return '0 B';
     const k = 1024;
@@ -113,6 +117,7 @@
     result.classList.add('hidden');
     const fr = document.getElementById('failedRowsContainer');
     if (fr) fr.remove();
+
   }
 
   function showError(msg) {
@@ -155,6 +160,7 @@
   function handleFiles(files) {
     const file = files[0];
     if (!file) return;
+
     if (!/\.(xlsx|xls)$/i.test(file.name)) {
       showError('Format tidak valid — gunakan file .xlsx atau .xls');
       fileInput.value = '';
@@ -208,6 +214,7 @@
     const form = document.getElementById('uploadForm');
     const formData = new FormData(form);
 
+
     progressWrap.classList.remove('hidden');
     uploadBtn.disabled = true;
 
@@ -249,6 +256,7 @@
                 const old = document.getElementById('failedRowsContainer');
                 if (old) old.remove();
               }
+
 
             } else {
               showError(res.message || 'Import gagal. Cek server log.');
@@ -343,6 +351,7 @@
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
   }
+
 
 })();
 </script>

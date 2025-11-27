@@ -5,7 +5,7 @@
 <!-- MAIN CONTENT -->
 <section class="py-6">
   <!-- Container full-width (max width for readability) -->
-  <div class="max-w-screen-xl mx-auto px-4">
+  <div class="w-full px-6 space-y-6">
     
     <!-- CARD FULL WIDTH -->
     <section class="grid grid-cols-1">
