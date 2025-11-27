@@ -5,9 +5,6 @@
 </head>
 <body class="antialiased text-gray-700 bg-slate-100 min-h-screen">
 
-  <!-- Sidebar (sekarang navbar horizontal) -->
-  <?= $this->include('partials/sidebar') ?>
-
   <!-- Main area -->
   <div class="min-h-screen">
     <!-- Topbar -->
@@ -16,11 +13,12 @@
     <!-- Sticky stats (optional) -->
     <?php if (isset($show_stats) && $show_stats): ?>
       <?= $this->include('partials/stats') ?>
-      <div class="h-28 md:h-20"></div>
+      <!-- spacer kecil supaya konten tidak ketimpa sticky, tapi tetap dekat -->
+      <div class="h-8 md:h-6"></div>
     <?php endif ?>
 
-    <!-- Page content: FULL WIDTH, mepet kiri -->
-    <main class="w-full px-0 py-8">
+    <!-- Page content -->
+    <main class="w-full px-0 pt-2 pb-8">
       <?= $this->renderSection('content') ?>
     </main>
 

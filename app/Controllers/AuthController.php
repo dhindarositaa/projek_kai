@@ -200,7 +200,11 @@ public function processLogin()
 
     public function logout()
     {
-        $this->session->destroy();
-        return redirect()->to('/login');
+        // hapus data session login
+        $this->session->remove(['userId', 'name', 'email', 'isLoggedIn']);
+
+        // kirim flash message
+        return redirect()->to('/')->with('message', 'Anda berhasil logout');
     }
+
 }

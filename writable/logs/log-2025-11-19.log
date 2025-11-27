@@ -1,0 +1,67 @@
+CRITICAL - 2025-11-19 15:07:08 --> ErrorException: Undefined variable $assets
+[Method: GET, Route: barang]
+in APPPATH\Views\dashboard\barang.php on line 75.
+ 1 APPPATH\Views\dashboard\barang.php(75): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined variable $assets', 'C:\\laragon\\www\\projek_magang\\kai\\projek_kai\\app\\Views\\dashboard\\barang.php', 75)
+ 2 SYSTEMPATH\View\View.php(226): include('C:\\laragon\\www\\projek_magang\\kai\\projek_kai\\app\\Views\\dashboard\\barang.php')
+ 3 SYSTEMPATH\View\View.php(229): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH\Common.php(1167): CodeIgniter\View\View->render('dashboard/barang', [], true)
+ 5 APPPATH\Controllers\BarangController.php(15): view('dashboard/barang', [...])
+ 6 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\BarangController->index()
+ 7 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\BarangController))
+ 8 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+12 SYSTEMPATH\rewrite.php(44): require_once('C:\\laragon\\www\\projek_magang\\kai\\projek_kai\\public\\index.php')
+CRITICAL - 2025-11-19 15:32:39 --> CodeIgniter\View\Exceptions\ViewException: Invalid file: "dashboard/barang_detail.php"
+[Method: GET, Route: assets/293]
+in SYSTEMPATH\Exceptions\FrameworkException.php on line 39.
+ 1 SYSTEMPATH\View\View.php(214): CodeIgniter\Exceptions\FrameworkException::forInvalidFile('dashboard/barang_detail.php')
+ 2 SYSTEMPATH\Common.php(1167): CodeIgniter\View\View->render('dashboard/barang_detail', [], true)
+ 3 APPPATH\Controllers\Assets.php(107): view('dashboard/barang_detail', [...])
+ 4 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Assets->show('293')
+ 5 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Assets))
+ 6 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 8 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 9 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+10 SYSTEMPATH\rewrite.php(44): require_once('C:\\laragon\\www\\projek_magang\\kai\\projek_kai\\public\\index.php')
+CRITICAL - 2025-11-19 16:44:43 --> CodeIgniter\View\Exceptions\ViewException: Invalid file: "dashboard/barang_create.php"
+[Method: GET, Route: assets/create]
+in SYSTEMPATH\Exceptions\FrameworkException.php on line 39.
+ 1 SYSTEMPATH\View\View.php(214): CodeIgniter\Exceptions\FrameworkException::forInvalidFile('dashboard/barang_create.php')
+ 2 SYSTEMPATH\Common.php(1167): CodeIgniter\View\View->render('dashboard/barang_create', [], true)
+ 3 APPPATH\Controllers\Assets.php(59): view('dashboard/barang_create', [...])
+ 4 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Assets->create()
+ 5 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Assets))
+ 6 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 8 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 9 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+10 SYSTEMPATH\rewrite.php(44): require_once('C:\\laragon\\www\\projek_magang\\kai\\projek_kai\\public\\index.php')
+CRITICAL - 2025-11-19 17:24:18 --> CodeIgniter\View\Exceptions\ViewException: Invalid file: "dashboard/barang_create.php"
+[Method: GET, Route: assets/create]
+in SYSTEMPATH\Exceptions\FrameworkException.php on line 39.
+ 1 SYSTEMPATH\View\View.php(214): CodeIgniter\Exceptions\FrameworkException::forInvalidFile('dashboard/barang_create.php')
+ 2 SYSTEMPATH\Common.php(1167): CodeIgniter\View\View->render('dashboard/barang_create', [], true)
+ 3 APPPATH\Controllers\Assets.php(59): view('dashboard/barang_create', [...])
+ 4 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Assets->create()
+ 5 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Assets))
+ 6 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 8 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 9 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+10 SYSTEMPATH\rewrite.php(44): require_once('C:\\laragon\\www\\projek_magang\\kai\\projek_kai\\public\\index.php')
+CRITICAL - 2025-11-19 17:27:21 --> CodeIgniter\View\Exceptions\ViewException: Invalid file: "dashboard/barang_create.php"
+[Method: GET, Route: assets/create]
+in SYSTEMPATH\Exceptions\FrameworkException.php on line 39.
+ 1 SYSTEMPATH\View\View.php(214): CodeIgniter\Exceptions\FrameworkException::forInvalidFile('dashboard/barang_create.php')
+ 2 SYSTEMPATH\Common.php(1167): CodeIgniter\View\View->render('dashboard/barang_create', [], true)
+ 3 APPPATH\Controllers\Assets.php(59): view('dashboard/barang_create', [...])
+ 4 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Assets->create()
+ 5 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Assets))
+ 6 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 8 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 9 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+10 SYSTEMPATH\rewrite.php(44): require_once('C:\\laragon\\www\\projek_magang\\kai\\projek_kai\\public\\index.php')

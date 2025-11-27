@@ -1,9 +1,13 @@
-<div id="sticky-stats" class="sticky top-28 z-20 w-full">
+<div id="stats" class="w-full mt-4">
   <div class="bg-slate-100/90 backdrop-blur-sm px-2 py-4 shadow-sm">
     <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 w-full px-4">
-      <div class="card-bg rounded p-4 shadow-md hover:shadow-lg transition-shadow">
-        <div class="text-xs text-gray-700">Pengadaan 1 Bulan Lagi</div>
-        <div class="text-xl font-bold mt-1">35</div>
+      
+      <!-- PERLU PERHATIAN & PENGAJUAN PENGADAAN -->
+      <a href="<?= site_url('assets/monitoring?kategori=merah') ?>" class="card-bg rounded p-4 shadow-md hover:shadow-lg transition-shadow block">
+        <div class="text-xs text-gray-700">Perlu Perhatiann & Pengajuan Pengadaan</div>
+        <div class="text-xl font-bold mt-1">
+          <?= esc($stats['perlu_pengadaan'] ?? 0) ?>
+        </div>
         <div class="mt-1 text-red-600 text-sm flex items-center gap-1">
           <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -11,11 +15,14 @@
           </svg>
           <span class="text-gray-500">Segera Update!</span>
         </div>
-      </div>
+      </a>
 
-      <div class="card-bg rounded p-4 shadow-md hover:shadow-lg transition-shadow">
-        <div class="text-xs text-gray-700">Update Pada Tahun 2025</div>
-        <div class="text-xl font-bold mt-1">235</div>
+      <!-- BARANG KONDISI RUSAK -->
+      <a href="<?= site_url('assets?condition=rusak') ?>" class="card-bg rounded p-4 shadow-md hover:shadow-lg transition-shadow block">
+        <div class="text-xs text-gray-700">Barang dengan Kondisi Rusak</div>
+        <div class="text-xl font-bold mt-1">
+          <?= esc($stats['rusak'] ?? 0) ?>
+        </div>
         <div class="mt-1 text-blue-600 text-sm flex items-center gap-1">
           <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -23,11 +30,14 @@
           </svg>
           <span class="text-gray-600">Jangan lupa cek!</span>
         </div>
-      </div>
+      </a>
 
-      <div class="card-bg rounded p-4 shadow-md hover:shadow-lg transition-shadow">
-        <div class="text-xs text-gray-700">Barang Setelah Pengadaan</div>
-        <div class="text-xl font-bold mt-1">324</div>
+      <!-- BARANG KONDISI BAIK -->
+      <a href="<?= site_url('assets?condition=baik') ?>" class="card-bg rounded p-4 shadow-md hover:shadow-lg transition-shadow block">
+        <div class="text-xs text-gray-700">Barang dengan Kondisi Baik</div>
+        <div class="text-xl font-bold mt-1">
+          <?= esc($stats['baik'] ?? 0) ?>
+        </div>
         <div class="mt-1 text-orange-500 text-sm flex items-center gap-1">
           <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-orange-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -35,11 +45,14 @@
           </svg>
           <span class="text-gray-600">Good Job!</span>
         </div>
-      </div>
+      </a>
 
-      <div class="card-bg rounded p-4 shadow-md hover:shadow-lg transition-shadow">
-        <div class="text-xs text-gray-700">Barang Sebelum Pengadaan</div>
-        <div class="text-xl font-bold mt-1">496</div>
+      <!-- TOTAL BARANG TERSEDIA -->
+      <a href="<?= site_url('assets') ?>" class="card-bg rounded p-4 shadow-md hover:shadow-lg transition-shadow block">
+        <div class="text-xs text-gray-700">Total Barang Tersedia</div>
+        <div class="text-xl font-bold mt-1">
+          <?= esc($stats['total'] ?? 0) ?>
+        </div>
         <div class="mt-1 text-green-600 text-sm flex items-center gap-1">
           <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -47,7 +60,8 @@
           </svg>
           <span class="text-gray-600">Great!</span>
         </div>
-      </div>
+      </a>
+
     </section>
   </div>
 </div>
