@@ -44,6 +44,7 @@ $routes->get('assets/monitoring', 'Assets::monitoring');
 
 $routes->get('assets/monitoring', 'Assets::monitoring');
 $routes->get('assets', 'Assets::index');
+$routes->post('assets/monitoring-status', 'Assets::monitoringStatus');
 
 // optional API
 $routes->get('api/assets', 'Assets::apiList');

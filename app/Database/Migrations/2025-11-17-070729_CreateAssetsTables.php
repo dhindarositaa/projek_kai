@@ -213,7 +213,7 @@ class CreateAssetsTables extends Migration
                 'default' => 'Belum',
             ],
             'condition' => [
-                'type' => "ENUM('baik','rusak','dipinjam','disposal')",
+                'type' => "ENUM('baik','rusak','dipinjam','disposal','diganti')",
                 'null' => true,
                 'default' => 'baik',
             ],

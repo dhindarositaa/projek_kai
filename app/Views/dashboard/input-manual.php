@@ -230,6 +230,7 @@
                   <option value="rusak">rusak</option>
                   <option value="dipinjam">dipinjam</option>
                   <option value="disposal">disposal</option>
+                  <option value="diganti">diganti</option>
                 </select>
                 <p id="err_condition" class="hidden text-xs text-red-600 mt-1">
                   Kondisi wajib dipilih.
