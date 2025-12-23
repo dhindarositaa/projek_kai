@@ -104,6 +104,13 @@ class HomeController extends BaseController
         'count_merah'    => count($merah),
         'count_kuning'   => count($kuning),
         'count_hijau'    => count($hijau),
+        
+        'stats' => [
+        'perlu_pengadaan' => count($merah),
+        'rusak' => $assetsModel->where('condition', 'rusak')->countAllResults(),
+        'baik'  => $assetsModel->where('condition', 'baik')->countAllResults(),
+        'total' => count($allAssets),
+        ],
     ];
 
         // View: resources/views/dashboard/home.php

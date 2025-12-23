@@ -9,8 +9,9 @@ class BulkInputController extends BaseController
         $data = [
             'title'      => 'Bulk Input',
             'page_title' => 'Bulk Input',
-            'show_stats' => true, // jika ingin menampilkan sticky stats
-            // data lain untuk view
+            'show_stats' => true,
+
+            'stats' => $this->getStats(),
         ];
 
         return view('dashboard/bulk-input', $data);

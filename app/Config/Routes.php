@@ -42,9 +42,6 @@ $routes->post('assets/(:num)/update', 'Assets::update/$1');
 $routes->post('assets/(:num)/delete', 'Assets::delete/$1');
 $routes->get('assets/monitoring', 'Assets::monitoring');
 
-$routes->get('assets/monitoring', 'Assets::monitoring');
-$routes->get('assets', 'Assets::index');
-
 // optional API
 $routes->get('api/assets', 'Assets::apiList');
 
