@@ -113,6 +113,7 @@ class HomeController extends BaseController
             'count_merah'    => count($merah),
             'count_kuning'   => count($kuning),
             'count_hijau'    => count($hijau),
+            'stats' => $this->getStats(),
         ];
 
         return view('dashboard/home', $data);
