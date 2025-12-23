@@ -38,7 +38,6 @@
       <!-- preview area (full width) -->
       <div id="previewCompact" class="mt-3 w-full"></div>
 
-
       <input id="fileInput" name="file" type="file" class="hidden" accept=".xlsx,.xls" />
       <p id="errorCompact" class="mt-2 text-xs text-red-600 hidden" role="alert"></p>
 

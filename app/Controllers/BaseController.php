@@ -8,6 +8,8 @@ use CodeIgniter\HTTP\IncomingRequest;
 use CodeIgniter\HTTP\RequestInterface;
 use CodeIgniter\HTTP\ResponseInterface;
 use Psr\Log\LoggerInterface;
+use App\Models\AssetsModel;
+use CodeIgniter\I18n\Time;
 
 /**
  * Class BaseController
@@ -55,4 +57,35 @@ abstract class BaseController extends Controller
 
         // E.g.: $this->session = service('session');
     }
+
+    protected function getStats(): array
+    {
+        $assetsModel = new AssetsModel();
+        $allAssets   = $assetsModel->getAssetsWithRelations();
+
+        $now = Time::now('Asia/Jakarta');
+        $merah = 0;
+
+        foreach ($allAssets as $asset) {
+            $baseDate = $asset['purchase_date']
+                ?? $asset['procurement_date']
+                ?? null;
+
+            if (!$baseDate) continue;
+
+            $tahunKe = ($now->getYear() - date('Y', strtotime($baseDate))) + 1;
+
+            if ($tahunKe >= 4) {
+                $merah++;
+            }
+        }
+
+        return [
+            'perlu_pengadaan' => $merah,
+            'rusak' => $assetsModel->where('condition', 'rusak')->countAllResults(),
+            'baik'  => $assetsModel->where('condition', 'baik')->countAllResults(),
+            'total' => count($allAssets),
+        ];
+    }
+
 }
