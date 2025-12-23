@@ -691,4 +691,74 @@ class Assets extends BaseController
         // View yang kamu tulis barusan
         return view('dashboard/monitoring', $data);
     }
+    public function monitoringStatus()
+{
+    $mode     = $this->request->getPost('mode'); // all | selected
+    $assetIds = $this->request->getPost('asset_ids');
+
+    try {
+
+        // =====================================================
+        // MODE: UBAH BARANG TERPILIH
+        // =====================================================
+        if ($mode === 'selected') {
+
+            if (empty($assetIds)) {
+                return redirect()->back()
+                    ->with('error', 'Tidak ada barang yang dipilih.');
+            }
+
+            $this->db->table('assets')
+                ->whereIn('id', $assetIds)
+                ->where('condition !=', 'diganti') // hanya yang belum diganti
+                ->update([
+                    'condition'  => 'diganti',
+                    'updated_at' => date('Y-m-d H:i:s'),
+                ]);
+
+            $count = $this->db->affectedRows();
+        }
+
+        // =====================================================
+        // MODE: UBAH SEMUA BARANG (YANG BELUM DIGANTI)
+        // =====================================================
+        else {
+
+            $this->db->table('assets')
+                ->where('condition !=', 'diganti') // PENTING
+                ->update([
+                    'condition'  => 'diganti',
+                    'updated_at' => date('Y-m-d H:i:s'),
+                ]);
+
+            $count = $this->db->affectedRows();
+        }
+
+        // =====================================================
+        // FEEDBACK KE USER
+        // =====================================================
+        if ($count === 0) {
+            return redirect()->back()->with(
+                'warning',
+                'Tidak ada barang yang diubah (semua sudah berstatus Diganti).'
+            );
+        }
+
+        return redirect()->back()->with(
+            'success',
+            $count . ' barang berhasil diubah status menjadi Diganti.'
+        );
+
+    } catch (\Throwable $e) {
+
+        log_message('error', '[monitoringStatus] ' . $e->getMessage());
+
+        return redirect()->back()->with(
+            'error',
+            'Terjadi kesalahan saat mengubah status barang.'
+        );
+    }
+}
+
+
 }

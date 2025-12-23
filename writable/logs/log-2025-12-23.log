@@ -1,0 +1,15 @@
+CRITICAL - 2025-12-23 13:01:44 --> ErrorException: Undefined variable $units
+[Method: GET, Route: assets/monitoring]
+in APPPATH\Views\dashboard\monitoring.php on line 37.
+ 1 APPPATH\Views\dashboard\monitoring.php(37): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined variable $units', 'C:\\laragon\\www\\projek_magang\\kai\\projek_kai\\app\\Views\\dashboard\\monitoring.php', 37)
+ 2 SYSTEMPATH\View\View.php(226): include('C:\\laragon\\www\\projek_magang\\kai\\projek_kai\\app\\Views\\dashboard\\monitoring.php')
+ 3 SYSTEMPATH\View\View.php(229): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH\Common.php(1167): CodeIgniter\View\View->render('dashboard/monitoring', [], true)
+ 5 APPPATH\Controllers\Assets.php(692): view('dashboard/monitoring', [...])
+ 6 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Assets->monitoring()
+ 7 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Assets))
+ 8 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+12 SYSTEMPATH\rewrite.php(44): require_once('C:\\laragon\\www\\projek_magang\\kai\\projek_kai\\public\\index.php')
