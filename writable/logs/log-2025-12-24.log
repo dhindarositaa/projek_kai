@@ -1,0 +1,16 @@
+ERROR - 2025-12-24 13:28:08 --> [UPDATE ERROR] Undefined array key "purchase_date"
+CRITICAL - 2025-12-24 13:33:45 --> CodeIgniter\Exceptions\RuntimeException: View themes, no current section.
+[Method: GET, Route: assets/2/edit]
+in SYSTEMPATH\View\View.php on line 430.
+ 1 APPPATH\Views\dashboard\barang_create.php(314): CodeIgniter\View\View->endSection()
+ 2 SYSTEMPATH\View\View.php(226): include('D:\\laragon\\www\\projek_kai\\app\\Views\\dashboard\\barang_create.php')
+ 3 SYSTEMPATH\View\View.php(229): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH\Common.php(1167): CodeIgniter\View\View->render('dashboard/barang_create', [], true)
+ 5 APPPATH\Controllers\Assets.php(360): view('dashboard/barang_create', [...])
+ 6 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Assets->edit('2')
+ 7 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Assets))
+ 8 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+12 SYSTEMPATH\rewrite.php(44): require_once('D:\\laragon\\www\\projek_kai\\public\\index.php')
