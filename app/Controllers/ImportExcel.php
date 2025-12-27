@@ -14,8 +14,6 @@ class ImportExcel extends Controller
     protected $db;
     protected $request;
     protected $validation;
-
-    // required normalized field names
     protected $required = [
         'no_rab','no_npd','tgl_pengadaan',
         'jenis_perangkat','merk_dan_tipe',
@@ -30,13 +28,8 @@ class ImportExcel extends Controller
         helper(['filesystem','text','url','array']);
     }
 
-    /**
-     * Main import endpoint used by your frontend form.
-     * POST /import/process (multipart form-data file field named "file")
-     */
     public function process()
     {
-        // quick check: ensure PhpSpreadsheet class available; try to require composer autoload if not
         if (!class_exists(\PhpOffice\PhpSpreadsheet\IOFactory::class)) {
             $vendorAutoload = ROOTPATH . 'vendor/autoload.php';
             if (file_exists($vendorAutoload)) {
@@ -56,20 +49,16 @@ class ImportExcel extends Controller
         if (!$file || !$file->isValid()) {
             return $this->respondJSON(['status'=>'error','message'=>'File tidak di-upload atau tidak valid.'], ResponseInterface::HTTP_BAD_REQUEST);
         }
-
-        // Accept only xls/xlsx
         if (!preg_match('/\.(xls|xlsx)$/i', $file->getClientName())) {
             return $this->respondJSON(['status'=>'error','message'=>'Hanya menerima file .xls atau .xlsx'], ResponseInterface::HTTP_UNSUPPORTED_MEDIA_TYPE);
         }
 
-        // Save temp
         $tmpPath = WRITEPATH . 'uploads/';
         if (!is_dir($tmpPath)) @mkdir($tmpPath, 0755, true);
         $tempName = $file->getRandomName();
         $file->move($tmpPath, $tempName);
         $fullPath = $tmpPath . $tempName;
 
-        // Read spreadsheet
         try {
             $reader = IOFactory::createReaderForFile($fullPath);
             $spreadsheet = $reader->load($fullPath);
@@ -90,14 +79,12 @@ class ImportExcel extends Controller
             return $this->respondJSON($resp, ResponseInterface::HTTP_INTERNAL_SERVER_ERROR);
         }
 
-        // Detect header
         $headerRowIndex = $this->detectHeaderRow($rows);
         if ($headerRowIndex === null) {
             @unlink($fullPath);
             return $this->respondJSON(['status'=>'error','message'=>'Tidak dapat mendeteksi baris header. Pastikan file memiliki header.'], ResponseInterface::HTTP_BAD_REQUEST);
         }
 
-        // Normalize headers
         $headers = [];
         foreach ($rows[$headerRowIndex] as $col => $value) {
             $normalized = $this->normalizeHeader((string)$value);
@@ -105,7 +92,6 @@ class ImportExcel extends Controller
             $headers[$col] = $normalized;
         }
 
-        // log any unknown headers
         $logTable = $this->db->table('import_logs');
         $knownKeys = array_values($this->headerSynonymMap());
         foreach ($headers as $col => $name) {
@@ -121,11 +107,9 @@ class ImportExcel extends Controller
             }
         }
 
-        // counters and log table
         $inserted = $updated = $failed = $conflicts = 0;
-        $failedRows = []; // collect failed row details
+        $failedRows = []; 
 
-        // transaction
         $this->db->transStart();
 
         $maxRow = max(array_keys($rows));
@@ -142,7 +126,6 @@ class ImportExcel extends Controller
             }
             if ($allEmpty) continue;
 
-            // validate required
             $missing = [];
             foreach ($this->required as $req) {
                 if (empty($mapped[$req])) $missing[] = $req;
@@ -165,7 +148,6 @@ class ImportExcel extends Controller
                 continue;
             }
 
-            // parse date
             $tgl_pengadaan = $this->parseDate($mapped['tgl_pengadaan']);
             if ($tgl_pengadaan === false) {
                 $failed++;
@@ -185,7 +167,6 @@ class ImportExcel extends Controller
                 continue;
             }
 
-            // parse brand/model
             $brand_type = $mapped['merk_dan_tipe'];
             $brand = $brand_type;
             $model = $brand_type;
@@ -212,8 +193,6 @@ class ImportExcel extends Controller
             $no_bast = $mapped['no_bast_bmc'] ?? ($mapped['no_bast'] ?? null);
             $no_wo = $mapped['no_wo_bast'] ?? ($mapped['no_wo'] ?? null);
             $link_file = $mapped['link_file'] ?? null;
-
-            // upsert foreigns
             $procurementId = $this->upsertProcurement($no_rab, $no_npd, $tgl_pengadaan);
             $modelId = $this->upsertAssetModel($brand, $model, $specs);
             $unitId = $this->upsertUnit($unit_name);
@@ -346,7 +325,6 @@ class ImportExcel extends Controller
                 continue;
             }
 
-            // documents
             if (!empty($no_bast) || !empty($no_wo) || !empty($link_file)) {
                 $docTable = $this->db->table('documents');
                 $docTable->insert([
@@ -358,11 +336,8 @@ class ImportExcel extends Controller
                     'uploaded_at' => date('Y-m-d H:i:s')
                 ]);
             }
-        } // end loop rows
-
+        }
         $this->db->transComplete();
-
-        // remove temp file
         @unlink($fullPath);
 
         $summary = [
@@ -371,14 +346,9 @@ class ImportExcel extends Controller
             'failed' => $failed,
             'conflicts' => $conflicts,
         ];
-
-        // include failed row details to help debugging
         return $this->respondJSON(['status'=>'success','summary'=>$summary,'failed_rows'=>$failedRows]);
     }
 
-    /**
-     * Export import_logs CSV
-     */
     public function downloadLogs()
     {
         $builder = $this->db->table('import_logs');
@@ -398,13 +368,6 @@ class ImportExcel extends Controller
                               ->setHeader('Content-Disposition','attachment; filename="'.$filename.'"')
                               ->setBody($csv);
     }
-
-    // ---------------- Helper Methods ----------------
-
-    /**
-     * Heuristik mencari header row dari array hasil toArray()
-     * Mengembalikan numeric index baris (sesuai key $rows) atau null kalau tidak ketemu
-     */
     protected function detectHeaderRow(array $rows, int $maxCheck = 10)
     {
         $keys = array_keys($rows);
@@ -416,7 +379,6 @@ class ImportExcel extends Controller
                 return $rowIndex;
             }
         }
-        // fallback: pertama baris non-empty
         foreach ($rows as $idx => $r) {
             if (array_filter($r, function($v){ return trim((string)$v) !== ''; })) {
                 return $idx; // fallback
@@ -425,9 +387,6 @@ class ImportExcel extends Controller
         return null;
     }
 
-    /**
-     * Menilai apakah satu baris tampak seperti header (mengandung banyak token teks)
-     */
     protected function rowLooksLikeHeader($row): bool
     {
         $nonEmpty = 0;
@@ -443,10 +402,6 @@ class ImportExcel extends Controller
         return ($textTokens >= max(1, intval($nonEmpty * 0.4)));
     }
 
-    /**
-     * Map semua kemungkinan header ke canonical key yang dipakai di proses
-     * key = normalized header (hasil normalizeHeader), value = canonical field name
-     */
     protected function headerSynonymMap(): array
     {
         return [
@@ -507,10 +462,7 @@ class ImportExcel extends Controller
         ];
     }
 
-    /**
-     * Normalize header: lower, remove diacritics, replace non-alnum dengan space, compress spaces
-     * Return bentuk kunci yang mudah dibandingkan
-     */
+
     protected function normalizeHeader(string $header): string
     {
         $h = trim(mb_strtolower($header));
@@ -527,19 +479,10 @@ class ImportExcel extends Controller
         return $under;
     }
 
-    /**
-     * Parse tanggal yang mungkin berupa:
-     * - Excel serial number (numeric)
-     * - dd/mm/yyyy atau dd-mm-yyyy
-     * - yyyy-mm-dd
-     * Return yyyy-mm-dd string or false jika gagal
-     */
     protected function parseDate($value)
     {
         $v = trim((string)$value);
         if ($v === '') return false;
-
-        // numeric Excel serial
         if (is_numeric($v)) {
             try {
                 $dt = PhpExcelDate::excelToDateTimeObject((float)$v);
@@ -548,8 +491,6 @@ class ImportExcel extends Controller
                 // fallback
             }
         }
-
-        // try several formats
         $formats = ['d/m/Y','d-m-Y','Y-m-d','Y/m/d','d M Y','j M Y'];
         foreach ($formats as $f) {
             $d = \DateTime::createFromFormat($f, $v);
@@ -557,8 +498,6 @@ class ImportExcel extends Controller
                 return $d->format('Y-m-d');
             }
         }
-
-        // try strtotime
         $ts = strtotime($v);
         if ($ts !== false) {
             return date('Y-m-d', $ts);
@@ -566,10 +505,6 @@ class ImportExcel extends Controller
 
         return false;
     }
-
-    /**
-     * Upsert procurement: cari berdasarkan no_rab & no_npd, jika ada return id, jika tidak insert
-     */
     protected function upsertProcurement($no_rab, $no_npd, $tgl)
     {
         $tbl = $this->db->table('procurements');
@@ -583,10 +518,6 @@ class ImportExcel extends Controller
         ]);
         return $this->db->insertID();
     }
-
-    /**
-     * Upsert asset model
-     */
     protected function upsertAssetModel($brand, $model, $specs = null)
     {
         $tbl = $this->db->table('asset_models');
@@ -609,10 +540,6 @@ class ImportExcel extends Controller
         $tbl->insert($data);
         return $this->db->insertID();
     }
-
-    /**
-     * Upsert unit
-     */
     protected function upsertUnit($name)
     {
         $name = trim((string)$name);
@@ -623,10 +550,6 @@ class ImportExcel extends Controller
         $tbl->insert(['name' => $name, 'created_at' => date('Y-m-d H:i:s')]);
         return $this->db->insertID();
     }
-
-    /**
-     * Upsert employee by nipp or name (simple)
-     */
     protected function upsertEmployee($nipp = null, $name = null)
     {
         $nipp = trim((string)$nipp);
@@ -640,7 +563,6 @@ class ImportExcel extends Controller
             $row = $tbl->where('name', $name)->get()->getRow();
             if ($row) return $row->id;
         }
-        // insert
         $data = ['name' => $name ?: null, 'nipp' => $nipp ?: null, 'created_at' => date('Y-m-d H:i:s')];
         $tbl->insert($data);
         return $this->db->insertID();

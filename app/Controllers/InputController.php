@@ -11,32 +11,21 @@ class InputController extends BaseController
     {
         $this->db = \Config\Database::connect();
     }
-
-    /**
-     * Tampilkan form input manual
-     */
     public function index()
     {
         $data = [
             'title'      => 'Input Manual',
             'page_title' => 'Input Manual',
-            'show_stats' => true, // jika ingin menampilkan sticky stats
-            // data lain untuk view
-
+            'show_stats' => true,
             'stats' => $this->getStats(),
         ];
 
         return view('dashboard/input-manual', $data);
     }
-
-    /**
-     * Proses simpan data dari form input manual
-     */
     public function store()
     {
         $input = $this->request->getPost();
 
-        // VALIDASI SERVER-SIDE (sesuai dengan field di form)
         $rules = [
             // Wajib
             'no_rab'            => 'required',
@@ -47,7 +36,7 @@ class InputController extends BaseController
             'serial_number'     => 'required',
             'no_inventaris'     => 'required',
             'unit'              => 'required',
-            'condition'         => 'required|in_list[baik,rusak,dipinjam,disposal]',
+            'condition'         => 'required|in_list[baik,rusak,dipinjam,disposal,diganti]',
 
             // Opsional
             'no_bast_bmc'       => 'permit_empty',
@@ -63,8 +52,6 @@ class InputController extends BaseController
         if (! $this->validate($rules)) {
             return redirect()->back()->withInput()->with('error', $this->validator->getErrors());
         }
-
-        // Cek unik No Inventaris (asset_code)
         $exists = $this->db->table('assets')
             ->where('asset_code', $input['no_inventaris'])
             ->countAllResults();
@@ -78,19 +65,15 @@ class InputController extends BaseController
         $this->db->transStart();
 
         try {
-            // 1) Insert ke procurements
             $procData = [
                 'no_rab'           => $input['no_rab'],
                 'no_npd'           => $input['no_npd'],
                 'procurement_date' => $input['tanggal_pengadaan'],
-                // keterangan bisa ikut disimpan di notes
                 'notes'            => $input['keterangan'] ?? null,
                 'created_at'       => date('Y-m-d H:i:s'),
             ];
             $this->db->table('procurements')->insert($procData);
             $procurementId = (int) $this->db->insertID();
-
-            // 2) Asset model (brand + model) berdasarkan jenis_perangkat + merk_tipe
             $assetModelsTable = $this->db->table('asset_models');
             $assetModelRow = $assetModelsTable
                 ->where('brand', $input['jenis_perangkat'])
@@ -109,8 +92,6 @@ class InputController extends BaseController
                 $this->db->table('asset_models')->insert($am);
                 $assetModelId = (int) $this->db->insertID();
             }
-
-            // 3) Unit
             $unitRow = $this->db->table('units')
                 ->where('name', $input['unit'])
                 ->get()
@@ -126,8 +107,6 @@ class InputController extends BaseController
                 $this->db->table('units')->insert($u);
                 $unitId = (int) $this->db->insertID();
             }
-
-            // 4) Employee (opsional)
             $employeeId = null;
             if (!empty($input['nipp'])) {
                 $empRow = $this->db->table('employees')
@@ -137,7 +116,6 @@ class InputController extends BaseController
 
                 if ($empRow) {
                     $employeeId = (int) $empRow['id'];
-                    // update nama jika berubah
                     if (!empty($input['nama_pengguna']) && $empRow['name'] !== $input['nama_pengguna']) {
                         $this->db->table('employees')
                             ->where('id', $employeeId)
@@ -155,26 +133,21 @@ class InputController extends BaseController
                     $employeeId = (int) $this->db->insertID();
                 }
             }
-
-            // 5) Asset
             $assetPayload = [
                 'asset_code'     => $input['no_inventaris'],
                 'procurement_id' => $procurementId,
                 'asset_model_id' => $assetModelId,
                 'serial_number'  => $input['serial_number'],
-                // purchase_date pakai tanggal_pengadaan (atau bisa null kalau mau)
                 'purchase_date'  => $input['tanggal_pengadaan'],
                 'unit_id'        => $unitId,
                 'employee_id'    => $employeeId,
                 'specification'  => $input['spesifikasi'] ?? null,
-                'label_attached' => 'Belum', // form ini belum punya field label
-                'condition'      => $input['condition'], // sudah tervalidasi
+                'label_attached' => 'Belum', 
+                'condition'      => $input['condition'],
                 'created_at'     => date('Y-m-d H:i:s'),
             ];
             $this->db->table('assets')->insert($assetPayload);
             $assetId = (int) $this->db->insertID();
-
-            // 6) Dokumen BAST / WO / Link (opsional)
             $docNumberParts = [];
             if (!empty($input['no_bast_bmc'])) {
                 $docNumberParts[] = 'BAST: '.$input['no_bast_bmc'];
@@ -183,8 +156,6 @@ class InputController extends BaseController
                 $docNumberParts[] = 'WO: '.$input['no_wo_bast'];
             }
             $docNumber = $docNumberParts ? implode(' | ', $docNumberParts) : null;
-
-            // pilih link utama: link_bast > link_dokumen
             $docLink = null;
             if (!empty($input['link_bast'])) {
                 $docLink = $input['link_bast'];
