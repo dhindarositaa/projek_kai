@@ -27,30 +27,23 @@ class AuthController extends BaseController
 
     public function processRegister()
     {
-        // Pastikan AJAX (frontend kita kirim X-Requested-With)
         if (!$this->request->isAJAX()) {
             return $this->response->setStatusCode(405)->setJSON([
                 'status' => 'error',
                 'message' => 'Method not allowed'
             ]);
         }
-
-        // Ambil input
         $name = trim($this->request->getPost('name'));
         $email = trim($this->request->getPost('email'));
         $password = $this->request->getPost('password');
         $confirm = $this->request->getPost('confirm_password');
         $agree = $this->request->getPost('agree');
-
-        // Validasi checkbox
         if (!$agree) {
             return $this->response->setJSON([
                 'status' => 'error',
                 'message' => 'Anda harus menyetujui Privacy Policy'
             ]);
         }
-
-        // Rules validasi
         $rules = [
             'name' => 'required|min_length[3]|max_length[255]',
             'email' => 'required|valid_email|max_length[255]|is_unique[users.email]',
@@ -90,7 +83,6 @@ class AuthController extends BaseController
             ]);
 
         } catch (\Exception $e) {
-            // Jangan expose stack trace di production, tapi untuk debugging bisa ditampilkan sementara
             return $this->response->setJSON([
                 'status' => 'error',
                 'message' => 'Terjadi kesalahan sistem: ' . $e->getMessage()
@@ -122,8 +114,6 @@ class AuthController extends BaseController
             'message' => $user ? 'Email sudah terdaftar' : 'Email tersedia'
         ]);
     }
-
-    // proses login (tetap) — disesuaikan jika butuh
     public function login()
     {
         if ($this->session->get('isLoggedIn')) {
@@ -153,20 +143,15 @@ public function processLogin()
     }
 
     $user = $this->userModel->where('email', $email)->first();
-
-    // Tidak ditemukan user
     if (!$user) {
         return $this->response->setJSON([
             'status' => 'error',
             'message' => 'Email atau password salah'
         ]);
     }
-
-    // Ambil hash password dari kolom yang ada (support legacy 'password' atau 'password_hash')
     $hash = $user['password_hash'] ?? $user['password'] ?? null;
 
     if (empty($hash)) {
-        // Catat ke log supaya bisa diperiksa (tidak menampilkan detail ke user)
         log_message('error', 'Login error: password hash column missing for user id ' . ($user['id'] ?? 'unknown'));
         return $this->response->setJSON([
             'status' => 'error',
@@ -174,15 +159,12 @@ public function processLogin()
         ]);
     }
 
-    // Verifikasi password
     if (!$this->userModel->verifyPassword($password, $hash)) {
         return $this->response->setJSON([
             'status' => 'error',
             'message' => 'Email atau password salah'
         ]);
     }
-
-    // Set session
     $sessionData = [
         'userId' => $user['id'],
         'name' => $user['name'],
@@ -200,10 +182,7 @@ public function processLogin()
 
     public function logout()
     {
-        // hapus data session login
         $this->session->remove(['userId', 'name', 'email', 'isLoggedIn']);
-
-        // kirim flash message
         return redirect()->to('/')->with('message', 'Anda berhasil logout');
     }
 

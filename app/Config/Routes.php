@@ -7,44 +7,81 @@ use App\Controllers\InputController;
 use App\Controllers\BulkInputController;
 use App\Controllers\BarangController;
 use App\Controllers\ImportExcel;
+use App\Controllers\Assets;
 
 /**
  * @var RouteCollection $routes
  */
 
-// Home / Auth
-
-$routes->get('/home', [HomeController::class, 'index']);
+// ======================================================
+// AUTH & HOME
+// ======================================================
 $routes->get('/', [AuthController::class, 'login']);
+$routes->get('home', [HomeController::class, 'index']);
+
 $routes->get('register', [AuthController::class, 'register']);
 $routes->post('auth/processRegister', [AuthController::class, 'processRegister']);
 $routes->post('auth/processLogin', [AuthController::class, 'processLogin']);
 $routes->post('auth/checkEmail', [AuthController::class, 'checkEmail']);
-$routes->post('logout', 'AuthController::logout');
+$routes->post('logout', [AuthController::class, 'logout']);
 
-// pages
-$routes->get('input', 'InputController::index');
-$routes->post('input/store', 'InputController::store');
-$routes->get('/bulk-input', [BulkInputController::class, 'index']);
-$routes->get('/barang', [BarangController::class, 'index']);
 
-// import endpoints
-$routes->post('import/process', [ImportExcel::class, 'process']);
-$routes->get('import/logs', [ImportExcel::class, 'downloadLogs']);
+// ======================================================
+// INPUT DATA
+// ======================================================
+$routes->group('input', function ($routes) {
+    $routes->get('/', [InputController::class, 'index']);
+    $routes->post('store', [InputController::class, 'store']);
+});
 
-// Assets CRUD                  
-$routes->get('assets', 'Assets::index');
-$routes->get('assets/create', 'Assets::create');
-$routes->post('assets', 'Assets::store');
-$routes->get('assets/(:num)', 'Assets::show/$1');
-$routes->get('assets/(:num)/edit', 'Assets::edit/$1');
-$routes->post('assets/(:num)/update', 'Assets::update/$1');
-$routes->post('assets/(:num)/delete', 'Assets::delete/$1');
-$routes->get('assets/monitoring', 'Assets::monitoring');
+$routes->get('bulk-input', [BulkInputController::class, 'index']);
 
-// optional API
-$routes->get('api/assets', 'Assets::apiList');
 
-// --------------------------------------------------------------------
-$routes->get('/test', 'Test::index');
+// ======================================================
+// BARANG (LEGACY / LIST)
+// ======================================================
+$routes->get('barang', [BarangController::class, 'index']);
 
+
+// ======================================================
+// IMPORT EXCEL
+// ======================================================
+$routes->group('import', function ($routes) {
+    $routes->post('process', [ImportExcel::class, 'process']);
+    $routes->get('logs', [ImportExcel::class, 'downloadLogs']);
+});
+
+
+// ======================================================
+// ASSETS (CRUD + MONITORING)
+// ======================================================
+$routes->group('assets', function ($routes) {
+
+    // CRUD
+    $routes->get('/', [Assets::class, 'index']);
+    $routes->get('create', [Assets::class, 'create']);
+    $routes->post('/', [Assets::class, 'store']);
+
+    $routes->get('(:num)', [Assets::class, 'show']);
+    $routes->get('(:num)/edit', [Assets::class, 'edit']);
+    $routes->post('(:num)/update', [Assets::class, 'update']);
+    $routes->post('(:num)/delete', [Assets::class, 'delete']);
+
+    // Monitoring & bulk status
+    $routes->get('monitoring', [Assets::class, 'monitoring']);
+    $routes->post('monitoring-status', [Assets::class, 'monitoringStatus']);
+});
+
+
+// ======================================================
+// API (OPTIONAL)
+// ======================================================
+$routes->group('api', function ($routes) {
+    $routes->get('assets', [Assets::class, 'apiList']);
+});
+
+
+// ======================================================
+// TEST / DEV
+// ======================================================
+$routes->get('test', 'Test::index');
