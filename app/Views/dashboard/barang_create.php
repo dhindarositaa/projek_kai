@@ -4,30 +4,31 @@
 <section class="py-6">
   <div class="max-w-screen-xl mx-auto px-4">
     <section class="grid grid-cols-1">
-      <div class="card-bg rounded shadow-sm overflow-hidden w-full bg-white">
-        <!-- Header -->
-        <div class="p-6 border-b">
+      <div class="card-bg rounded shadow-sm overflow-hidden w-full bg-white border border-gray-200">
+
+        <!-- HEADER -->
+        <div class="p-6 border-b border-gray-300 bg-gray-50">
           <div class="flex items-center justify-between gap-3">
             <h2 class="text-lg font-semibold text-gray-800">
               <?= esc($title ?? (isset($asset) ? 'Edit Barang' : 'Input Data Manual')) ?>
             </h2>
-            <a href="<?= site_url('assets') ?>" class="px-4 py-2 bg-gray-200 hover:bg-gray-300 rounded text-sm">
+            <a href="<?= site_url('assets') ?>"
+               class="px-4 py-2 bg-gray-200 hover:bg-gray-300 rounded text-sm">
               Kembali ke Daftar
             </a>
           </div>
         </div>
 
         <div class="p-6 space-y-6">
+
           <?php if (session()->getFlashdata('error')): ?>
             <div class="mb-4 p-3 bg-red-100 text-red-800 rounded text-xs">
               <?php
                 $err = session()->getFlashdata('error');
                 if (is_array($err)) {
-                    foreach ($err as $k => $e) {
-                        echo '<div>'.esc(is_string($k) ? "$k: $e" : $e).'</div>';
-                    }
+                  foreach ($err as $e) echo '<div>'.esc($e).'</div>';
                 } else {
-                    echo esc($err);
+                  echo esc($err);
                 }
               ?>
             </div>
@@ -39,243 +40,199 @@
                 method="post" id="createAssetForm" class="space-y-6" novalidate>
             <?= csrf_field() ?>
 
-            <!-- A. Informasi Pengadaan -->
+            <!-- A. INFORMASI PENGADAAN -->
             <fieldset>
-              <legend class="text-xs text-gray-700 uppercase font-semibold mb-3">A. Informasi Pengadaan</legend>
+              <legend class="text-xs font-semibold uppercase mb-3 text-gray-800">
+                A. Informasi Pengadaan
+              </legend>
+
               <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <!-- No RAB (wajib) -->
+
+                <!-- No RAB -->
                 <div>
-                  <label for="proc_no_rab" class="text-xs text-gray-700">
+                  <label class="text-xs font-medium text-gray-800">
                     No RAB <span class="text-red-600">*</span>
                   </label>
                   <input id="proc_no_rab" name="proc_no_rab" type="text" required
                          value="<?= esc(old('proc_no_rab') ?? ($asset['no_rab'] ?? '')) ?>"
-                         class="mt-1 w-full border rounded px-3 py-2" />
-                  <p id="err_proc_no_rab" class="hidden text-xs text-red-600 mt-1">
-                    No RAB wajib diisi.
-                  </p>
+                         class="mt-1 w-full rounded border-2 border-gray-400 px-3 py-2 text-sm
+                                focus:border-blue-600 focus:ring-2 focus:ring-blue-200 outline-none" />
                 </div>
 
-                <!-- No NPD (wajib) -->
+                <!-- No NPD -->
                 <div>
-                  <label for="proc_no_npd" class="text-xs text-gray-700">
+                  <label class="text-xs font-medium text-gray-800">
                     No NPD <span class="text-red-600">*</span>
                   </label>
                   <input id="proc_no_npd" name="proc_no_npd" type="text" required
                          value="<?= esc(old('proc_no_npd') ?? ($asset['no_npd'] ?? '')) ?>"
-                         class="mt-1 w-full border rounded px-3 py-2" />
-                  <p id="err_proc_no_npd" class="hidden text-xs text-red-600 mt-1">
-                    No NPD wajib diisi.
-                  </p>
+                         class="mt-1 w-full rounded border-2 border-gray-400 px-3 py-2 text-sm
+                                focus:border-blue-600 focus:ring-2 focus:ring-blue-200 outline-none" />
                 </div>
 
-                <!-- Tanggal Pengadaan (wajib) -->
+                <!-- Tanggal -->
                 <div>
-                  <label for="procurement_date" class="text-xs text-gray-700">
+                  <label class="text-xs font-medium text-gray-800">
                     Tanggal Pengadaan <span class="text-red-600">*</span>
                   </label>
                   <input id="procurement_date" name="procurement_date" type="date" required
                          value="<?= esc(old('procurement_date') ?? ($asset['procurement_date'] ?? '')) ?>"
-                         class="mt-1 w-full border rounded px-3 py-2" />
-                  <p id="err_procurement_date" class="hidden text-xs text-red-600 mt-1">
-                    Tanggal Pengadaan wajib diisi.
-                  </p>
+                         class="mt-1 w-full rounded border-2 border-gray-400 px-3 py-2 text-sm
+                                focus:border-blue-600 focus:ring-2 focus:ring-blue-200 outline-none" />
                 </div>
 
-                <!-- No BAST BMC (opsional) -->
+                <!-- No BAST -->
                 <div>
-                  <label for="no_bast_bmc" class="text-xs text-gray-700">No BAST BMC</label>
+                  <label class="text-xs font-medium text-gray-800">No BAST BMC</label>
                   <input id="no_bast_bmc" name="no_bast_bmc" type="text"
                          value="<?= esc(old('no_bast_bmc') ?? ($asset['no_bast_bmc'] ?? '')) ?>"
-                         class="mt-1 w-full border rounded px-3 py-2" />
+                         class="mt-1 w-full rounded border-2 border-gray-400 px-3 py-2 text-sm" />
                 </div>
 
-                <!-- No WO BAST (opsional) -->
+                <!-- No WO -->
                 <div>
-                  <label for="no_wo_bast" class="text-xs text-gray-700">No WO BAST</label>
+                  <label class="text-xs font-medium text-gray-800">No WO BAST</label>
                   <input id="no_wo_bast" name="no_wo_bast" type="text"
                          value="<?= esc(old('no_wo_bast') ?? ($asset['no_wo_bast'] ?? '')) ?>"
-                         class="mt-1 w-full border rounded px-3 py-2" />
+                         class="mt-1 w-full rounded border-2 border-gray-400 px-3 py-2 text-sm" />
                 </div>
 
-                <!-- Link File BAST (opsional) -->
+                <!-- Link -->
                 <div>
-                  <label for="link_bast" class="text-xs text-gray-700">Link File BAST</label>
+                  <label class="text-xs font-medium text-gray-800">Link File BAST</label>
                   <input id="link_bast" name="link_bast" type="url"
                          placeholder="https://..."
                          value="<?= esc(old('link_bast') ?? ($asset['link_bast'] ?? '')) ?>"
-                         class="mt-1 w-full border rounded px-3 py-2" />
+                         class="mt-1 w-full rounded border-2 border-gray-400 px-3 py-2 text-sm" />
                 </div>
+
               </div>
             </fieldset>
 
-            <hr class="border-t"/>
+            <hr class="border-t-2 border-gray-300 my-6"/>
 
-            <!-- B. Informasi Perangkat -->
+            <!-- B. INFORMASI PERANGKAT -->
             <fieldset>
-              <legend class="text-xs text-gray-700 uppercase font-semibold mb-3">B. Informasi Perangkat</legend>
+              <legend class="text-xs font-semibold uppercase mb-3 text-gray-800">
+                B. Informasi Perangkat
+              </legend>
+
               <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <!-- Jenis Perangkat (wajib) -->
+
                 <div>
-                  <label for="asset_brand" class="text-xs text-gray-700">
+                  <label class="text-xs font-medium text-gray-800">
                     Jenis Perangkat <span class="text-red-600">*</span>
                   </label>
                   <input id="asset_brand" name="asset_brand" type="text" required
                          value="<?= esc(old('asset_brand') ?? ($asset['brand'] ?? '')) ?>"
-                         class="mt-1 w-full border rounded px-3 py-2" />
-                  <p id="err_asset_brand" class="hidden text-xs text-red-600 mt-1">
-                    Jenis Perangkat wajib diisi.
-                  </p>
+                         class="mt-1 w-full rounded border-2 border-gray-400 px-3 py-2 text-sm" />
                 </div>
 
-                <!-- Merek / Tipe (wajib) -->
                 <div>
-                  <label for="asset_model_name" class="text-xs text-gray-700">
+                  <label class="text-xs font-medium text-gray-800">
                     Merek / Tipe <span class="text-red-600">*</span>
                   </label>
                   <input id="asset_model_name" name="asset_model_name" type="text" required
                          value="<?= esc(old('asset_model_name') ?? ($asset['model_name'] ?? '')) ?>"
-                         class="mt-1 w-full border rounded px-3 py-2" />
-                  <p id="err_asset_model_name" class="hidden text-xs text-red-600 mt-1">
-                    Merek / Tipe wajib diisi.
-                  </p>
+                         class="mt-1 w-full rounded border-2 border-gray-400 px-3 py-2 text-sm" />
                 </div>
 
-                <!-- Serial Number (wajib) -->
                 <div>
-                  <label for="serial_number" class="text-xs text-gray-700">
+                  <label class="text-xs font-medium text-gray-800">
                     Serial Number <span class="text-red-600">*</span>
                   </label>
                   <input id="serial_number" name="serial_number" type="text" required
                          value="<?= esc(old('serial_number') ?? ($asset['serial_number'] ?? '')) ?>"
-                         class="mt-1 w-full border rounded px-3 py-2" />
-                  <p id="err_serial_number" class="hidden text-xs text-red-600 mt-1">
-                    Serial Number wajib diisi.
-                  </p>
+                         class="mt-1 w-full rounded border-2 border-gray-400 px-3 py-2 text-sm" />
                 </div>
 
-                <!-- No Inventaris (wajib) -->
                 <div>
-                  <label for="asset_code" class="text-xs text-gray-700">
+                  <label class="text-xs font-medium text-gray-800">
                     No Inventaris <span class="text-red-600">*</span>
                   </label>
                   <input id="asset_code" name="asset_code" type="text" required
                          value="<?= esc(old('asset_code') ?? ($asset['asset_code'] ?? '')) ?>"
-                         class="mt-1 w-full border rounded px-3 py-2" />
-                  <p id="err_asset_code" class="hidden text-xs text-red-600 mt-1">
-                    No Inventaris wajib diisi.
-                  </p>
+                         class="mt-1 w-full rounded border-2 border-gray-400 px-3 py-2 text-sm" />
                 </div>
 
-                <!-- Spesifikasi (opsional) -->
                 <div class="md:col-span-2">
-                  <label for="specification" class="text-xs text-gray-700">
-                    Spesifikasi
-                  </label>
+                  <label class="text-xs font-medium text-gray-800">Spesifikasi</label>
                   <textarea id="specification" name="specification" rows="3"
-                            class="mt-1 w-full border rounded px-3 py-2"
-                            placeholder="CPU, RAM, Storage, OS, dll."><?= esc(old('specification') ?? ($asset['specification'] ?? '')) ?></textarea>
-                  <p id="err_specification" class="hidden text-xs text-red-600 mt-1">
-                    Spesifikasi wajib diisi.
-                  </p>
+                            class="mt-1 w-full rounded border-2 border-gray-400 px-3 py-2 text-sm"><?= esc(old('specification') ?? ($asset['specification'] ?? '')) ?></textarea>
                 </div>
 
-                <!-- Link Dokumen (opsional, jika mau dipakai) -->
-                <div>
-                  <label for="doc_link" class="text-xs text-gray-700">Link Dokumen (Opsional)</label>
-                  <input id="doc_link" name="doc_link" type="url"
-                         placeholder="https://..."
-                         value="<?= esc(old('doc_link') ?? ($asset['doc_link'] ?? '')) ?>"
-                         class="mt-1 w-full border rounded px-3 py-2" />
-                </div>
               </div>
             </fieldset>
 
-            <hr class="border-t"/>
+            <hr class="border-t-2 border-gray-300 my-6"/>
 
-            <!-- C. Informasi Pengguna -->
+            <!-- C. INFORMASI PENGGUNA -->
             <fieldset>
-              <legend class="text-xs text-gray-700 uppercase font-semibold mb-3">C. Informasi Pengguna</legend>
+              <legend class="text-xs font-semibold uppercase mb-3 text-gray-800">
+                C. Informasi Pengguna
+              </legend>
+
               <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <!-- Nama Pengguna (opsional) -->
+
                 <div>
-                  <label for="employee_name" class="text-xs text-gray-700">
-                    Nama Pengguna
-                  </label>
+                  <label class="text-xs font-medium text-gray-800">Nama Pengguna</label>
                   <input id="employee_name" name="employee_name" type="text"
                          value="<?= esc(old('employee_name') ?? ($asset['employee_name'] ?? '')) ?>"
-                         class="mt-1 w-full border rounded px-3 py-2" />
-                  <p id="err_employee_name" class="hidden text-xs text-red-600 mt-1">
-                    Nama Pengguna wajib diisi.
-                  </p>
+                         class="mt-1 w-full rounded border-2 border-gray-400 px-3 py-2 text-sm" />
                 </div>
 
-                <!-- Unit (wajib) -->
                 <div>
-                  <label for="unit_name" class="text-xs text-gray-700">
+                  <label class="text-xs font-medium text-gray-800">
                     Unit <span class="text-red-600">*</span>
                   </label>
                   <input id="unit_name" name="unit_name" type="text" required
                          value="<?= esc(old('unit_name') ?? ($asset['unit_name'] ?? '')) ?>"
-                         class="mt-1 w-full border rounded px-3 py-2" />
-                  <p id="err_unit_name" class="hidden text-xs text-red-600 mt-1">
-                    Unit wajib diisi.
-                  </p>
+                         class="mt-1 w-full rounded border-2 border-gray-400 px-3 py-2 text-sm" />
                 </div>
 
-                <!-- NIPP (opsional) -->
                 <div>
-                  <label for="employee_nipp" class="text-xs text-gray-700">
-                    NIPP
-                  </label>
+                  <label class="text-xs font-medium text-gray-800">NIPP</label>
                   <input id="employee_nipp" name="employee_nipp" type="text"
                          value="<?= esc(old('employee_nipp') ?? ($asset['employee_nipp'] ?? '')) ?>"
-                         class="mt-1 w-full border rounded px-3 py-2" />
-                  <p id="err_employee_nipp" class="hidden text-xs text-red-600 mt-1">
-                    NIPP wajib diisi.
-                  </p>
+                         class="mt-1 w-full rounded border-2 border-gray-400 px-3 py-2 text-sm" />
                 </div>
 
-                <!-- Kondisi (wajib) -->
                 <div>
-                  <label for="condition" class="text-xs text-gray-700">
+                  <label class="text-xs font-medium text-gray-800">
                     Kondisi <span class="text-red-600">*</span>
                   </label>
-
                   <?php $cond = old('condition') ?? ($asset['condition'] ?? ''); ?>
-
-                  <select id="condition" name="condition" required class="mt-1 w-full border rounded px-3 py-2">
+                  <select id="condition" name="condition" required
+                          class="mt-1 w-full rounded border-2 border-gray-400 px-3 py-2 text-sm">
                     <option value="">Pilih...</option>
-                    <option value="baik"     <?= $cond === 'baik' ? 'selected' : '' ?>>baik</option>
-                    <option value="rusak"    <?= $cond === 'rusak' ? 'selected' : '' ?>>rusak</option>
-                    <option value="dipinjam" <?= $cond === 'dipinjam' ? 'selected' : '' ?>>dipinjam</option>
-                    <option value="disposal" <?= $cond === 'disposal' ? 'selected' : '' ?>>disposal</option>
+                    <option value="baik" <?= $cond==='baik'?'selected':'' ?>>baik</option>
+                    <option value="rusak" <?= $cond==='rusak'?'selected':'' ?>>rusak</option>
+                    <option value="dipinjam" <?= $cond==='dipinjam'?'selected':'' ?>>dipinjam</option>
+                    <option value="disposal" <?= $cond==='disposal'?'selected':'' ?>>disposal</option>
                   </select>
-
-                  <p id="err_condition" class="hidden text-xs text-red-600 mt-1">
-                    Kondisi wajib dipilih.
-                  </p>
                 </div>
 
-
-                <!-- Keterangan (opsional, full width) -->
                 <div class="md:col-span-3">
-                  <label for="keterangan" class="text-xs text-gray-700">Keterangan</label>
+                  <label class="text-xs font-medium text-gray-800">Keterangan</label>
                   <textarea id="keterangan" name="keterangan" rows="3"
-                            placeholder="Catatan tambahan terkait perangkat..."
-                            class="mt-1 w-full border rounded px-3 py-2"><?= esc(old('keterangan') ?? ($asset['keterangan'] ?? '')) ?></textarea>
+                            class="mt-1 w-full rounded border-2 border-gray-400 px-3 py-2 text-sm"><?= esc(old('keterangan') ?? ($asset['keterangan'] ?? '')) ?></textarea>
                 </div>
+
               </div>
             </fieldset>
 
-            <div class="flex items-center justify-end gap-3">
-              <button type="reset" class="px-4 py-2 rounded border border-gray-200">
+            <!-- BUTTON -->
+            <div class="flex justify-end gap-3">
+              <button type="reset"
+                      class="px-4 py-2 rounded border border-gray-300 text-sm">
                 Reset
               </button>
-              <button type="submit" class="px-4 py-2 rounded bg-blue-600 text-white">
+              <button type="submit"
+                      class="px-4 py-2 rounded bg-blue-600 text-white text-sm">
                 <?= $isEdit ? 'Update' : 'Simpan' ?>
               </button>
             </div>
+
           </form>
         </div>
       </div>
