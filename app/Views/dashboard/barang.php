@@ -54,6 +54,7 @@
                     <option value="rusak"    <?= $condition === 'rusak'    ? 'selected' : '' ?>>Rusak</option>
                     <option value="dipinjam" <?= $condition === 'dipinjam' ? 'selected' : '' ?>>Dipinjam</option>
                     <option value="disposal" <?= $condition === 'disposal' ? 'selected' : '' ?>>Disposal</option>
+                    <option value="diganti" <?= $condition === 'diganti' ? 'selected' : '' ?>>Diganti</option>
                 </select>
             </div>
 

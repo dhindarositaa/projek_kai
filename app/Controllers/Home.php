@@ -12,7 +12,6 @@ class Home extends BaseController
     {
         $assetsModel = new AssetsModel();
 
-        // Ambil semua aset + relasi (biar dapat purchase_date & procurement_date)
         $allAssets = $assetsModel->getAssetsWithRelations();
 
         $now         = Time::now('Asia/Jakarta', 'en_US');
@@ -21,7 +20,6 @@ class Home extends BaseController
         $perluPengadaan = 0;
 
         foreach ($allAssets as $asset) {
-            // base date: purchase_date > procurement_date
             $baseDateString = $asset['purchase_date'] ?? null;
 
             if (empty($baseDateString) && !empty($asset['procurement_date'])) {
@@ -47,17 +45,11 @@ class Home extends BaseController
             if ($tahunKe > $masaManfaat) {
                 $tahunKe = $masaManfaat;
             }
-
-            // tahun_ke 4–5 = merah = "sisa usia 1 tahun / sudah perlu diganti"
             if ($tahunKe >= 4) {
                 $perluPengadaan++;
             }
         }
-
-        // total barang
         $totalBarang = count($allAssets);
-
-        // total kondisi rusak & baik (ambil dari field condition)
         $totalRusak = $assetsModel->where('condition', 'rusak')->countAllResults();
         $totalBaik  = $assetsModel->where('condition', 'baik')->countAllResults();
 
@@ -71,6 +63,6 @@ class Home extends BaseController
             ],
         ];
 
-        return view('dashboard/home', $data); // sesuaikan dengan nama view dashboard-mu
+        return view('dashboard/home', $data); 
     }
 }
