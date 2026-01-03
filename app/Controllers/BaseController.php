@@ -63,10 +63,11 @@ abstract class BaseController extends Controller
         $assetsModel = new AssetsModel();
         $allAssets   = $assetsModel->getAssetsWithRelations();
 
-        $now = Time::now('Asia/Jakarta');
+        $now   = Time::now('Asia/Jakarta');
         $merah = 0;
 
         foreach ($allAssets as $asset) {
+
             $baseDate = $asset['purchase_date']
                 ?? $asset['procurement_date']
                 ?? null;
@@ -80,11 +81,27 @@ abstract class BaseController extends Controller
             }
         }
 
+        // ✅ TOTAL ASLI (BOLEH 0)
+        $totalAsli = count($allAssets);
+
+        // ✅ TOTAL UNTUK PEMBAGI (ANTI DIVIDE BY ZERO)
+        $totalBagi = max(1, $totalAsli);
+
+        $rusak = $assetsModel->where('condition', 'rusak')->countAllResults();
+        $baik  = $assetsModel->where('condition', 'baik')->countAllResults();
+
         return [
+            // angka utama
             'perlu_pengadaan' => $merah,
-            'rusak' => $assetsModel->where('condition', 'rusak')->countAllResults(),
-            'baik'  => $assetsModel->where('condition', 'baik')->countAllResults(),
-            'total' => count($allAssets),
+            'rusak'           => $rusak,
+            'baik'            => $baik,
+            'total'           => $totalAsli, // 🔥 FIX DI SINI
+
+            // persentase
+            'persen_pengadaan' => round($merah / $totalBagi * 100),
+            'persen_rusak'     => round($rusak / $totalBagi * 100),
+            'persen_baik'      => round($baik / $totalBagi * 100),
+            'persen_total'     => $totalAsli > 0 ? 100 : 0,
         ];
     }
 

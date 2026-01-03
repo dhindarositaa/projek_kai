@@ -635,8 +635,10 @@ public function edit($id)
         ->whereIn('id', $assetIds)
         ->where('condition !=', 'diganti')
         ->update([
-            'condition'  => 'diganti',
-            'updated_at' => date('Y-m-d H:i:s'),
+            'replaced_at'   => date('Y-m-d'), // 🧾 CATAT RIWAYAT
+            'purchase_date'=> date('Y-m-d'), // 🔄 RESET UMUR
+            'condition'    => 'baik',         // ♻️ AKTIF LAGI
+            'updated_at'   => date('Y-m-d H:i:s'),
         ]);
 
     $count = $this->db->affectedRows();
