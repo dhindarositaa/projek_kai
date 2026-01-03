@@ -226,6 +226,19 @@
               Kembali ke Daftar
             </a>
           </div>
+
+          <div>
+          <label class="text-xs text-gray-700">Terakhir Diganti</label>
+          <input type="text"
+                class="mt-1 w-full border rounded px-3 py-2 bg-gray-50"
+                value="<?=
+                  !empty($asset['replaced_at'])
+                    ? date('d/m/Y', strtotime($asset['replaced_at']))
+                    : 'Belum Pernah Diganti'
+                ?>"
+                readonly />
+        </div>
+
         </div>
       </div>
     </section>

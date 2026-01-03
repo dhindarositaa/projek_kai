@@ -16,6 +16,7 @@ class AssetsModel extends Model
         'asset_model_id',
         'serial_number',
         'purchase_date',
+        'replaced_at',
         'unit_id',
         'employee_id',
         'specification',
