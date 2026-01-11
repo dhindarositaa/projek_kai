@@ -24,6 +24,7 @@ class AssetsModel extends Model
         'condition',
         'created_at',
         'updated_at',
+        'note',
     ];
 
     protected $useTimestamps = true;

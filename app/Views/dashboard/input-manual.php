@@ -4,6 +4,28 @@
 <section class="py-8">
   <div class="w-full px-6 space-y-6">
 
+    <!-- ERROR -->
+    <?php if (session('error')) : ?>
+      <div class="rounded-lg bg-red-100 border border-red-300 p-4 text-red-700">
+        <?php if (is_array(session('error'))) : ?>
+          <ul class="list-disc pl-5 space-y-1">
+            <?php foreach (session('error') as $err) : ?>
+              <li><?= esc($err) ?></li>
+            <?php endforeach ?>
+          </ul>
+        <?php else : ?>
+          <?= session('error') ?>
+        <?php endif ?>
+      </div>
+    <?php endif ?>
+
+    <!-- SUCCESS -->
+    <?php if (session('success')) : ?>
+      <div class="rounded-lg bg-green-100 border border-green-300 p-4 text-green-700">
+        <?= session('success') ?>
+      </div>
+    <?php endif ?>
+
     <!-- CARD -->
     <div class="bg-white rounded-2xl shadow-lg border border-gray-300 overflow-hidden">
 
@@ -13,7 +35,7 @@
           <h2 class="text-2xl font-bold text-gray-800 tracking-tight">
             Input Data Manual
           </h2>
-          <button class="bg-blue-600 text-white px-6 py-2.5 rounded-lg font-semibold shadow">
+          <button type="button" class="bg-blue-600 text-white px-6 py-2.5 rounded-lg font-semibold shadow">
             Form
           </button>
         </div>
@@ -26,6 +48,15 @@
             class="p-8 space-y-10 text-base">
         <?= csrf_field() ?>
 
+        <?php
+        function inputClass() {
+          return 'mt-2 w-full rounded-lg border-2 border-gray-400 px-4 py-3
+                  text-base text-gray-800
+                  focus:border-blue-600 focus:ring-2 focus:ring-blue-200
+                  outline-none transition';
+        }
+        ?>
+
         <!-- A. INFORMASI PENGADAAN -->
         <fieldset>
           <legend class="text-sm font-bold text-gray-800 uppercase mb-5 tracking-wide">
@@ -34,55 +65,51 @@
 
           <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 
-            <?php
-            function inputClass() {
-              return 'mt-2 w-full rounded-lg border-2 border-gray-400 px-4 py-3
-                      text-base text-gray-800
-                      focus:border-blue-600 focus:ring-2 focus:ring-blue-200
-                      outline-none transition';
-            }
-            ?>
-
             <div>
               <label class="text-sm font-semibold text-gray-800">
                 No RAB <span class="text-red-600">*</span>
               </label>
-              <input type="text" name="no_rab" class="<?= inputClass() ?>">
+              <input type="text" name="no_rab" value="<?= old('no_rab') ?>" class="<?= inputClass() ?>">
             </div>
 
             <div>
               <label class="text-sm font-semibold text-gray-800">
                 No NPD <span class="text-red-600">*</span>
               </label>
-              <input type="text" name="no_npd" class="<?= inputClass() ?>">
+              <input type="text" name="no_npd" value="<?= old('no_npd') ?>" class="<?= inputClass() ?>">
             </div>
 
             <div>
               <label class="text-sm font-semibold text-gray-800">
                 Tanggal Pengadaan <span class="text-red-600">*</span>
               </label>
-              <input type="date" name="tanggal_pengadaan" class="<?= inputClass() ?>">
+              <input type="date" name="tanggal_pengadaan"
+                     value="<?= old('tanggal_pengadaan') ?>" class="<?= inputClass() ?>">
             </div>
 
             <div>
               <label class="text-sm font-semibold text-gray-800">
                 No BAST BMC
               </label>
-              <input type="text" name="no_bast_bmc" class="<?= inputClass() ?>">
+              <input type="text" name="no_bast_bmc"
+                     value="<?= old('no_bast_bmc') ?>" class="<?= inputClass() ?>">
             </div>
 
             <div>
               <label class="text-sm font-semibold text-gray-800">
                 No WO BAST
               </label>
-              <input type="text" name="no_wo_bast" class="<?= inputClass() ?>">
+              <input type="text" name="no_wo_bast"
+                     value="<?= old('no_wo_bast') ?>" class="<?= inputClass() ?>">
             </div>
 
             <div>
               <label class="text-sm font-semibold text-gray-800">
                 Link File BAST
               </label>
-              <input type="url" placeholder="https://..." name="link_bast" class="<?= inputClass() ?>">
+              <input type="url" placeholder="https://..."
+                     name="link_bast" value="<?= old('link_bast') ?>"
+                     class="<?= inputClass() ?>">
             </div>
           </div>
         </fieldset>
@@ -101,29 +128,36 @@
               <label class="text-sm font-semibold text-gray-800">
                 Jenis Perangkat <span class="text-red-600">*</span>
               </label>
-              <input type="text" placeholder="Laptop, Printer, Router"
-                     name="jenis_perangkat" class="<?= inputClass() ?>">
+              <input type="text" name="jenis_perangkat"
+                     value="<?= old('jenis_perangkat') ?>"
+                     class="<?= inputClass() ?>">
             </div>
 
             <div>
               <label class="text-sm font-semibold text-gray-800">
                 Merek / Tipe <span class="text-red-600">*</span>
               </label>
-              <input type="text" name="merk_tipe" class="<?= inputClass() ?>">
+              <input type="text" name="merk_tipe"
+                     value="<?= old('merk_tipe') ?>"
+                     class="<?= inputClass() ?>">
             </div>
 
             <div>
               <label class="text-sm font-semibold text-gray-800">
                 Serial Number <span class="text-red-600">*</span>
               </label>
-              <input type="text" name="serial_number" class="<?= inputClass() ?>">
+              <input type="text" name="serial_number"
+                     value="<?= old('serial_number') ?>"
+                     class="<?= inputClass() ?>">
             </div>
 
             <div>
               <label class="text-sm font-semibold text-gray-800">
                 No Inventaris <span class="text-red-600">*</span>
               </label>
-              <input type="text" name="no_inventaris" class="<?= inputClass() ?>">
+              <input type="text" name="no_inventaris"
+                     value="<?= old('no_inventaris') ?>"
+                     class="<?= inputClass() ?>">
             </div>
 
             <div class="md:col-span-2">
@@ -131,16 +165,9 @@
                 Spesifikasi
               </label>
               <textarea rows="4" name="spesifikasi"
-                class="<?= inputClass() ?>"></textarea>
+                class="<?= inputClass() ?>"><?= old('spesifikasi') ?></textarea>
             </div>
 
-            <div>
-              <label class="text-sm font-semibold text-gray-800">
-                Link Dokumen
-              </label>
-              <input type="url" placeholder="https://..."
-                     name="link_dokumen" class="<?= inputClass() ?>">
-            </div>
           </div>
         </fieldset>
 
@@ -158,21 +185,27 @@
               <label class="text-sm font-semibold text-gray-800">
                 Nama Pengguna
               </label>
-              <input type="text" name="nama_pengguna" class="<?= inputClass() ?>">
+              <input type="text" name="nama_pengguna"
+                     value="<?= old('nama_pengguna') ?>"
+                     class="<?= inputClass() ?>">
             </div>
 
             <div>
               <label class="text-sm font-semibold text-gray-800">
                 Unit <span class="text-red-600">*</span>
               </label>
-              <input type="text" name="unit" class="<?= inputClass() ?>">
+              <input type="text" name="unit"
+                     value="<?= old('unit') ?>"
+                     class="<?= inputClass() ?>">
             </div>
 
             <div>
               <label class="text-sm font-semibold text-gray-800">
                 NIPP
               </label>
-              <input type="text" name="nipp" class="<?= inputClass() ?>">
+              <input type="text" name="nipp"
+                     value="<?= old('nipp') ?>"
+                     class="<?= inputClass() ?>">
             </div>
 
             <div>
@@ -181,11 +214,11 @@
               </label>
               <select name="condition" class="<?= inputClass() ?>">
                 <option value="">Pilih...</option>
-                <option value="baik">Baik</option>
-                <option value="rusak">Rusak</option>
-                <option value="dipinjam">Dipinjam</option>
-                <option value="disposal">Disposal</option>
-                <option value="diganti">Diganti</option>
+                <?php foreach (['baik','rusak','dipinjam','disposal','diganti'] as $c) : ?>
+                  <option value="<?= $c ?>" <?= old('condition') === $c ? 'selected' : '' ?>>
+                    <?= ucfirst($c) ?>
+                  </option>
+                <?php endforeach ?>
               </select>
             </div>
 
@@ -194,7 +227,7 @@
                 Keterangan
               </label>
               <textarea rows="4" name="keterangan"
-                class="<?= inputClass() ?>"></textarea>
+                class="<?= inputClass() ?>"><?= old('keterangan') ?></textarea>
             </div>
           </div>
         </fieldset>
