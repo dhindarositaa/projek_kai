@@ -1,0 +1,249 @@
+ERROR - 2026-01-05 00:03:09 --> mysqli_sql_exception: Unknown column 'created_at' in 'field list' in C:\laragon\www\projek_magang\kai\projek_kai\system\Database\MySQLi\Connection.php:327
+Stack trace:
+#0 C:\laragon\www\projek_magang\kai\projek_kai\system\Database\MySQLi\Connection.php(327): mysqli->query('INSERT INTO `do...', 0)
+#1 C:\laragon\www\projek_magang\kai\projek_kai\system\Database\BaseConnection.php(729): CodeIgniter\Database\MySQLi\Connection->execute('INSERT INTO `do...')
+#2 C:\laragon\www\projek_magang\kai\projek_kai\system\Database\BaseConnection.php(646): CodeIgniter\Database\BaseConnection->simpleQuery('INSERT INTO `do...')
+#3 C:\laragon\www\projek_magang\kai\projek_kai\system\Database\BaseBuilder.php(2345): CodeIgniter\Database\BaseConnection->query('INSERT INTO `do...', Array, false)
+#4 C:\laragon\www\projek_magang\kai\projek_kai\app\Controllers\InputController.php(158): CodeIgniter\Database\BaseBuilder->insert(Array)
+#5 C:\laragon\www\projek_magang\kai\projek_kai\system\CodeIgniter.php(933): App\Controllers\InputController->store()
+#6 C:\laragon\www\projek_magang\kai\projek_kai\system\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\InputController))
+#7 C:\laragon\www\projek_magang\kai\projek_kai\system\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#8 C:\laragon\www\projek_magang\kai\projek_kai\system\Boot.php(363): CodeIgniter\CodeIgniter->run()
+#9 C:\laragon\www\projek_magang\kai\projek_kai\system\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+#10 C:\laragon\www\projek_magang\kai\projek_kai\public\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+#11 C:\laragon\www\projek_magang\kai\projek_kai\system\rewrite.php(44): require_once('C:\\laragon\\www\\...')
+#12 {main}
+ERROR - 2026-01-05 00:11:03 --> mysqli_sql_exception: Unknown column 'created_at' in 'field list' in C:\laragon\www\projek_magang\kai\projek_kai\system\Database\MySQLi\Connection.php:327
+Stack trace:
+#0 C:\laragon\www\projek_magang\kai\projek_kai\system\Database\MySQLi\Connection.php(327): mysqli->query('INSERT INTO `do...', 0)
+#1 C:\laragon\www\projek_magang\kai\projek_kai\system\Database\BaseConnection.php(729): CodeIgniter\Database\MySQLi\Connection->execute('INSERT INTO `do...')
+#2 C:\laragon\www\projek_magang\kai\projek_kai\system\Database\BaseConnection.php(646): CodeIgniter\Database\BaseConnection->simpleQuery('INSERT INTO `do...')
+#3 C:\laragon\www\projek_magang\kai\projek_kai\system\Database\BaseBuilder.php(2345): CodeIgniter\Database\BaseConnection->query('INSERT INTO `do...', Array, false)
+#4 C:\laragon\www\projek_magang\kai\projek_kai\app\Controllers\Assets.php(510): CodeIgniter\Database\BaseBuilder->insert(Array)
+#5 C:\laragon\www\projek_magang\kai\projek_kai\system\CodeIgniter.php(933): App\Controllers\Assets->update('1856')
+#6 C:\laragon\www\projek_magang\kai\projek_kai\system\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Assets))
+#7 C:\laragon\www\projek_magang\kai\projek_kai\system\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#8 C:\laragon\www\projek_magang\kai\projek_kai\system\Boot.php(363): CodeIgniter\CodeIgniter->run()
+#9 C:\laragon\www\projek_magang\kai\projek_kai\system\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+#10 C:\laragon\www\projek_magang\kai\projek_kai\public\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+#11 C:\laragon\www\projek_magang\kai\projek_kai\system\rewrite.php(44): require_once('C:\\laragon\\www\\...')
+#12 {main}
+ERROR - 2026-01-05 00:11:03 --> [UPDATE ERROR] Transaksi gagal.
+ERROR - 2026-01-05 00:11:09 --> mysqli_sql_exception: Unknown column 'created_at' in 'field list' in C:\laragon\www\projek_magang\kai\projek_kai\system\Database\MySQLi\Connection.php:327
+Stack trace:
+#0 C:\laragon\www\projek_magang\kai\projek_kai\system\Database\MySQLi\Connection.php(327): mysqli->query('INSERT INTO `do...', 0)
+#1 C:\laragon\www\projek_magang\kai\projek_kai\system\Database\BaseConnection.php(729): CodeIgniter\Database\MySQLi\Connection->execute('INSERT INTO `do...')
+#2 C:\laragon\www\projek_magang\kai\projek_kai\system\Database\BaseConnection.php(646): CodeIgniter\Database\BaseConnection->simpleQuery('INSERT INTO `do...')
+#3 C:\laragon\www\projek_magang\kai\projek_kai\system\Database\BaseBuilder.php(2345): CodeIgniter\Database\BaseConnection->query('INSERT INTO `do...', Array, false)
+#4 C:\laragon\www\projek_magang\kai\projek_kai\app\Controllers\Assets.php(510): CodeIgniter\Database\BaseBuilder->insert(Array)
+#5 C:\laragon\www\projek_magang\kai\projek_kai\system\CodeIgniter.php(933): App\Controllers\Assets->update('1856')
+#6 C:\laragon\www\projek_magang\kai\projek_kai\system\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Assets))
+#7 C:\laragon\www\projek_magang\kai\projek_kai\system\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#8 C:\laragon\www\projek_magang\kai\projek_kai\system\Boot.php(363): CodeIgniter\CodeIgniter->run()
+#9 C:\laragon\www\projek_magang\kai\projek_kai\system\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+#10 C:\laragon\www\projek_magang\kai\projek_kai\public\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+#11 C:\laragon\www\projek_magang\kai\projek_kai\system\rewrite.php(44): require_once('C:\\laragon\\www\\...')
+#12 {main}
+ERROR - 2026-01-05 00:11:09 --> [UPDATE ERROR] Transaksi gagal.
+ERROR - 2026-01-05 00:12:00 --> mysqli_sql_exception: Unknown column 'created_at' in 'field list' in C:\laragon\www\projek_magang\kai\projek_kai\system\Database\MySQLi\Connection.php:327
+Stack trace:
+#0 C:\laragon\www\projek_magang\kai\projek_kai\system\Database\MySQLi\Connection.php(327): mysqli->query('INSERT INTO `do...', 0)
+#1 C:\laragon\www\projek_magang\kai\projek_kai\system\Database\BaseConnection.php(729): CodeIgniter\Database\MySQLi\Connection->execute('INSERT INTO `do...')
+#2 C:\laragon\www\projek_magang\kai\projek_kai\system\Database\BaseConnection.php(646): CodeIgniter\Database\BaseConnection->simpleQuery('INSERT INTO `do...')
+#3 C:\laragon\www\projek_magang\kai\projek_kai\system\Database\BaseBuilder.php(2345): CodeIgniter\Database\BaseConnection->query('INSERT INTO `do...', Array, false)
+#4 C:\laragon\www\projek_magang\kai\projek_kai\app\Controllers\Assets.php(510): CodeIgniter\Database\BaseBuilder->insert(Array)
+#5 C:\laragon\www\projek_magang\kai\projek_kai\system\CodeIgniter.php(933): App\Controllers\Assets->update('1856')
+#6 C:\laragon\www\projek_magang\kai\projek_kai\system\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Assets))
+#7 C:\laragon\www\projek_magang\kai\projek_kai\system\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#8 C:\laragon\www\projek_magang\kai\projek_kai\system\Boot.php(363): CodeIgniter\CodeIgniter->run()
+#9 C:\laragon\www\projek_magang\kai\projek_kai\system\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+#10 C:\laragon\www\projek_magang\kai\projek_kai\public\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+#11 C:\laragon\www\projek_magang\kai\projek_kai\system\rewrite.php(44): require_once('C:\\laragon\\www\\...')
+#12 {main}
+ERROR - 2026-01-05 00:12:00 --> [UPDATE ERROR] Transaksi gagal.
+ERROR - 2026-01-05 00:19:54 --> mysqli_sql_exception: Unknown column 'created_at' in 'field list' in C:\laragon\www\projek_magang\kai\projek_kai\system\Database\MySQLi\Connection.php:327
+Stack trace:
+#0 C:\laragon\www\projek_magang\kai\projek_kai\system\Database\MySQLi\Connection.php(327): mysqli->query('INSERT INTO `do...', 0)
+#1 C:\laragon\www\projek_magang\kai\projek_kai\system\Database\BaseConnection.php(729): CodeIgniter\Database\MySQLi\Connection->execute('INSERT INTO `do...')
+#2 C:\laragon\www\projek_magang\kai\projek_kai\system\Database\BaseConnection.php(646): CodeIgniter\Database\BaseConnection->simpleQuery('INSERT INTO `do...')
+#3 C:\laragon\www\projek_magang\kai\projek_kai\system\Database\BaseBuilder.php(2345): CodeIgniter\Database\BaseConnection->query('INSERT INTO `do...', Array, false)
+#4 C:\laragon\www\projek_magang\kai\projek_kai\app\Controllers\InputController.php(203): CodeIgniter\Database\BaseBuilder->insert(Array)
+#5 C:\laragon\www\projek_magang\kai\projek_kai\system\CodeIgniter.php(933): App\Controllers\InputController->store()
+#6 C:\laragon\www\projek_magang\kai\projek_kai\system\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\InputController))
+#7 C:\laragon\www\projek_magang\kai\projek_kai\system\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#8 C:\laragon\www\projek_magang\kai\projek_kai\system\Boot.php(363): CodeIgniter\CodeIgniter->run()
+#9 C:\laragon\www\projek_magang\kai\projek_kai\system\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+#10 C:\laragon\www\projek_magang\kai\projek_kai\public\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+#11 C:\laragon\www\projek_magang\kai\projek_kai\system\rewrite.php(44): require_once('C:\\laragon\\www\\...')
+#12 {main}
+ERROR - 2026-01-05 00:32:57 --> mysqli_sql_exception: Unknown column 'created_at' in 'field list' in C:\laragon\www\projek_magang\kai\projek_kai\system\Database\MySQLi\Connection.php:327
+Stack trace:
+#0 C:\laragon\www\projek_magang\kai\projek_kai\system\Database\MySQLi\Connection.php(327): mysqli->query('INSERT INTO `do...', 0)
+#1 C:\laragon\www\projek_magang\kai\projek_kai\system\Database\BaseConnection.php(729): CodeIgniter\Database\MySQLi\Connection->execute('INSERT INTO `do...')
+#2 C:\laragon\www\projek_magang\kai\projek_kai\system\Database\BaseConnection.php(646): CodeIgniter\Database\BaseConnection->simpleQuery('INSERT INTO `do...')
+#3 C:\laragon\www\projek_magang\kai\projek_kai\system\Database\BaseBuilder.php(2345): CodeIgniter\Database\BaseConnection->query('INSERT INTO `do...', Array, false)
+#4 C:\laragon\www\projek_magang\kai\projek_kai\app\Controllers\InputController.php(203): CodeIgniter\Database\BaseBuilder->insert(Array)
+#5 C:\laragon\www\projek_magang\kai\projek_kai\system\CodeIgniter.php(933): App\Controllers\InputController->store()
+#6 C:\laragon\www\projek_magang\kai\projek_kai\system\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\InputController))
+#7 C:\laragon\www\projek_magang\kai\projek_kai\system\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#8 C:\laragon\www\projek_magang\kai\projek_kai\system\Boot.php(363): CodeIgniter\CodeIgniter->run()
+#9 C:\laragon\www\projek_magang\kai\projek_kai\system\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+#10 C:\laragon\www\projek_magang\kai\projek_kai\public\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+#11 C:\laragon\www\projek_magang\kai\projek_kai\system\rewrite.php(44): require_once('C:\\laragon\\www\\...')
+#12 {main}
+ERROR - 2026-01-05 00:39:13 --> mysqli_sql_exception: Unknown column 'baik' in 'field list' in C:\laragon\www\projek_magang\kai\projek_kai\system\Database\MySQLi\Connection.php:327
+Stack trace:
+#0 C:\laragon\www\projek_magang\kai\projek_kai\system\Database\MySQLi\Connection.php(327): mysqli->query('INSERT INTO `as...', 0)
+#1 C:\laragon\www\projek_magang\kai\projek_kai\system\Database\BaseConnection.php(729): CodeIgniter\Database\MySQLi\Connection->execute('INSERT INTO `as...')
+#2 C:\laragon\www\projek_magang\kai\projek_kai\system\Database\BaseConnection.php(646): CodeIgniter\Database\BaseConnection->simpleQuery('INSERT INTO `as...')
+#3 C:\laragon\www\projek_magang\kai\projek_kai\system\Database\BaseBuilder.php(2345): CodeIgniter\Database\BaseConnection->query('INSERT INTO `as...', Array, false)
+#4 C:\laragon\www\projek_magang\kai\projek_kai\app\Controllers\InputController.php(159): CodeIgniter\Database\BaseBuilder->insert()
+#5 C:\laragon\www\projek_magang\kai\projek_kai\system\CodeIgniter.php(933): App\Controllers\InputController->store()
+#6 C:\laragon\www\projek_magang\kai\projek_kai\system\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\InputController))
+#7 C:\laragon\www\projek_magang\kai\projek_kai\system\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#8 C:\laragon\www\projek_magang\kai\projek_kai\system\Boot.php(363): CodeIgniter\CodeIgniter->run()
+#9 C:\laragon\www\projek_magang\kai\projek_kai\system\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+#10 C:\laragon\www\projek_magang\kai\projek_kai\public\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+#11 C:\laragon\www\projek_magang\kai\projek_kai\system\rewrite.php(44): require_once('C:\\laragon\\www\\...')
+#12 {main}
+ERROR - 2026-01-05 00:39:13 --> mysqli_sql_exception: Unknown column 'created_at' in 'field list' in C:\laragon\www\projek_magang\kai\projek_kai\system\Database\MySQLi\Connection.php:327
+Stack trace:
+#0 C:\laragon\www\projek_magang\kai\projek_kai\system\Database\MySQLi\Connection.php(327): mysqli->query('INSERT INTO `do...', 0)
+#1 C:\laragon\www\projek_magang\kai\projek_kai\system\Database\BaseConnection.php(729): CodeIgniter\Database\MySQLi\Connection->execute('INSERT INTO `do...')
+#2 C:\laragon\www\projek_magang\kai\projek_kai\system\Database\BaseConnection.php(646): CodeIgniter\Database\BaseConnection->simpleQuery('INSERT INTO `do...')
+#3 C:\laragon\www\projek_magang\kai\projek_kai\system\Database\BaseBuilder.php(2345): CodeIgniter\Database\BaseConnection->query('INSERT INTO `do...', Array, false)
+#4 C:\laragon\www\projek_magang\kai\projek_kai\app\Controllers\InputController.php(177): CodeIgniter\Database\BaseBuilder->insert(Array)
+#5 C:\laragon\www\projek_magang\kai\projek_kai\system\CodeIgniter.php(933): App\Controllers\InputController->store()
+#6 C:\laragon\www\projek_magang\kai\projek_kai\system\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\InputController))
+#7 C:\laragon\www\projek_magang\kai\projek_kai\system\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#8 C:\laragon\www\projek_magang\kai\projek_kai\system\Boot.php(363): CodeIgniter\CodeIgniter->run()
+#9 C:\laragon\www\projek_magang\kai\projek_kai\system\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+#10 C:\laragon\www\projek_magang\kai\projek_kai\public\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+#11 C:\laragon\www\projek_magang\kai\projek_kai\system\rewrite.php(44): require_once('C:\\laragon\\www\\...')
+#12 {main}
+ERROR - 2026-01-05 00:39:13 --> [STORE ERROR] Transaksi gagal (rollback)
+ERROR - 2026-01-05 00:39:13 --> {"code":0,"message":""}
+ERROR - 2026-01-05 00:47:47 --> mysqli_sql_exception: Unknown column 'created_at' in 'field list' in C:\laragon\www\projek_magang\kai\projek_kai\system\Database\MySQLi\Connection.php:327
+Stack trace:
+#0 C:\laragon\www\projek_magang\kai\projek_kai\system\Database\MySQLi\Connection.php(327): mysqli->query('INSERT INTO `do...', 0)
+#1 C:\laragon\www\projek_magang\kai\projek_kai\system\Database\BaseConnection.php(729): CodeIgniter\Database\MySQLi\Connection->execute('INSERT INTO `do...')
+#2 C:\laragon\www\projek_magang\kai\projek_kai\system\Database\BaseConnection.php(646): CodeIgniter\Database\BaseConnection->simpleQuery('INSERT INTO `do...')
+#3 C:\laragon\www\projek_magang\kai\projek_kai\system\Database\BaseBuilder.php(2345): CodeIgniter\Database\BaseConnection->query('INSERT INTO `do...', Array, false)
+#4 C:\laragon\www\projek_magang\kai\projek_kai\app\Controllers\InputController.php(171): CodeIgniter\Database\BaseBuilder->insert(Array)
+#5 C:\laragon\www\projek_magang\kai\projek_kai\system\CodeIgniter.php(933): App\Controllers\InputController->store()
+#6 C:\laragon\www\projek_magang\kai\projek_kai\system\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\InputController))
+#7 C:\laragon\www\projek_magang\kai\projek_kai\system\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#8 C:\laragon\www\projek_magang\kai\projek_kai\system\Boot.php(363): CodeIgniter\CodeIgniter->run()
+#9 C:\laragon\www\projek_magang\kai\projek_kai\system\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+#10 C:\laragon\www\projek_magang\kai\projek_kai\public\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+#11 C:\laragon\www\projek_magang\kai\projek_kai\system\rewrite.php(44): require_once('C:\\laragon\\www\\...')
+#12 {main}
+ERROR - 2026-01-05 00:53:03 --> mysqli_sql_exception: Unknown column 'created_at' in 'field list' in C:\laragon\www\projek_magang\kai\projek_kai\system\Database\MySQLi\Connection.php:327
+Stack trace:
+#0 C:\laragon\www\projek_magang\kai\projek_kai\system\Database\MySQLi\Connection.php(327): mysqli->query('INSERT INTO `do...', 0)
+#1 C:\laragon\www\projek_magang\kai\projek_kai\system\Database\BaseConnection.php(729): CodeIgniter\Database\MySQLi\Connection->execute('INSERT INTO `do...')
+#2 C:\laragon\www\projek_magang\kai\projek_kai\system\Database\BaseConnection.php(646): CodeIgniter\Database\BaseConnection->simpleQuery('INSERT INTO `do...')
+#3 C:\laragon\www\projek_magang\kai\projek_kai\system\Database\BaseBuilder.php(2345): CodeIgniter\Database\BaseConnection->query('INSERT INTO `do...', Array, false)
+#4 C:\laragon\www\projek_magang\kai\projek_kai\app\Controllers\InputController.php(185): CodeIgniter\Database\BaseBuilder->insert(Array)
+#5 C:\laragon\www\projek_magang\kai\projek_kai\system\CodeIgniter.php(933): App\Controllers\InputController->store()
+#6 C:\laragon\www\projek_magang\kai\projek_kai\system\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\InputController))
+#7 C:\laragon\www\projek_magang\kai\projek_kai\system\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#8 C:\laragon\www\projek_magang\kai\projek_kai\system\Boot.php(363): CodeIgniter\CodeIgniter->run()
+#9 C:\laragon\www\projek_magang\kai\projek_kai\system\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+#10 C:\laragon\www\projek_magang\kai\projek_kai\public\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+#11 C:\laragon\www\projek_magang\kai\projek_kai\system\rewrite.php(44): require_once('C:\\laragon\\www\\...')
+#12 {main}
+ERROR - 2026-01-05 00:53:46 --> mysqli_sql_exception: Unknown column 'created_at' in 'field list' in C:\laragon\www\projek_magang\kai\projek_kai\system\Database\MySQLi\Connection.php:327
+Stack trace:
+#0 C:\laragon\www\projek_magang\kai\projek_kai\system\Database\MySQLi\Connection.php(327): mysqli->query('INSERT INTO `do...', 0)
+#1 C:\laragon\www\projek_magang\kai\projek_kai\system\Database\BaseConnection.php(729): CodeIgniter\Database\MySQLi\Connection->execute('INSERT INTO `do...')
+#2 C:\laragon\www\projek_magang\kai\projek_kai\system\Database\BaseConnection.php(646): CodeIgniter\Database\BaseConnection->simpleQuery('INSERT INTO `do...')
+#3 C:\laragon\www\projek_magang\kai\projek_kai\system\Database\BaseBuilder.php(2345): CodeIgniter\Database\BaseConnection->query('INSERT INTO `do...', Array, false)
+#4 C:\laragon\www\projek_magang\kai\projek_kai\app\Controllers\Assets.php(510): CodeIgniter\Database\BaseBuilder->insert(Array)
+#5 C:\laragon\www\projek_magang\kai\projek_kai\system\CodeIgniter.php(933): App\Controllers\Assets->update('1861')
+#6 C:\laragon\www\projek_magang\kai\projek_kai\system\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Assets))
+#7 C:\laragon\www\projek_magang\kai\projek_kai\system\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#8 C:\laragon\www\projek_magang\kai\projek_kai\system\Boot.php(363): CodeIgniter\CodeIgniter->run()
+#9 C:\laragon\www\projek_magang\kai\projek_kai\system\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+#10 C:\laragon\www\projek_magang\kai\projek_kai\public\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+#11 C:\laragon\www\projek_magang\kai\projek_kai\system\rewrite.php(44): require_once('C:\\laragon\\www\\...')
+#12 {main}
+ERROR - 2026-01-05 00:53:46 --> [UPDATE ERROR] Transaksi gagal.
+ERROR - 2026-01-05 00:53:51 --> mysqli_sql_exception: Unknown column 'created_at' in 'field list' in C:\laragon\www\projek_magang\kai\projek_kai\system\Database\MySQLi\Connection.php:327
+Stack trace:
+#0 C:\laragon\www\projek_magang\kai\projek_kai\system\Database\MySQLi\Connection.php(327): mysqli->query('INSERT INTO `do...', 0)
+#1 C:\laragon\www\projek_magang\kai\projek_kai\system\Database\BaseConnection.php(729): CodeIgniter\Database\MySQLi\Connection->execute('INSERT INTO `do...')
+#2 C:\laragon\www\projek_magang\kai\projek_kai\system\Database\BaseConnection.php(646): CodeIgniter\Database\BaseConnection->simpleQuery('INSERT INTO `do...')
+#3 C:\laragon\www\projek_magang\kai\projek_kai\system\Database\BaseBuilder.php(2345): CodeIgniter\Database\BaseConnection->query('INSERT INTO `do...', Array, false)
+#4 C:\laragon\www\projek_magang\kai\projek_kai\app\Controllers\Assets.php(510): CodeIgniter\Database\BaseBuilder->insert(Array)
+#5 C:\laragon\www\projek_magang\kai\projek_kai\system\CodeIgniter.php(933): App\Controllers\Assets->update('1861')
+#6 C:\laragon\www\projek_magang\kai\projek_kai\system\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Assets))
+#7 C:\laragon\www\projek_magang\kai\projek_kai\system\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#8 C:\laragon\www\projek_magang\kai\projek_kai\system\Boot.php(363): CodeIgniter\CodeIgniter->run()
+#9 C:\laragon\www\projek_magang\kai\projek_kai\system\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+#10 C:\laragon\www\projek_magang\kai\projek_kai\public\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+#11 C:\laragon\www\projek_magang\kai\projek_kai\system\rewrite.php(44): require_once('C:\\laragon\\www\\...')
+#12 {main}
+ERROR - 2026-01-05 00:53:51 --> [UPDATE ERROR] Transaksi gagal.
+ERROR - 2026-01-05 00:53:55 --> mysqli_sql_exception: Unknown column 'created_at' in 'field list' in C:\laragon\www\projek_magang\kai\projek_kai\system\Database\MySQLi\Connection.php:327
+Stack trace:
+#0 C:\laragon\www\projek_magang\kai\projek_kai\system\Database\MySQLi\Connection.php(327): mysqli->query('INSERT INTO `do...', 0)
+#1 C:\laragon\www\projek_magang\kai\projek_kai\system\Database\BaseConnection.php(729): CodeIgniter\Database\MySQLi\Connection->execute('INSERT INTO `do...')
+#2 C:\laragon\www\projek_magang\kai\projek_kai\system\Database\BaseConnection.php(646): CodeIgniter\Database\BaseConnection->simpleQuery('INSERT INTO `do...')
+#3 C:\laragon\www\projek_magang\kai\projek_kai\system\Database\BaseBuilder.php(2345): CodeIgniter\Database\BaseConnection->query('INSERT INTO `do...', Array, false)
+#4 C:\laragon\www\projek_magang\kai\projek_kai\app\Controllers\Assets.php(510): CodeIgniter\Database\BaseBuilder->insert(Array)
+#5 C:\laragon\www\projek_magang\kai\projek_kai\system\CodeIgniter.php(933): App\Controllers\Assets->update('1861')
+#6 C:\laragon\www\projek_magang\kai\projek_kai\system\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Assets))
+#7 C:\laragon\www\projek_magang\kai\projek_kai\system\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#8 C:\laragon\www\projek_magang\kai\projek_kai\system\Boot.php(363): CodeIgniter\CodeIgniter->run()
+#9 C:\laragon\www\projek_magang\kai\projek_kai\system\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+#10 C:\laragon\www\projek_magang\kai\projek_kai\public\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+#11 C:\laragon\www\projek_magang\kai\projek_kai\system\rewrite.php(44): require_once('C:\\laragon\\www\\...')
+#12 {main}
+ERROR - 2026-01-05 00:53:55 --> [UPDATE ERROR] Transaksi gagal.
+ERROR - 2026-01-05 00:59:29 --> mysqli_sql_exception: Unknown column 'created_at' in 'field list' in C:\laragon\www\projek_magang\kai\projek_kai\system\Database\MySQLi\Connection.php:327
+Stack trace:
+#0 C:\laragon\www\projek_magang\kai\projek_kai\system\Database\MySQLi\Connection.php(327): mysqli->query('INSERT INTO `do...', 0)
+#1 C:\laragon\www\projek_magang\kai\projek_kai\system\Database\BaseConnection.php(729): CodeIgniter\Database\MySQLi\Connection->execute('INSERT INTO `do...')
+#2 C:\laragon\www\projek_magang\kai\projek_kai\system\Database\BaseConnection.php(646): CodeIgniter\Database\BaseConnection->simpleQuery('INSERT INTO `do...')
+#3 C:\laragon\www\projek_magang\kai\projek_kai\system\Database\BaseBuilder.php(2345): CodeIgniter\Database\BaseConnection->query('INSERT INTO `do...', Array, false)
+#4 C:\laragon\www\projek_magang\kai\projek_kai\app\Controllers\InputController.php(205): CodeIgniter\Database\BaseBuilder->insert(Array)
+#5 C:\laragon\www\projek_magang\kai\projek_kai\system\CodeIgniter.php(933): App\Controllers\InputController->store()
+#6 C:\laragon\www\projek_magang\kai\projek_kai\system\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\InputController))
+#7 C:\laragon\www\projek_magang\kai\projek_kai\system\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#8 C:\laragon\www\projek_magang\kai\projek_kai\system\Boot.php(363): CodeIgniter\CodeIgniter->run()
+#9 C:\laragon\www\projek_magang\kai\projek_kai\system\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+#10 C:\laragon\www\projek_magang\kai\projek_kai\public\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+#11 C:\laragon\www\projek_magang\kai\projek_kai\system\rewrite.php(44): require_once('C:\\laragon\\www\\...')
+#12 {main}
+ERROR - 2026-01-05 01:15:54 --> mysqli_sql_exception: Unknown column 'created_at' in 'field list' in C:\laragon\www\projek_magang\kai\projek_kai\system\Database\MySQLi\Connection.php:327
+Stack trace:
+#0 C:\laragon\www\projek_magang\kai\projek_kai\system\Database\MySQLi\Connection.php(327): mysqli->query('INSERT INTO `do...', 0)
+#1 C:\laragon\www\projek_magang\kai\projek_kai\system\Database\BaseConnection.php(729): CodeIgniter\Database\MySQLi\Connection->execute('INSERT INTO `do...')
+#2 C:\laragon\www\projek_magang\kai\projek_kai\system\Database\BaseConnection.php(646): CodeIgniter\Database\BaseConnection->simpleQuery('INSERT INTO `do...')
+#3 C:\laragon\www\projek_magang\kai\projek_kai\system\Database\BaseBuilder.php(2345): CodeIgniter\Database\BaseConnection->query('INSERT INTO `do...', Array, false)
+#4 C:\laragon\www\projek_magang\kai\projek_kai\app\Controllers\InputController.php(190): CodeIgniter\Database\BaseBuilder->insert(Array)
+#5 C:\laragon\www\projek_magang\kai\projek_kai\system\CodeIgniter.php(933): App\Controllers\InputController->store()
+#6 C:\laragon\www\projek_magang\kai\projek_kai\system\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\InputController))
+#7 C:\laragon\www\projek_magang\kai\projek_kai\system\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#8 C:\laragon\www\projek_magang\kai\projek_kai\system\Boot.php(363): CodeIgniter\CodeIgniter->run()
+#9 C:\laragon\www\projek_magang\kai\projek_kai\system\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+#10 C:\laragon\www\projek_magang\kai\projek_kai\public\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+#11 C:\laragon\www\projek_magang\kai\projek_kai\system\rewrite.php(44): require_once('C:\\laragon\\www\\...')
+#12 {main}
+ERROR - 2026-01-05 01:16:23 --> mysqli_sql_exception: Unknown column 'created_at' in 'field list' in C:\laragon\www\projek_magang\kai\projek_kai\system\Database\MySQLi\Connection.php:327
+Stack trace:
+#0 C:\laragon\www\projek_magang\kai\projek_kai\system\Database\MySQLi\Connection.php(327): mysqli->query('INSERT INTO `do...', 0)
+#1 C:\laragon\www\projek_magang\kai\projek_kai\system\Database\BaseConnection.php(729): CodeIgniter\Database\MySQLi\Connection->execute('INSERT INTO `do...')
+#2 C:\laragon\www\projek_magang\kai\projek_kai\system\Database\BaseConnection.php(646): CodeIgniter\Database\BaseConnection->simpleQuery('INSERT INTO `do...')
+#3 C:\laragon\www\projek_magang\kai\projek_kai\system\Database\BaseBuilder.php(2345): CodeIgniter\Database\BaseConnection->query('INSERT INTO `do...', Array, false)
+#4 C:\laragon\www\projek_magang\kai\projek_kai\app\Controllers\Assets.php(510): CodeIgniter\Database\BaseBuilder->insert(Array)
+#5 C:\laragon\www\projek_magang\kai\projek_kai\system\CodeIgniter.php(933): App\Controllers\Assets->update('1863')
+#6 C:\laragon\www\projek_magang\kai\projek_kai\system\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Assets))
+#7 C:\laragon\www\projek_magang\kai\projek_kai\system\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#8 C:\laragon\www\projek_magang\kai\projek_kai\system\Boot.php(363): CodeIgniter\CodeIgniter->run()
+#9 C:\laragon\www\projek_magang\kai\projek_kai\system\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+#10 C:\laragon\www\projek_magang\kai\projek_kai\public\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+#11 C:\laragon\www\projek_magang\kai\projek_kai\system\rewrite.php(44): require_once('C:\\laragon\\www\\...')
+#12 {main}
+ERROR - 2026-01-05 01:16:23 --> [UPDATE ERROR] Transaksi gagal.

@@ -1,0 +1,330 @@
+ERROR - 2026-01-11 06:56:21 --> Error connecting to the database: mysqli_sql_exception: No connection could be made because the target machine actively refused it in C:\laragon\www\projek_magang\kai\projek_kai\system\Database\MySQLi\Connection.php:201
+Stack trace:
+#0 C:\laragon\www\projek_magang\kai\projek_kai\system\Database\MySQLi\Connection.php(201): mysqli->real_connect('localhost', 'root', Object(SensitiveParameterValue), 'projek_kai', 3306, '', 0)
+#1 C:\laragon\www\projek_magang\kai\projek_kai\system\Database\BaseConnection.php(419): CodeIgniter\Database\MySQLi\Connection->connect(false)
+#2 C:\laragon\www\projek_magang\kai\projek_kai\system\Database\BaseConnection.php(614): CodeIgniter\Database\BaseConnection->initialize()
+#3 C:\laragon\www\projek_magang\kai\projek_kai\system\Database\BaseConnection.php(1525): CodeIgniter\Database\BaseConnection->query('SHOW TABLES FRO...')
+#4 C:\laragon\www\projek_magang\kai\projek_kai\system\Database\BaseConnection.php(1545): CodeIgniter\Database\BaseConnection->listTables()
+#5 C:\laragon\www\projek_magang\kai\projek_kai\system\Database\MigrationRunner.php(768): CodeIgniter\Database\BaseConnection->tableExists('migrations')
+#6 C:\laragon\www\projek_magang\kai\projek_kai\system\Database\MigrationRunner.php(162): CodeIgniter\Database\MigrationRunner->ensureTable()
+#7 C:\laragon\www\projek_magang\kai\projek_kai\system\Commands\Database\Migrate.php(85): CodeIgniter\Database\MigrationRunner->latest(NULL)
+#8 C:\laragon\www\projek_magang\kai\projek_kai\system\CLI\Commands.php(74): CodeIgniter\Commands\Database\Migrate->run(Array)
+#9 C:\laragon\www\projek_magang\kai\projek_kai\system\CLI\Console.php(47): CodeIgniter\CLI\Commands->run('migrate', Array)
+#10 C:\laragon\www\projek_magang\kai\projek_kai\system\Boot.php(388): CodeIgniter\CLI\Console->run()
+#11 C:\laragon\www\projek_magang\kai\projek_kai\system\Boot.php(133): CodeIgniter\Boot::runCommand(Object(CodeIgniter\CLI\Console))
+#12 C:\laragon\www\projek_magang\kai\projek_kai\spark(87): CodeIgniter\Boot::bootSpark(Object(Config\Paths))
+#13 {main}
+
+Next CodeIgniter\Database\Exceptions\DatabaseException: No connection could be made because the target machine actively refused it in C:\laragon\www\projek_magang\kai\projek_kai\system\Database\MySQLi\Connection.php:246
+Stack trace:
+#0 C:\laragon\www\projek_magang\kai\projek_kai\system\Database\BaseConnection.php(419): CodeIgniter\Database\MySQLi\Connection->connect(false)
+#1 C:\laragon\www\projek_magang\kai\projek_kai\system\Database\BaseConnection.php(614): CodeIgniter\Database\BaseConnection->initialize()
+#2 C:\laragon\www\projek_magang\kai\projek_kai\system\Database\BaseConnection.php(1525): CodeIgniter\Database\BaseConnection->query('SHOW TABLES FRO...')
+#3 C:\laragon\www\projek_magang\kai\projek_kai\system\Database\BaseConnection.php(1545): CodeIgniter\Database\BaseConnection->listTables()
+#4 C:\laragon\www\projek_magang\kai\projek_kai\system\Database\MigrationRunner.php(768): CodeIgniter\Database\BaseConnection->tableExists('migrations')
+#5 C:\laragon\www\projek_magang\kai\projek_kai\system\Database\MigrationRunner.php(162): CodeIgniter\Database\MigrationRunner->ensureTable()
+#6 C:\laragon\www\projek_magang\kai\projek_kai\system\Commands\Database\Migrate.php(85): CodeIgniter\Database\MigrationRunner->latest(NULL)
+#7 C:\laragon\www\projek_magang\kai\projek_kai\system\CLI\Commands.php(74): CodeIgniter\Commands\Database\Migrate->run(Array)
+#8 C:\laragon\www\projek_magang\kai\projek_kai\system\CLI\Console.php(47): CodeIgniter\CLI\Commands->run('migrate', Array)
+#9 C:\laragon\www\projek_magang\kai\projek_kai\system\Boot.php(388): CodeIgniter\CLI\Console->run()
+#10 C:\laragon\www\projek_magang\kai\projek_kai\system\Boot.php(133): CodeIgniter\Boot::runCommand(Object(CodeIgniter\CLI\Console))
+#11 C:\laragon\www\projek_magang\kai\projek_kai\spark(87): CodeIgniter\Boot::bootSpark(Object(Config\Paths))
+#12 {main}
+ERROR - 2026-01-11 07:40:46 --> mysqli_sql_exception: Unknown column 'created_at' in 'field list' in C:\laragon\www\projek_magang\kai\projek_kai\system\Database\MySQLi\Connection.php:327
+Stack trace:
+#0 C:\laragon\www\projek_magang\kai\projek_kai\system\Database\MySQLi\Connection.php(327): mysqli->query('INSERT INTO `do...', 0)
+#1 C:\laragon\www\projek_magang\kai\projek_kai\system\Database\BaseConnection.php(729): CodeIgniter\Database\MySQLi\Connection->execute('INSERT INTO `do...')
+#2 C:\laragon\www\projek_magang\kai\projek_kai\system\Database\BaseConnection.php(646): CodeIgniter\Database\BaseConnection->simpleQuery('INSERT INTO `do...')
+#3 C:\laragon\www\projek_magang\kai\projek_kai\system\Database\BaseBuilder.php(2345): CodeIgniter\Database\BaseConnection->query('INSERT INTO `do...', Array, false)
+#4 C:\laragon\www\projek_magang\kai\projek_kai\app\Controllers\InputController.php(190): CodeIgniter\Database\BaseBuilder->insert(Array)
+#5 C:\laragon\www\projek_magang\kai\projek_kai\system\CodeIgniter.php(933): App\Controllers\InputController->store()
+#6 C:\laragon\www\projek_magang\kai\projek_kai\system\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\InputController))
+#7 C:\laragon\www\projek_magang\kai\projek_kai\system\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#8 C:\laragon\www\projek_magang\kai\projek_kai\system\Boot.php(363): CodeIgniter\CodeIgniter->run()
+#9 C:\laragon\www\projek_magang\kai\projek_kai\system\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+#10 C:\laragon\www\projek_magang\kai\projek_kai\public\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+#11 C:\laragon\www\projek_magang\kai\projek_kai\system\rewrite.php(44): require_once('C:\\laragon\\www\\...')
+#12 {main}
+ERROR - 2026-01-11 07:45:50 --> [INPUT STORE ERROR] Call to undefined method CodeIgniter\Database\MySQLi\Builder::lockForUpdate()
+ERROR - 2026-01-11 07:48:16 --> [INPUT STORE ERROR] No inventaris sudah digunakan
+ERROR - 2026-01-11 07:48:34 --> mysqli_sql_exception: Unknown column 'created_at' in 'field list' in C:\laragon\www\projek_magang\kai\projek_kai\system\Database\MySQLi\Connection.php:327
+Stack trace:
+#0 C:\laragon\www\projek_magang\kai\projek_kai\system\Database\MySQLi\Connection.php(327): mysqli->query('INSERT INTO `do...', 0)
+#1 C:\laragon\www\projek_magang\kai\projek_kai\system\Database\BaseConnection.php(729): CodeIgniter\Database\MySQLi\Connection->execute('INSERT INTO `do...')
+#2 C:\laragon\www\projek_magang\kai\projek_kai\system\Database\BaseConnection.php(646): CodeIgniter\Database\BaseConnection->simpleQuery('INSERT INTO `do...')
+#3 C:\laragon\www\projek_magang\kai\projek_kai\system\Database\BaseBuilder.php(2345): CodeIgniter\Database\BaseConnection->query('INSERT INTO `do...', Array, false)
+#4 C:\laragon\www\projek_magang\kai\projek_kai\app\Controllers\InputController.php(186): CodeIgniter\Database\BaseBuilder->insert(Array)
+#5 C:\laragon\www\projek_magang\kai\projek_kai\system\CodeIgniter.php(933): App\Controllers\InputController->store()
+#6 C:\laragon\www\projek_magang\kai\projek_kai\system\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\InputController))
+#7 C:\laragon\www\projek_magang\kai\projek_kai\system\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#8 C:\laragon\www\projek_magang\kai\projek_kai\system\Boot.php(363): CodeIgniter\CodeIgniter->run()
+#9 C:\laragon\www\projek_magang\kai\projek_kai\system\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+#10 C:\laragon\www\projek_magang\kai\projek_kai\public\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+#11 C:\laragon\www\projek_magang\kai\projek_kai\system\rewrite.php(44): require_once('C:\\laragon\\www\\...')
+#12 {main}
+ERROR - 2026-01-11 07:50:21 --> mysqli_sql_exception: Unknown column 'created_at' in 'field list' in C:\laragon\www\projek_magang\kai\projek_kai\system\Database\MySQLi\Connection.php:327
+Stack trace:
+#0 C:\laragon\www\projek_magang\kai\projek_kai\system\Database\MySQLi\Connection.php(327): mysqli->query('INSERT INTO `do...', 0)
+#1 C:\laragon\www\projek_magang\kai\projek_kai\system\Database\BaseConnection.php(729): CodeIgniter\Database\MySQLi\Connection->execute('INSERT INTO `do...')
+#2 C:\laragon\www\projek_magang\kai\projek_kai\system\Database\BaseConnection.php(646): CodeIgniter\Database\BaseConnection->simpleQuery('INSERT INTO `do...')
+#3 C:\laragon\www\projek_magang\kai\projek_kai\system\Database\BaseBuilder.php(2345): CodeIgniter\Database\BaseConnection->query('INSERT INTO `do...', Array, false)
+#4 C:\laragon\www\projek_magang\kai\projek_kai\app\Controllers\Assets.php(510): CodeIgniter\Database\BaseBuilder->insert(Array)
+#5 C:\laragon\www\projek_magang\kai\projek_kai\system\CodeIgniter.php(933): App\Controllers\Assets->update('1865')
+#6 C:\laragon\www\projek_magang\kai\projek_kai\system\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Assets))
+#7 C:\laragon\www\projek_magang\kai\projek_kai\system\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#8 C:\laragon\www\projek_magang\kai\projek_kai\system\Boot.php(363): CodeIgniter\CodeIgniter->run()
+#9 C:\laragon\www\projek_magang\kai\projek_kai\system\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+#10 C:\laragon\www\projek_magang\kai\projek_kai\public\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+#11 C:\laragon\www\projek_magang\kai\projek_kai\system\rewrite.php(44): require_once('C:\\laragon\\www\\...')
+#12 {main}
+ERROR - 2026-01-11 07:50:21 --> [UPDATE ERROR] Transaksi gagal.
+CRITICAL - 2026-01-11 08:02:12 --> ErrorException: Cannot declare class App\Controllers\InputController, because the name is already in use
+[Method: GET, Route: input]
+in APPPATH\Views\dashboard\input-manual.php on line 5.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+CRITICAL - 2026-01-11 08:02:17 --> ErrorException: Cannot declare class App\Controllers\InputController, because the name is already in use
+[Method: GET, Route: input]
+in APPPATH\Views\dashboard\input-manual.php on line 5.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+ERROR - 2026-01-11 11:41:13 --> mysqli_sql_exception: Unknown column 'updated_at' in 'field list' in C:\laragon\www\projek_magang\kai\projek_kai\system\Database\MySQLi\Connection.php:327
+Stack trace:
+#0 C:\laragon\www\projek_magang\kai\projek_kai\system\Database\MySQLi\Connection.php(327): mysqli->query('UPDATE `documen...', 0)
+#1 C:\laragon\www\projek_magang\kai\projek_kai\system\Database\BaseConnection.php(729): CodeIgniter\Database\MySQLi\Connection->execute('UPDATE `documen...')
+#2 C:\laragon\www\projek_magang\kai\projek_kai\system\Database\BaseConnection.php(646): CodeIgniter\Database\BaseConnection->simpleQuery('UPDATE `documen...')
+#3 C:\laragon\www\projek_magang\kai\projek_kai\system\Database\BaseBuilder.php(2521): CodeIgniter\Database\BaseConnection->query('UPDATE `documen...', Array, false)
+#4 C:\laragon\www\projek_magang\kai\projek_kai\app\Controllers\Assets.php(500): CodeIgniter\Database\BaseBuilder->update(Array)
+#5 C:\laragon\www\projek_magang\kai\projek_kai\system\CodeIgniter.php(933): App\Controllers\Assets->update('2175')
+#6 C:\laragon\www\projek_magang\kai\projek_kai\system\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Assets))
+#7 C:\laragon\www\projek_magang\kai\projek_kai\system\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#8 C:\laragon\www\projek_magang\kai\projek_kai\system\Boot.php(363): CodeIgniter\CodeIgniter->run()
+#9 C:\laragon\www\projek_magang\kai\projek_kai\system\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+#10 C:\laragon\www\projek_magang\kai\projek_kai\public\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+#11 C:\laragon\www\projek_magang\kai\projek_kai\system\rewrite.php(44): require_once('C:\\laragon\\www\\...')
+#12 {main}
+ERROR - 2026-01-11 11:41:13 --> [UPDATE ERROR] Transaksi gagal.
+ERROR - 2026-01-11 11:41:17 --> mysqli_sql_exception: Unknown column 'updated_at' in 'field list' in C:\laragon\www\projek_magang\kai\projek_kai\system\Database\MySQLi\Connection.php:327
+Stack trace:
+#0 C:\laragon\www\projek_magang\kai\projek_kai\system\Database\MySQLi\Connection.php(327): mysqli->query('UPDATE `documen...', 0)
+#1 C:\laragon\www\projek_magang\kai\projek_kai\system\Database\BaseConnection.php(729): CodeIgniter\Database\MySQLi\Connection->execute('UPDATE `documen...')
+#2 C:\laragon\www\projek_magang\kai\projek_kai\system\Database\BaseConnection.php(646): CodeIgniter\Database\BaseConnection->simpleQuery('UPDATE `documen...')
+#3 C:\laragon\www\projek_magang\kai\projek_kai\system\Database\BaseBuilder.php(2521): CodeIgniter\Database\BaseConnection->query('UPDATE `documen...', Array, false)
+#4 C:\laragon\www\projek_magang\kai\projek_kai\app\Controllers\Assets.php(500): CodeIgniter\Database\BaseBuilder->update(Array)
+#5 C:\laragon\www\projek_magang\kai\projek_kai\system\CodeIgniter.php(933): App\Controllers\Assets->update('2175')
+#6 C:\laragon\www\projek_magang\kai\projek_kai\system\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Assets))
+#7 C:\laragon\www\projek_magang\kai\projek_kai\system\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#8 C:\laragon\www\projek_magang\kai\projek_kai\system\Boot.php(363): CodeIgniter\CodeIgniter->run()
+#9 C:\laragon\www\projek_magang\kai\projek_kai\system\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+#10 C:\laragon\www\projek_magang\kai\projek_kai\public\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+#11 C:\laragon\www\projek_magang\kai\projek_kai\system\rewrite.php(44): require_once('C:\\laragon\\www\\...')
+#12 {main}
+ERROR - 2026-01-11 11:41:17 --> [UPDATE ERROR] Transaksi gagal.
+ERROR - 2026-01-11 11:41:34 --> mysqli_sql_exception: Unknown column 'updated_at' in 'field list' in C:\laragon\www\projek_magang\kai\projek_kai\system\Database\MySQLi\Connection.php:327
+Stack trace:
+#0 C:\laragon\www\projek_magang\kai\projek_kai\system\Database\MySQLi\Connection.php(327): mysqli->query('UPDATE `documen...', 0)
+#1 C:\laragon\www\projek_magang\kai\projek_kai\system\Database\BaseConnection.php(729): CodeIgniter\Database\MySQLi\Connection->execute('UPDATE `documen...')
+#2 C:\laragon\www\projek_magang\kai\projek_kai\system\Database\BaseConnection.php(646): CodeIgniter\Database\BaseConnection->simpleQuery('UPDATE `documen...')
+#3 C:\laragon\www\projek_magang\kai\projek_kai\system\Database\BaseBuilder.php(2521): CodeIgniter\Database\BaseConnection->query('UPDATE `documen...', Array, false)
+#4 C:\laragon\www\projek_magang\kai\projek_kai\app\Controllers\Assets.php(500): CodeIgniter\Database\BaseBuilder->update(Array)
+#5 C:\laragon\www\projek_magang\kai\projek_kai\system\CodeIgniter.php(933): App\Controllers\Assets->update('2175')
+#6 C:\laragon\www\projek_magang\kai\projek_kai\system\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Assets))
+#7 C:\laragon\www\projek_magang\kai\projek_kai\system\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#8 C:\laragon\www\projek_magang\kai\projek_kai\system\Boot.php(363): CodeIgniter\CodeIgniter->run()
+#9 C:\laragon\www\projek_magang\kai\projek_kai\system\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+#10 C:\laragon\www\projek_magang\kai\projek_kai\public\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+#11 C:\laragon\www\projek_magang\kai\projek_kai\system\rewrite.php(44): require_once('C:\\laragon\\www\\...')
+#12 {main}
+ERROR - 2026-01-11 11:41:34 --> [UPDATE ERROR] Transaksi gagal.
+ERROR - 2026-01-11 11:45:58 --> mysqli_sql_exception: Unknown column 'updated_at' in 'field list' in C:\laragon\www\projek_magang\kai\projek_kai\system\Database\MySQLi\Connection.php:327
+Stack trace:
+#0 C:\laragon\www\projek_magang\kai\projek_kai\system\Database\MySQLi\Connection.php(327): mysqli->query('UPDATE `documen...', 0)
+#1 C:\laragon\www\projek_magang\kai\projek_kai\system\Database\BaseConnection.php(729): CodeIgniter\Database\MySQLi\Connection->execute('UPDATE `documen...')
+#2 C:\laragon\www\projek_magang\kai\projek_kai\system\Database\BaseConnection.php(646): CodeIgniter\Database\BaseConnection->simpleQuery('UPDATE `documen...')
+#3 C:\laragon\www\projek_magang\kai\projek_kai\system\Database\BaseBuilder.php(2521): CodeIgniter\Database\BaseConnection->query('UPDATE `documen...', Array, false)
+#4 C:\laragon\www\projek_magang\kai\projek_kai\app\Controllers\Assets.php(500): CodeIgniter\Database\BaseBuilder->update(Array)
+#5 C:\laragon\www\projek_magang\kai\projek_kai\system\CodeIgniter.php(933): App\Controllers\Assets->update('2176')
+#6 C:\laragon\www\projek_magang\kai\projek_kai\system\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Assets))
+#7 C:\laragon\www\projek_magang\kai\projek_kai\system\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#8 C:\laragon\www\projek_magang\kai\projek_kai\system\Boot.php(363): CodeIgniter\CodeIgniter->run()
+#9 C:\laragon\www\projek_magang\kai\projek_kai\system\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+#10 C:\laragon\www\projek_magang\kai\projek_kai\public\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+#11 C:\laragon\www\projek_magang\kai\projek_kai\system\rewrite.php(44): require_once('C:\\laragon\\www\\...')
+#12 {main}
+ERROR - 2026-01-11 11:45:58 --> [UPDATE ERROR] Transaksi gagal.
+ERROR - 2026-01-11 11:46:02 --> mysqli_sql_exception: Unknown column 'updated_at' in 'field list' in C:\laragon\www\projek_magang\kai\projek_kai\system\Database\MySQLi\Connection.php:327
+Stack trace:
+#0 C:\laragon\www\projek_magang\kai\projek_kai\system\Database\MySQLi\Connection.php(327): mysqli->query('UPDATE `documen...', 0)
+#1 C:\laragon\www\projek_magang\kai\projek_kai\system\Database\BaseConnection.php(729): CodeIgniter\Database\MySQLi\Connection->execute('UPDATE `documen...')
+#2 C:\laragon\www\projek_magang\kai\projek_kai\system\Database\BaseConnection.php(646): CodeIgniter\Database\BaseConnection->simpleQuery('UPDATE `documen...')
+#3 C:\laragon\www\projek_magang\kai\projek_kai\system\Database\BaseBuilder.php(2521): CodeIgniter\Database\BaseConnection->query('UPDATE `documen...', Array, false)
+#4 C:\laragon\www\projek_magang\kai\projek_kai\app\Controllers\Assets.php(500): CodeIgniter\Database\BaseBuilder->update(Array)
+#5 C:\laragon\www\projek_magang\kai\projek_kai\system\CodeIgniter.php(933): App\Controllers\Assets->update('2176')
+#6 C:\laragon\www\projek_magang\kai\projek_kai\system\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Assets))
+#7 C:\laragon\www\projek_magang\kai\projek_kai\system\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#8 C:\laragon\www\projek_magang\kai\projek_kai\system\Boot.php(363): CodeIgniter\CodeIgniter->run()
+#9 C:\laragon\www\projek_magang\kai\projek_kai\system\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+#10 C:\laragon\www\projek_magang\kai\projek_kai\public\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+#11 C:\laragon\www\projek_magang\kai\projek_kai\system\rewrite.php(44): require_once('C:\\laragon\\www\\...')
+#12 {main}
+ERROR - 2026-01-11 11:46:02 --> [UPDATE ERROR] Transaksi gagal.
+ERROR - 2026-01-11 11:49:11 --> mysqli_sql_exception: Unknown column 'updated_at' in 'field list' in C:\laragon\www\projek_magang\kai\projek_kai\system\Database\MySQLi\Connection.php:327
+Stack trace:
+#0 C:\laragon\www\projek_magang\kai\projek_kai\system\Database\MySQLi\Connection.php(327): mysqli->query('UPDATE `documen...', 0)
+#1 C:\laragon\www\projek_magang\kai\projek_kai\system\Database\BaseConnection.php(729): CodeIgniter\Database\MySQLi\Connection->execute('UPDATE `documen...')
+#2 C:\laragon\www\projek_magang\kai\projek_kai\system\Database\BaseConnection.php(646): CodeIgniter\Database\BaseConnection->simpleQuery('UPDATE `documen...')
+#3 C:\laragon\www\projek_magang\kai\projek_kai\system\Database\BaseBuilder.php(2521): CodeIgniter\Database\BaseConnection->query('UPDATE `documen...', Array, false)
+#4 C:\laragon\www\projek_magang\kai\projek_kai\app\Controllers\Assets.php(501): CodeIgniter\Database\BaseBuilder->update(Array)
+#5 C:\laragon\www\projek_magang\kai\projek_kai\system\CodeIgniter.php(933): App\Controllers\Assets->update('2176')
+#6 C:\laragon\www\projek_magang\kai\projek_kai\system\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Assets))
+#7 C:\laragon\www\projek_magang\kai\projek_kai\system\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#8 C:\laragon\www\projek_magang\kai\projek_kai\system\Boot.php(363): CodeIgniter\CodeIgniter->run()
+#9 C:\laragon\www\projek_magang\kai\projek_kai\system\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+#10 C:\laragon\www\projek_magang\kai\projek_kai\public\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+#11 C:\laragon\www\projek_magang\kai\projek_kai\system\rewrite.php(44): require_once('C:\\laragon\\www\\...')
+#12 {main}
+ERROR - 2026-01-11 11:49:11 --> [UPDATE ERROR] Transaksi gagal.
+ERROR - 2026-01-11 11:49:49 --> mysqli_sql_exception: Unknown column 'updated_at' in 'field list' in C:\laragon\www\projek_magang\kai\projek_kai\system\Database\MySQLi\Connection.php:327
+Stack trace:
+#0 C:\laragon\www\projek_magang\kai\projek_kai\system\Database\MySQLi\Connection.php(327): mysqli->query('UPDATE `documen...', 0)
+#1 C:\laragon\www\projek_magang\kai\projek_kai\system\Database\BaseConnection.php(729): CodeIgniter\Database\MySQLi\Connection->execute('UPDATE `documen...')
+#2 C:\laragon\www\projek_magang\kai\projek_kai\system\Database\BaseConnection.php(646): CodeIgniter\Database\BaseConnection->simpleQuery('UPDATE `documen...')
+#3 C:\laragon\www\projek_magang\kai\projek_kai\system\Database\BaseBuilder.php(2521): CodeIgniter\Database\BaseConnection->query('UPDATE `documen...', Array, false)
+#4 C:\laragon\www\projek_magang\kai\projek_kai\app\Controllers\Assets.php(501): CodeIgniter\Database\BaseBuilder->update(Array)
+#5 C:\laragon\www\projek_magang\kai\projek_kai\system\CodeIgniter.php(933): App\Controllers\Assets->update('2176')
+#6 C:\laragon\www\projek_magang\kai\projek_kai\system\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Assets))
+#7 C:\laragon\www\projek_magang\kai\projek_kai\system\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#8 C:\laragon\www\projek_magang\kai\projek_kai\system\Boot.php(363): CodeIgniter\CodeIgniter->run()
+#9 C:\laragon\www\projek_magang\kai\projek_kai\system\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+#10 C:\laragon\www\projek_magang\kai\projek_kai\public\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+#11 C:\laragon\www\projek_magang\kai\projek_kai\system\rewrite.php(44): require_once('C:\\laragon\\www\\...')
+#12 {main}
+ERROR - 2026-01-11 11:49:49 --> [UPDATE ERROR] Transaksi gagal.
+ERROR - 2026-01-11 11:49:58 --> mysqli_sql_exception: Unknown column 'updated_at' in 'field list' in C:\laragon\www\projek_magang\kai\projek_kai\system\Database\MySQLi\Connection.php:327
+Stack trace:
+#0 C:\laragon\www\projek_magang\kai\projek_kai\system\Database\MySQLi\Connection.php(327): mysqli->query('UPDATE `documen...', 0)
+#1 C:\laragon\www\projek_magang\kai\projek_kai\system\Database\BaseConnection.php(729): CodeIgniter\Database\MySQLi\Connection->execute('UPDATE `documen...')
+#2 C:\laragon\www\projek_magang\kai\projek_kai\system\Database\BaseConnection.php(646): CodeIgniter\Database\BaseConnection->simpleQuery('UPDATE `documen...')
+#3 C:\laragon\www\projek_magang\kai\projek_kai\system\Database\BaseBuilder.php(2521): CodeIgniter\Database\BaseConnection->query('UPDATE `documen...', Array, false)
+#4 C:\laragon\www\projek_magang\kai\projek_kai\app\Controllers\Assets.php(501): CodeIgniter\Database\BaseBuilder->update(Array)
+#5 C:\laragon\www\projek_magang\kai\projek_kai\system\CodeIgniter.php(933): App\Controllers\Assets->update('2176')
+#6 C:\laragon\www\projek_magang\kai\projek_kai\system\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Assets))
+#7 C:\laragon\www\projek_magang\kai\projek_kai\system\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#8 C:\laragon\www\projek_magang\kai\projek_kai\system\Boot.php(363): CodeIgniter\CodeIgniter->run()
+#9 C:\laragon\www\projek_magang\kai\projek_kai\system\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+#10 C:\laragon\www\projek_magang\kai\projek_kai\public\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+#11 C:\laragon\www\projek_magang\kai\projek_kai\system\rewrite.php(44): require_once('C:\\laragon\\www\\...')
+#12 {main}
+ERROR - 2026-01-11 11:49:58 --> [UPDATE ERROR] Transaksi gagal.
+ERROR - 2026-01-11 11:50:12 --> mysqli_sql_exception: Unknown column 'updated_at' in 'field list' in C:\laragon\www\projek_magang\kai\projek_kai\system\Database\MySQLi\Connection.php:327
+Stack trace:
+#0 C:\laragon\www\projek_magang\kai\projek_kai\system\Database\MySQLi\Connection.php(327): mysqli->query('UPDATE `documen...', 0)
+#1 C:\laragon\www\projek_magang\kai\projek_kai\system\Database\BaseConnection.php(729): CodeIgniter\Database\MySQLi\Connection->execute('UPDATE `documen...')
+#2 C:\laragon\www\projek_magang\kai\projek_kai\system\Database\BaseConnection.php(646): CodeIgniter\Database\BaseConnection->simpleQuery('UPDATE `documen...')
+#3 C:\laragon\www\projek_magang\kai\projek_kai\system\Database\BaseBuilder.php(2521): CodeIgniter\Database\BaseConnection->query('UPDATE `documen...', Array, false)
+#4 C:\laragon\www\projek_magang\kai\projek_kai\app\Controllers\Assets.php(501): CodeIgniter\Database\BaseBuilder->update(Array)
+#5 C:\laragon\www\projek_magang\kai\projek_kai\system\CodeIgniter.php(933): App\Controllers\Assets->update('2176')
+#6 C:\laragon\www\projek_magang\kai\projek_kai\system\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Assets))
+#7 C:\laragon\www\projek_magang\kai\projek_kai\system\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#8 C:\laragon\www\projek_magang\kai\projek_kai\system\Boot.php(363): CodeIgniter\CodeIgniter->run()
+#9 C:\laragon\www\projek_magang\kai\projek_kai\system\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+#10 C:\laragon\www\projek_magang\kai\projek_kai\public\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+#11 C:\laragon\www\projek_magang\kai\projek_kai\system\rewrite.php(44): require_once('C:\\laragon\\www\\...')
+#12 {main}
+ERROR - 2026-01-11 11:50:12 --> [UPDATE ERROR] Transaksi gagal.
+ERROR - 2026-01-11 12:57:32 --> mysqli_sql_exception: Unknown column 'updated_at' in 'field list' in C:\laragon\www\projek_magang\kai\projek_kai\system\Database\MySQLi\Connection.php:327
+Stack trace:
+#0 C:\laragon\www\projek_magang\kai\projek_kai\system\Database\MySQLi\Connection.php(327): mysqli->query('UPDATE `documen...', 0)
+#1 C:\laragon\www\projek_magang\kai\projek_kai\system\Database\BaseConnection.php(729): CodeIgniter\Database\MySQLi\Connection->execute('UPDATE `documen...')
+#2 C:\laragon\www\projek_magang\kai\projek_kai\system\Database\BaseConnection.php(646): CodeIgniter\Database\BaseConnection->simpleQuery('UPDATE `documen...')
+#3 C:\laragon\www\projek_magang\kai\projek_kai\system\Database\BaseBuilder.php(2521): CodeIgniter\Database\BaseConnection->query('UPDATE `documen...', Array, false)
+#4 C:\laragon\www\projek_magang\kai\projek_kai\app\Controllers\Assets.php(501): CodeIgniter\Database\BaseBuilder->update(Array)
+#5 C:\laragon\www\projek_magang\kai\projek_kai\system\CodeIgniter.php(933): App\Controllers\Assets->update('2176')
+#6 C:\laragon\www\projek_magang\kai\projek_kai\system\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Assets))
+#7 C:\laragon\www\projek_magang\kai\projek_kai\system\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#8 C:\laragon\www\projek_magang\kai\projek_kai\system\Boot.php(363): CodeIgniter\CodeIgniter->run()
+#9 C:\laragon\www\projek_magang\kai\projek_kai\system\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+#10 C:\laragon\www\projek_magang\kai\projek_kai\public\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+#11 C:\laragon\www\projek_magang\kai\projek_kai\system\rewrite.php(44): require_once('C:\\laragon\\www\\...')
+#12 {main}
+ERROR - 2026-01-11 12:57:32 --> [UPDATE ERROR] Transaksi gagal.
+ERROR - 2026-01-11 12:58:01 --> mysqli_sql_exception: Unknown column 'updated_at' in 'field list' in C:\laragon\www\projek_magang\kai\projek_kai\system\Database\MySQLi\Connection.php:327
+Stack trace:
+#0 C:\laragon\www\projek_magang\kai\projek_kai\system\Database\MySQLi\Connection.php(327): mysqli->query('UPDATE `documen...', 0)
+#1 C:\laragon\www\projek_magang\kai\projek_kai\system\Database\BaseConnection.php(729): CodeIgniter\Database\MySQLi\Connection->execute('UPDATE `documen...')
+#2 C:\laragon\www\projek_magang\kai\projek_kai\system\Database\BaseConnection.php(646): CodeIgniter\Database\BaseConnection->simpleQuery('UPDATE `documen...')
+#3 C:\laragon\www\projek_magang\kai\projek_kai\system\Database\BaseBuilder.php(2521): CodeIgniter\Database\BaseConnection->query('UPDATE `documen...', Array, false)
+#4 C:\laragon\www\projek_magang\kai\projek_kai\app\Controllers\Assets.php(501): CodeIgniter\Database\BaseBuilder->update(Array)
+#5 C:\laragon\www\projek_magang\kai\projek_kai\system\CodeIgniter.php(933): App\Controllers\Assets->update('2176')
+#6 C:\laragon\www\projek_magang\kai\projek_kai\system\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Assets))
+#7 C:\laragon\www\projek_magang\kai\projek_kai\system\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#8 C:\laragon\www\projek_magang\kai\projek_kai\system\Boot.php(363): CodeIgniter\CodeIgniter->run()
+#9 C:\laragon\www\projek_magang\kai\projek_kai\system\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+#10 C:\laragon\www\projek_magang\kai\projek_kai\public\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+#11 C:\laragon\www\projek_magang\kai\projek_kai\system\rewrite.php(44): require_once('C:\\laragon\\www\\...')
+#12 {main}
+ERROR - 2026-01-11 12:58:01 --> [UPDATE ERROR] Transaksi gagal.
+ERROR - 2026-01-11 12:58:21 --> mysqli_sql_exception: Unknown column 'updated_at' in 'field list' in C:\laragon\www\projek_magang\kai\projek_kai\system\Database\MySQLi\Connection.php:327
+Stack trace:
+#0 C:\laragon\www\projek_magang\kai\projek_kai\system\Database\MySQLi\Connection.php(327): mysqli->query('UPDATE `documen...', 0)
+#1 C:\laragon\www\projek_magang\kai\projek_kai\system\Database\BaseConnection.php(729): CodeIgniter\Database\MySQLi\Connection->execute('UPDATE `documen...')
+#2 C:\laragon\www\projek_magang\kai\projek_kai\system\Database\BaseConnection.php(646): CodeIgniter\Database\BaseConnection->simpleQuery('UPDATE `documen...')
+#3 C:\laragon\www\projek_magang\kai\projek_kai\system\Database\BaseBuilder.php(2521): CodeIgniter\Database\BaseConnection->query('UPDATE `documen...', Array, false)
+#4 C:\laragon\www\projek_magang\kai\projek_kai\app\Controllers\Assets.php(501): CodeIgniter\Database\BaseBuilder->update(Array)
+#5 C:\laragon\www\projek_magang\kai\projek_kai\system\CodeIgniter.php(933): App\Controllers\Assets->update('2176')
+#6 C:\laragon\www\projek_magang\kai\projek_kai\system\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Assets))
+#7 C:\laragon\www\projek_magang\kai\projek_kai\system\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#8 C:\laragon\www\projek_magang\kai\projek_kai\system\Boot.php(363): CodeIgniter\CodeIgniter->run()
+#9 C:\laragon\www\projek_magang\kai\projek_kai\system\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+#10 C:\laragon\www\projek_magang\kai\projek_kai\public\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+#11 C:\laragon\www\projek_magang\kai\projek_kai\system\rewrite.php(44): require_once('C:\\laragon\\www\\...')
+#12 {main}
+ERROR - 2026-01-11 12:58:21 --> [UPDATE ERROR] Transaksi gagal.
+ERROR - 2026-01-11 12:58:43 --> mysqli_sql_exception: Unknown column 'updated_at' in 'field list' in C:\laragon\www\projek_magang\kai\projek_kai\system\Database\MySQLi\Connection.php:327
+Stack trace:
+#0 C:\laragon\www\projek_magang\kai\projek_kai\system\Database\MySQLi\Connection.php(327): mysqli->query('UPDATE `documen...', 0)
+#1 C:\laragon\www\projek_magang\kai\projek_kai\system\Database\BaseConnection.php(729): CodeIgniter\Database\MySQLi\Connection->execute('UPDATE `documen...')
+#2 C:\laragon\www\projek_magang\kai\projek_kai\system\Database\BaseConnection.php(646): CodeIgniter\Database\BaseConnection->simpleQuery('UPDATE `documen...')
+#3 C:\laragon\www\projek_magang\kai\projek_kai\system\Database\BaseBuilder.php(2521): CodeIgniter\Database\BaseConnection->query('UPDATE `documen...', Array, false)
+#4 C:\laragon\www\projek_magang\kai\projek_kai\app\Controllers\Assets.php(501): CodeIgniter\Database\BaseBuilder->update(Array)
+#5 C:\laragon\www\projek_magang\kai\projek_kai\system\CodeIgniter.php(933): App\Controllers\Assets->update('2175')
+#6 C:\laragon\www\projek_magang\kai\projek_kai\system\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Assets))
+#7 C:\laragon\www\projek_magang\kai\projek_kai\system\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#8 C:\laragon\www\projek_magang\kai\projek_kai\system\Boot.php(363): CodeIgniter\CodeIgniter->run()
+#9 C:\laragon\www\projek_magang\kai\projek_kai\system\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+#10 C:\laragon\www\projek_magang\kai\projek_kai\public\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+#11 C:\laragon\www\projek_magang\kai\projek_kai\system\rewrite.php(44): require_once('C:\\laragon\\www\\...')
+#12 {main}
+ERROR - 2026-01-11 12:58:43 --> [UPDATE ERROR] Transaksi gagal.
+ERROR - 2026-01-11 13:32:07 --> [UPDATE ERROR] Undefined array key "proc_notes"
+ERROR - 2026-01-11 13:34:32 --> mysqli_sql_exception: Unknown column 'updated_at' in 'field list' in C:\laragon\www\projek_magang\kai\projek_kai\system\Database\MySQLi\Connection.php:327
+Stack trace:
+#0 C:\laragon\www\projek_magang\kai\projek_kai\system\Database\MySQLi\Connection.php(327): mysqli->query('UPDATE `documen...', 0)
+#1 C:\laragon\www\projek_magang\kai\projek_kai\system\Database\BaseConnection.php(729): CodeIgniter\Database\MySQLi\Connection->execute('UPDATE `documen...')
+#2 C:\laragon\www\projek_magang\kai\projek_kai\system\Database\BaseConnection.php(646): CodeIgniter\Database\BaseConnection->simpleQuery('UPDATE `documen...')
+#3 C:\laragon\www\projek_magang\kai\projek_kai\system\Database\BaseBuilder.php(2521): CodeIgniter\Database\BaseConnection->query('UPDATE `documen...', Array, false)
+#4 C:\laragon\www\projek_magang\kai\projek_kai\app\Controllers\Assets.php(484): CodeIgniter\Database\BaseBuilder->update(Array)
+#5 C:\laragon\www\projek_magang\kai\projek_kai\system\CodeIgniter.php(933): App\Controllers\Assets->update('2175')
+#6 C:\laragon\www\projek_magang\kai\projek_kai\system\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Assets))
+#7 C:\laragon\www\projek_magang\kai\projek_kai\system\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#8 C:\laragon\www\projek_magang\kai\projek_kai\system\Boot.php(363): CodeIgniter\CodeIgniter->run()
+#9 C:\laragon\www\projek_magang\kai\projek_kai\system\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+#10 C:\laragon\www\projek_magang\kai\projek_kai\public\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+#11 C:\laragon\www\projek_magang\kai\projek_kai\system\rewrite.php(44): require_once('C:\\laragon\\www\\...')
+#12 {main}
+ERROR - 2026-01-11 13:34:32 --> [UPDATE ERROR] Transaksi gagal.
+ERROR - 2026-01-11 13:36:08 --> mysqli_sql_exception: Unknown column 'updated_at' in 'field list' in C:\laragon\www\projek_magang\kai\projek_kai\system\Database\MySQLi\Connection.php:327
+Stack trace:
+#0 C:\laragon\www\projek_magang\kai\projek_kai\system\Database\MySQLi\Connection.php(327): mysqli->query('UPDATE `documen...', 0)
+#1 C:\laragon\www\projek_magang\kai\projek_kai\system\Database\BaseConnection.php(729): CodeIgniter\Database\MySQLi\Connection->execute('UPDATE `documen...')
+#2 C:\laragon\www\projek_magang\kai\projek_kai\system\Database\BaseConnection.php(646): CodeIgniter\Database\BaseConnection->simpleQuery('UPDATE `documen...')
+#3 C:\laragon\www\projek_magang\kai\projek_kai\system\Database\BaseBuilder.php(2521): CodeIgniter\Database\BaseConnection->query('UPDATE `documen...', Array, false)
+#4 C:\laragon\www\projek_magang\kai\projek_kai\app\Controllers\Assets.php(484): CodeIgniter\Database\BaseBuilder->update(Array)
+#5 C:\laragon\www\projek_magang\kai\projek_kai\system\CodeIgniter.php(933): App\Controllers\Assets->update('2175')
+#6 C:\laragon\www\projek_magang\kai\projek_kai\system\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Assets))
+#7 C:\laragon\www\projek_magang\kai\projek_kai\system\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#8 C:\laragon\www\projek_magang\kai\projek_kai\system\Boot.php(363): CodeIgniter\CodeIgniter->run()
+#9 C:\laragon\www\projek_magang\kai\projek_kai\system\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+#10 C:\laragon\www\projek_magang\kai\projek_kai\public\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+#11 C:\laragon\www\projek_magang\kai\projek_kai\system\rewrite.php(44): require_once('C:\\laragon\\www\\...')
+#12 {main}
+ERROR - 2026-01-11 13:36:08 --> [UPDATE ERROR] Transaksi gagal.
+ERROR - 2026-01-11 13:43:31 --> [CORE STORE ERROR] No inventaris sudah digunakan

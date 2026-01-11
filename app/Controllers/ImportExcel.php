@@ -327,13 +327,15 @@ class ImportExcel extends Controller
 
             if (!empty($no_bast) || !empty($no_wo) || !empty($link_file)) {
                 $docTable = $this->db->table('documents');
+
                 $docTable->insert([
-                    'asset_id' => $assetIdToUse,
+                    'asset_id'       => $assetIdToUse,
                     'procurement_id' => $procurementId,
-                    'doc_type' => 'BAST/WO/FILE',
-                    'doc_number' => ($no_bast ?? $no_wo),
-                    'doc_link' => $link_file,
-                    'uploaded_at' => date('Y-m-d H:i:s')
+                    'doc_type'       => 'BAST',
+                    'doc_number'     => $no_bast,       // BAST
+                    'no_wo_bast'     => $no_wo,         // WO
+                    'doc_link'       => $link_file,     // File
+                    'uploaded_at'    => date('Y-m-d H:i:s')
                 ]);
             }
         }

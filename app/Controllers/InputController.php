@@ -11,192 +11,164 @@ class InputController extends BaseController
     {
         $this->db = \Config\Database::connect();
     }
+
     public function index()
     {
-        $data = [
+        return view('dashboard/input-manual', [
             'title'      => 'Input Manual',
             'page_title' => 'Input Manual',
-            'show_stats' => true,
-            'stats' => $this->getStats(),
-        ];
-
-        return view('dashboard/input-manual', $data);
+        ]);
     }
+
     public function store()
     {
         $input = $this->request->getPost();
 
+        // Trim hanya string
+        foreach ($input as $k => $v) {
+            if (is_string($v)) $input[$k] = trim($v);
+        }
+
+        // ================= VALIDATION =================
         $rules = [
-            // Wajib
             'no_rab'            => 'required',
             'no_npd'            => 'required',
-            'tanggal_pengadaan' => 'required|valid_date',
+            'tanggal_pengadaan' => 'required',
             'jenis_perangkat'   => 'required',
             'merk_tipe'         => 'required',
             'serial_number'     => 'required',
             'no_inventaris'     => 'required',
             'unit'              => 'required',
             'condition'         => 'required|in_list[baik,rusak,dipinjam,disposal,diganti]',
-
-            // Opsional
-            'no_bast_bmc'       => 'permit_empty',
-            'no_wo_bast'        => 'permit_empty',
-            'link_bast'         => 'permit_empty|valid_url',
-            'spesifikasi'       => 'permit_empty',
-            'link_dokumen'      => 'permit_empty|valid_url',
-            'nama_pengguna'     => 'permit_empty',
-            'nipp'              => 'permit_empty',
-            'keterangan'        => 'permit_empty',
         ];
 
-        if (! $this->validate($rules)) {
+        if (!$this->validate($rules)) {
             return redirect()->back()->withInput()->with('error', $this->validator->getErrors());
         }
-        $exists = $this->db->table('assets')
-            ->where('asset_code', $input['no_inventaris'])
-            ->countAllResults();
 
-        if ($exists) {
-            return redirect()->back()->withInput()->with('error', [
-                'no_inventaris' => 'No Inventaris sudah dipakai.'
-            ]);
-        }
-
-        $this->db->transStart();
+        // ================= TRANSAKSI DATA UTAMA =================
+        $this->db->transBegin();
 
         try {
-            $procData = [
-                'no_rab'           => $input['no_rab'],
-                'no_npd'           => $input['no_npd'],
+
+            // Lock inventaris
+            $exist = $this->db
+                ->query("SELECT id FROM assets WHERE asset_code = ? FOR UPDATE", [$input['no_inventaris']])
+                ->getRow();
+
+            if ($exist) throw new \Exception("No inventaris sudah digunakan");
+
+            // PROCUREMENT
+            $this->db->table('procurements')->insert([
+                'no_rab'            => $input['no_rab'],
+                'no_npd'            => $input['no_npd'],
                 'procurement_date' => $input['tanggal_pengadaan'],
                 'notes'            => $input['keterangan'] ?? null,
                 'created_at'       => date('Y-m-d H:i:s'),
-            ];
-            $this->db->table('procurements')->insert($procData);
-            $procurementId = (int) $this->db->insertID();
-            $assetModelsTable = $this->db->table('asset_models');
-            $assetModelRow = $assetModelsTable
+            ]);
+            $procurementId = $this->db->insertID();
+            if (!$procurementId) throw new \Exception("Gagal simpan procurement");
+
+            // ASSET MODEL
+            $model = $this->db->table('asset_models')
                 ->where('brand', $input['jenis_perangkat'])
                 ->where('model', $input['merk_tipe'])
-                ->get()
-                ->getRowArray();
+                ->get()->getRowArray();
 
-            if ($assetModelRow) {
-                $assetModelId = (int) $assetModelRow['id'];
-            } else {
-                $am = [
-                    'brand'      => $input['jenis_perangkat'],
-                    'model'      => $input['merk_tipe'],
+            if (!$model) {
+                $this->db->table('asset_models')->insert([
+                    'brand' => $input['jenis_perangkat'],
+                    'model' => $input['merk_tipe'],
                     'created_at' => date('Y-m-d H:i:s'),
-                ];
-                $this->db->table('asset_models')->insert($am);
-                $assetModelId = (int) $this->db->insertID();
+                ]);
+                $assetModelId = $this->db->insertID();
+                if (!$assetModelId) throw new \Exception("Gagal simpan model");
+            } else {
+                $assetModelId = $model['id'];
             }
-            $unitRow = $this->db->table('units')
-                ->where('name', $input['unit'])
-                ->get()
-                ->getRowArray();
 
-            if ($unitRow) {
-                $unitId = (int) $unitRow['id'];
-            } else {
-                $u = [
-                    'name'       => $input['unit'],
+            // UNIT
+            $unit = $this->db->table('units')->where('name', $input['unit'])->get()->getRowArray();
+            if (!$unit) {
+                $this->db->table('units')->insert([
+                    'name' => $input['unit'],
                     'created_at' => date('Y-m-d H:i:s'),
-                ];
-                $this->db->table('units')->insert($u);
-                $unitId = (int) $this->db->insertID();
+                ]);
+                $unitId = $this->db->insertID();
+                if (!$unitId) throw new \Exception("Gagal simpan unit");
+            } else {
+                $unitId = $unit['id'];
             }
+
+            // EMPLOYEE
             $employeeId = null;
             if (!empty($input['nipp'])) {
-                $empRow = $this->db->table('employees')
-                    ->where('nipp', $input['nipp'])
-                    ->get()
-                    ->getRowArray();
-
-                if ($empRow) {
-                    $employeeId = (int) $empRow['id'];
-                    if (!empty($input['nama_pengguna']) && $empRow['name'] !== $input['nama_pengguna']) {
-                        $this->db->table('employees')
-                            ->where('id', $employeeId)
-                            ->update([
-                                'name' => $input['nama_pengguna'],
-                            ]);
-                    }
-                } else {
-                    $emp = [
-                        'nipp'       => $input['nipp'],
-                        'name'       => $input['nama_pengguna'] ?? '',
+                $emp = $this->db->table('employees')->where('nipp', $input['nipp'])->get()->getRowArray();
+                if (!$emp) {
+                    $this->db->table('employees')->insert([
+                        'nipp' => $input['nipp'],
+                        'name' => $input['nama_pengguna'] ?? '',
                         'created_at' => date('Y-m-d H:i:s'),
-                    ];
-                    $this->db->table('employees')->insert($emp);
-                    $employeeId = (int) $this->db->insertID();
+                    ]);
+                    $employeeId = $this->db->insertID();
+                    if (!$employeeId) throw new \Exception("Gagal simpan employee");
+                } else {
+                    $employeeId = $emp['id'];
                 }
             }
-            $assetPayload = [
-                'asset_code'     => $input['no_inventaris'],
+
+            // ASSET
+            $this->db->table('assets')->insert([
+                'asset_code'      => $input['no_inventaris'],
                 'procurement_id' => $procurementId,
                 'asset_model_id' => $assetModelId,
                 'serial_number'  => $input['serial_number'],
-                'purchase_date'  => $input['tanggal_pengadaan'],
+                'purchase_date' => $input['tanggal_pengadaan'],
                 'unit_id'        => $unitId,
+                'note'           => $input['keterangan'] ?? null,
                 'employee_id'    => $employeeId,
                 'specification'  => $input['spesifikasi'] ?? null,
-                'label_attached' => 'Belum', 
+                'label_attached' => 'Belum',
                 'condition'      => $input['condition'],
                 'created_at'     => date('Y-m-d H:i:s'),
-            ];
-            $this->db->table('assets')->insert($assetPayload);
-            $assetId = (int) $this->db->insertID();
-            $docNumberParts = [];
-            if (!empty($input['no_bast_bmc'])) {
-                $docNumberParts[] = 'BAST: '.$input['no_bast_bmc'];
-            }
-            if (!empty($input['no_wo_bast'])) {
-                $docNumberParts[] = 'WO: '.$input['no_wo_bast'];
-            }
-            $docNumber = $docNumberParts ? implode(' | ', $docNumberParts) : null;
-            $docLink = null;
-            if (!empty($input['link_bast'])) {
-                $docLink = $input['link_bast'];
-            } elseif (!empty($input['link_dokumen'])) {
-                $docLink = $input['link_dokumen'];
-            }
+            ]);
+            $assetId = $this->db->insertID();
+            if (!$assetId) throw new \Exception("Gagal simpan asset");
 
-            if ($docNumber || $docLink) {
-                $docPayload = [
-                    'asset_id'       => $assetId,
-                    'procurement_id' => $procurementId,
-                    'doc_type'       => 'BAST/WO/FILE',
-                    'doc_number'     => $docNumber,
-                    'doc_link'       => $docLink,
-                    'uploaded_at'    => date('Y-m-d H:i:s'),
-                    'created_at'     => date('Y-m-d H:i:s'),
-                ];
-                $this->db->table('documents')->insert($docPayload);
-            }
+            $this->db->transCommit();
 
-            $this->db->transComplete();
-
-            if ($this->db->transStatus() === false) {
-                $dbError = $this->db->error();
-                return redirect()->back()->withInput()->with(
-                    'error',
-                    'Gagal menyimpan data (transaksi). DB error: ' . ($dbError['message'] ?? 'unknown')
-                );
-            }
-
-            return redirect()->to(site_url('input'))
-                ->with('success', 'Data berhasil ditambahkan melalui input manual.');
         } catch (\Throwable $e) {
             $this->db->transRollback();
-            log_message('error', '[InputController::store] Exception: ' . $e->getMessage());
-            $dbError = $this->db->error();
-            $msg     = $e->getMessage();
-            if (!empty($dbError['message'])) {
-                $msg .= ' | DB: ' . $dbError['message'];
-            }
-            return redirect()->back()->withInput()->with('error', 'Gagal menyimpan data: ' . $msg);
+            log_message('error', '[CORE STORE ERROR] '.$e->getMessage());
+            return redirect()->back()->withInput()->with('error', $e->getMessage());
         }
+
+        // ================= SIMPAN DOKUMEN (STRUKTUR BARU) =================
+        try {
+            $noBast = isset($input['no_bast_bmc']) ? trim($input['no_bast_bmc']) : null;
+            $noWo   = isset($input['no_wo_bast']) ? trim($input['no_wo_bast']) : null;
+
+            $docLink = null;
+            if (!empty($input['link_bast']) && filter_var($input['link_bast'], FILTER_VALIDATE_URL)) {
+                $docLink = trim($input['link_bast']);
+            }
+
+            if (!empty($noBast) || !empty($noWo) || !empty($docLink)) {
+                $this->db->table('documents')->insert([
+                    'asset_id'       => $assetId,
+                    'procurement_id' => $procurementId,
+                    'doc_type'       => 'BAST',
+                    'doc_number'     => $noBast,
+                    'no_wo_bast'     => $noWo,
+                    'doc_link'       => $docLink,
+                    'uploaded_at'    => date('Y-m-d H:i:s'),
+                ]);
+            }
+
+        } catch (\Throwable $e) {
+            log_message('error', '[DOCUMENT ERROR] '.$e->getMessage());
+        }
+
+        return redirect()->to(site_url('input'))->with('success', 'Data berhasil disimpan');
     }
 }

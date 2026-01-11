@@ -181,19 +181,15 @@ class Assets extends BaseController
                 'employee_id'    => $employeeId,
                 'specification'  => $input['specification'] ?? null,
                 'label_attached' => $input['label_attached'] ?? 'Belum',
+                'note'           => $input['keterangan'] ?? null, 
                 'condition'      => $input['condition'], 
                 'created_at'     => date('Y-m-d H:i:s'),
             ];
             $this->db->table('assets')->insert($assetPayload);
             $assetId = (int) $this->db->insertID();
-            $docNumberParts = [];
-            if (!empty($input['no_bast_bmc'])) {
-                $docNumberParts[] = 'BAST: '.$input['no_bast_bmc'];
-            }
-            if (!empty($input['no_wo_bast'])) {
-                $docNumberParts[] = 'WO: '.$input['no_wo_bast'];
-            }
-            $docNumber = $docNumberParts ? implode(' | ', $docNumberParts) : null;
+            $docNumber = $input['no_bast_bmc'] ?? null;
+            $noWoBast  = $input['no_wo_bast'] ?? null;
+
             $docLink = null;
             if (!empty($input['link_bast'])) {
                 $docLink = $input['link_bast'];
@@ -201,17 +197,17 @@ class Assets extends BaseController
                 $docLink = $input['doc_link'];
             }
 
-            if ($docNumber || $docLink) {
-                $docPayload = [
+            if ($docNumber || $noWoBast || $docLink) {
+                $this->db->table('documents')->insert([
                     'asset_id'       => $assetId,
                     'procurement_id' => $procurementId,
-                    'doc_type'       => 'BAST/WO/FILE',
+                    'doc_type'       => 'BAST/WO',
                     'doc_number'     => $docNumber,
+                    'no_wo_bast'     => $noWoBast,
                     'doc_link'       => $docLink,
                     'uploaded_at'    => date('Y-m-d H:i:s'),
                     'created_at'     => date('Y-m-d H:i:s'),
-                ];
-                $this->db->table('documents')->insert($docPayload);
+                ]);
             }
 
             $this->db->transComplete();
@@ -257,15 +253,22 @@ class Assets extends BaseController
         }
 
         $no_bast_bmc = '-';
+        $no_wo_bast  = '-';
         $link_bast   = null;
+
         $doc = $documentsModel->findBastByProcurementOrAsset(
             $asset['procurement_id'] ?? null,
             $asset['id'] ?? null
         );
+
         if ($doc) {
             $no_bast_bmc = $doc['doc_number'] ?? '-';
+            $no_wo_bast  = $doc['no_wo_bast'] ?? '-';
             $link_bast   = $doc['doc_link'] ?? null;
         }
+
+        $asset['no_wo_bast'] = $no_wo_bast;
+
         $employee_name = $asset['employee_name'] ?? '-';
         $nipp          = $asset['employee_nipp'] ?? '-';
         if (!empty($asset['employee_id'])) {
@@ -304,16 +307,10 @@ public function edit($id)
     $asset['no_wo_bast']  = null;
     $asset['link_bast']   = null;
 
-    if ($doc && !empty($doc['doc_number'])) {
-        if (preg_match('/BAST:\s*([^|]+)/', $doc['doc_number'], $m)) {
-            $asset['no_bast_bmc'] = trim($m[1]);
-        }
-
-        if (preg_match('/WO:\s*([^|]+)/', $doc['doc_number'], $m)) {
-            $asset['no_wo_bast'] = trim($m[1]);
-        }
-
-        $asset['link_bast'] = $doc['doc_link'] ?? null;
+    if ($doc) {
+    $asset['no_bast_bmc'] = $doc['doc_number'] ?? null;
+    $asset['no_wo_bast'] = $doc['no_wo_bast'] ?? null;
+    $asset['link_bast']  = $doc['doc_link'] ?? null;
     }
 
     $data = [
@@ -337,175 +334,153 @@ public function edit($id)
 
     $input = $this->request->getPost();
 
+    // ================= VALIDATION (SEMUA OPTIONAL) =================
     $rules = [
-        'proc_no_rab'       => 'required',
-        'proc_no_npd'       => 'required',
-        'procurement_date' => 'required|valid_date',
-        'asset_code'        => 'required',
-        'asset_brand'       => 'required',
-        'asset_model_name'  => 'required',
-        'serial_number'     => 'required',
-        'unit_name'         => 'required',
-        'condition'         => 'required|in_list[baik,rusak,dipinjam,disposal]',
-        'purchase_date'     => 'permit_empty|valid_date',
-        'specification'     => 'permit_empty',
-        'label_attached'    => 'permit_empty|in_list[Sudah,Belum]',
-        'employee_name'     => 'permit_empty',
-        'employee_nipp'     => 'permit_empty',
-        'no_bast_bmc'       => 'permit_empty',
-        'no_wo_bast'        => 'permit_empty',
-        'link_bast'         => 'permit_empty|valid_url',
-        'doc_link'          => 'permit_empty|valid_url',
+        'proc_no_rab'       => 'permit_empty',
+        'proc_no_npd'       => 'permit_empty',
+        'procurement_date' => 'permit_empty|valid_date',
+        'asset_code'       => 'permit_empty',
+        'asset_brand'      => 'permit_empty',
+        'asset_model_name' => 'permit_empty',
+        'serial_number'    => 'permit_empty',
+        'unit_name'        => 'permit_empty',
+        'condition' => 'required|in_list[baik,rusak,dipinjam,disposal,diganti]',
+        'purchase_date'    => 'permit_empty|valid_date',
+        'specification'    => 'permit_empty',
+        'keterangan'       => 'permit_empty|string',
+        'label_attached'   => 'permit_empty|in_list[Sudah,Belum]',
+        'employee_name'    => 'permit_empty',
+        'employee_nipp'    => 'permit_empty',
+        'no_bast_bmc'      => 'permit_empty',
+        'no_wo_bast'       => 'permit_empty',
+        'link_bast'        => 'permit_empty|valid_url',
+        'doc_link'         => 'permit_empty|valid_url',
     ];
 
     if (! $this->validate($rules)) {
         return redirect()->back()->withInput()->with('error', $this->validator->getErrors());
     }
 
-    if ($input['asset_code'] !== $asset['asset_code']) {
+    // ================= CEK KODE INVENTARIS =================
+    if (!empty($input['asset_code']) && $input['asset_code'] !== $asset['asset_code']) {
         $exists = $this->db->table('assets')
             ->where('asset_code', $input['asset_code'])
             ->where('id !=', $id)
             ->countAllResults();
 
         if ($exists) {
-            return redirect()->back()
-                ->withInput()
-                ->with('error', ['asset_code' => 'Kode inventaris sudah dipakai.']);
+            return redirect()->back()->withInput()->with('error', [
+                'asset_code' => 'Kode inventaris sudah dipakai.'
+            ]);
         }
     }
 
     $this->db->transStart();
 
     try {
-
+        // ================= PROCUREMENT =================
         $this->db->table('procurements')
             ->where('id', $asset['procurement_id'])
             ->update([
-                'no_rab'           => $input['proc_no_rab'],
-                'no_npd'           => $input['proc_no_npd'],
-                'procurement_date' => $input['procurement_date'],
-                'notes'            => $input['proc_notes'] ?? null,
-                'updated_at'       => date('Y-m-d H:i:s'),
+                'no_rab'            => $input['proc_no_rab']       ?? $asset['no_rab'],
+                'no_npd'            => $input['proc_no_npd']       ?? $asset['no_npd'],
+                'procurement_date' => $input['procurement_date'] ?? $asset['procurement_date'],
             ]);
 
+        // ================= ASSET MODEL =================
         $assetModelId = $asset['asset_model_id'];
+        if (!empty($input['asset_brand']) || !empty($input['asset_model_name'])) {
+            $brand = $input['asset_brand']      ?? $asset['brand'];
+            $model = $input['asset_model_name'] ?? $asset['model_name'];
 
-        if (
-            $input['asset_brand'] !== ($asset['brand'] ?? '') ||
-            $input['asset_model_name'] !== ($asset['model_name'] ?? '')
-        ) {
-            $modelRow = $this->db->table('asset_models')
-                ->where('brand', $input['asset_brand'])
-                ->where('model', $input['asset_model_name'])
+            $row = $this->db->table('asset_models')
+                ->where('brand', $brand)
+                ->where('model', $model)
                 ->get()
                 ->getRowArray();
 
-            if ($modelRow) {
-                $assetModelId = $modelRow['id'];
+            if ($row) {
+                $assetModelId = $row['id'];
             } else {
                 $this->db->table('asset_models')->insert([
-                    'brand'      => $input['asset_brand'],
-                    'model'      => $input['asset_model_name'],
+                    'brand' => $brand,
+                    'model' => $model,
                     'created_at' => date('Y-m-d H:i:s'),
                 ]);
                 $assetModelId = $this->db->insertID();
             }
         }
 
+        // ================= UNIT =================
         $unitId = $asset['unit_id'];
-        if ($input['unit_name'] !== ($asset['unit_name'] ?? '')) {
-            $unitRow = $this->db->table('units')
-                ->where('name', $input['unit_name'])
-                ->get()
-                ->getRowArray();
-
-            if ($unitRow) {
-                $unitId = $unitRow['id'];
+        if (!empty($input['unit_name'])) {
+            $unit = $this->db->table('units')->where('name', $input['unit_name'])->get()->getRowArray();
+            if ($unit) {
+                $unitId = $unit['id'];
             } else {
                 $this->db->table('units')->insert([
-                    'name'       => $input['unit_name'],
+                    'name' => $input['unit_name'],
                     'created_at' => date('Y-m-d H:i:s'),
                 ]);
                 $unitId = $this->db->insertID();
             }
         }
 
+        // ================= EMPLOYEE =================
         $employeeId = $asset['employee_id'];
-
         if (!empty($input['employee_nipp']) || !empty($input['employee_name'])) {
-            $empRow = $this->db->table('employees')
-                ->where('nipp', $input['employee_nipp'])
-                ->get()
-                ->getRowArray();
-
-            if ($empRow) {
-                $employeeId = $empRow['id'];
-                if (!empty($input['employee_name']) && $empRow['name'] !== $input['employee_name']) {
-                    $this->db->table('employees')
-                        ->where('id', $employeeId)
-                        ->update(['name' => $input['employee_name']]);
+            $emp = $this->db->table('employees')->where('nipp', $input['employee_nipp'])->get()->getRowArray();
+            if ($emp) {
+                $employeeId = $emp['id'];
+                if (!empty($input['employee_name']) && $emp['name'] !== $input['employee_name']) {
+                    $this->db->table('employees')->where('id', $employeeId)->update(['name' => $input['employee_name']]);
                 }
             } else {
                 $this->db->table('employees')->insert([
-                    'nipp'       => $input['employee_nipp'] ?? '',
-                    'name'       => $input['employee_name'] ?? '',
+                    'nipp' => $input['employee_nipp'] ?? '',
+                    'name' => $input['employee_name'] ?? '',
                     'created_at' => date('Y-m-d H:i:s'),
                 ]);
                 $employeeId = $this->db->insertID();
             }
         }
-        $this->db->table('assets')
-            ->where('id', $id)
-            ->update([
-                'asset_code'     => $input['asset_code'],
-                'asset_model_id' => $assetModelId,
-                'serial_number'  => $input['serial_number'],
-                'purchase_date'  => $input['purchase_date'] ?? $asset['purchase_date'],
-                'unit_id'        => $unitId,
-                'employee_id'    => $employeeId,
-                'specification'  => $input['specification'] ?? $asset['specification'],
-                'label_attached' => $input['label_attached'] ?? ($asset['label_attached'] ?? 'Belum'),
-                'condition'      => $input['condition'],
-                'updated_at'     => date('Y-m-d H:i:s'),
-            ]);
 
+        // ================= ASSETS =================
+        $this->db->table('assets')->where('id', $id)->update([
+            'asset_code'     => $input['asset_code']     ?? $asset['asset_code'],
+            'asset_model_id' => $assetModelId,
+            'serial_number'  => $input['serial_number']  ?? $asset['serial_number'],
+            'purchase_date'  => $input['purchase_date'] ?? $asset['purchase_date'],
+            'unit_id'        => $unitId,
+            'employee_id'    => $employeeId,
+            'specification'  => $input['specification'] ?? $asset['specification'],
+            'note'           => $input['keterangan']    ?? $asset['note'],
+            'label_attached' => $input['label_attached'] ?? $asset['label_attached'],
+            'condition'      => $input['condition'] ?? $asset['condition'],
+        ]);
+
+        // ================= DOCUMENT =================
         $documentsModel = new DocumentsModel();
-        $doc = $documentsModel->findBastByProcurementOrAsset(
-            $asset['procurement_id'],
-            $id
-        );
+        $doc = $documentsModel->findBastByProcurementOrAsset($asset['procurement_id'], $id);
 
-        $docParts = [];
-        if (!empty($input['no_bast_bmc'])) {
-            $docParts[] = 'BAST: ' . $input['no_bast_bmc'];
-        }
-        if (!empty($input['no_wo_bast'])) {
-            $docParts[] = 'WO: ' . $input['no_wo_bast'];
-        }
+        $noBast = $input['no_bast_bmc'] ?? null;
+        $noWo   = $input['no_wo_bast'] ?? null;
+        $docLink = $input['link_bast'] ?? $input['doc_link'] ?? ($doc['doc_link'] ?? null);
 
-        $docNumber = $docParts ? implode(' | ', $docParts) : null;
-
-        if ($docNumber || !empty($input['link_bast']) || !empty($input['doc_link'])) {
-
-            $docLink = $input['link_bast']
-                ?? $input['doc_link']
-                ?? ($doc['doc_link'] ?? null);
-
+        if ($noBast || $noWo || $docLink) {
             $docData = [
                 'asset_id'       => $id,
                 'procurement_id' => $asset['procurement_id'],
-                'doc_type'       => 'BAST/WO/FILE',
-                'doc_number'     => $docNumber ?? ($doc['doc_number'] ?? null),
-                'doc_link'       => $docLink,
+                'doc_type'       => 'BAST/WO',
+                'doc_number'     => $noBast,
+                'no_wo_bast'     => $noWo,
+                'doc_link'       => $docLink
             ];
 
             if ($doc) {
-                $this->db->table('documents')
-                    ->where('id', $doc['id'])
-                    ->update($docData);
+                $this->db->table('documents')->where('id', $doc['id'])->update($docData);
             } else {
-                $docData['created_at']  = date('Y-m-d H:i:s');
+                $docData['created_at'] = date('Y-m-d H:i:s');
                 $docData['uploaded_at'] = date('Y-m-d H:i:s');
                 $this->db->table('documents')->insert($docData);
             }
@@ -520,15 +495,13 @@ public function edit($id)
         return redirect()->to('assets')->with('success', 'Data berhasil diperbarui.');
 
     } catch (\Throwable $e) {
-
         $this->db->transRollback();
-        log_message('error', '[UPDATE ERROR] ' . $e->getMessage());
-
-        return redirect()->back()
-            ->withInput()
-            ->with('error', 'Gagal mengubah data: ' . $e->getMessage());
+        log_message('error', '[UPDATE ERROR] '.$e->getMessage());
+        return redirect()->back()->withInput()->with('error', 'Gagal mengubah data: '.$e->getMessage());
     }
 }
+
+
 
     public function delete($id)
     {
