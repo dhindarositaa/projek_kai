@@ -65,9 +65,13 @@
         <!-- AVATAR -->
         <div class="relative">
           <button id="avatarMenuButton"
-                  class="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-gray-200 overflow-hidden ring-2 ring-white/40">
-            <img src="https://i.pravatar.cc/80" class="w-full h-full object-cover">
+                  class="h-9 sm:h-10 px-3 sm:px-4 
+                        flex items-center justify-center">
+            <img src="<?= base_url('asset/images/logokai.png') ?>"
+                alt="Logo"
+                class="h-full object-contain">
           </button>
+
 
           <!-- DROPDOWN AVATAR -->
           <div id="avatarDropdown"
