@@ -228,16 +228,24 @@
           </div>
 
           <div>
-          <label class="text-xs text-gray-700">Terakhir Diganti</label>
+          <label class="text-xs text-gray-700">Terakhir Diubah</label>
           <input type="text"
                 class="mt-1 w-full border rounded px-3 py-2 bg-gray-50"
-                value="<?=
-                  !empty($asset['replaced_at'])
-                    ? date('d/m/Y', strtotime($asset['replaced_at']))
-                    : 'Belum Pernah Diganti'
+                value="<?= !empty($asset['replaced_at'])
+                    ? date('d/m/Y H:i', strtotime($asset['replaced_at']))
+                    : 'Belum Pernah Diubah'
                 ?>"
                 readonly />
         </div>
+
+        <?php if (!empty($asset['last_change_field'])): ?>
+        <div class="mt-2 text-sm text-gray-600">
+          <?= esc($asset['last_change_field']) ?> :
+          <?= esc($asset['last_old_value']) ?>
+          →
+          <?= esc($asset['last_new_value']) ?>
+        </div>
+        <?php endif; ?>
 
         </div>
       </div>
