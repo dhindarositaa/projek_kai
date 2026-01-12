@@ -123,6 +123,15 @@
                 </div>
 
                 <div>
+                  <label>Label Terpasang</label>
+                  <select name="label_attached" class="w-full border-2 px-3 py-2 rounded">
+                    <option value="">-- Pilih Status --</option>
+                    <option value="Sudah" <?= old('label_attached') == 'Sudah' ? 'selected' : '' ?>>Sudah</option>
+                    <option value="Belum" <?= old('label_attached') == 'Belum' ? 'selected' : '' ?>>Belum</option>
+                  </select>
+                </div>
+
+                <div>
                   <label>No Inventaris</label>
                   <input name="asset_code" required
                          value="<?= esc(old('asset_code') ?? ($asset['asset_code'] ?? '')) ?>"

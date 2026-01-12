@@ -160,6 +160,22 @@
                      class="<?= inputClass() ?>">
             </div>
 
+            <div>
+              <label class="text-sm font-semibold text-gray-800">
+                Label Terpasang <span class="text-red-600">*</span>
+              </label>
+
+              <select name="label_attached" class="<?= inputClass() ?>">
+                <option value="">-- Pilih Status --</option>
+                <option value="Sudah" <?= old('label_attached') == 'Sudah' ? 'selected' : '' ?>>
+                  Sudah
+                </option>
+                <option value="Belum" <?= old('label_attached') == 'Belum' ? 'selected' : '' ?>>
+                  Belum
+                </option>
+              </select>
+            </div>
+
             <div class="md:col-span-2">
               <label class="text-sm font-semibold text-gray-800">
                 Spesifikasi

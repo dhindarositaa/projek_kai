@@ -39,6 +39,7 @@ class InputController extends BaseController
             'serial_number'     => 'required',
             'no_inventaris'     => 'required',
             'unit'              => 'required',
+            'label_attached'    => 'required|in_list[Sudah,Belum]',
             'condition'         => 'required|in_list[baik,rusak,dipinjam,disposal,diganti]',
         ];
 
@@ -128,7 +129,7 @@ class InputController extends BaseController
                 'note'           => $input['keterangan'] ?? null,
                 'employee_id'    => $employeeId,
                 'specification'  => $input['spesifikasi'] ?? null,
-                'label_attached' => 'Belum',
+                'label_attached' => $input['label_attached'],
                 'condition'      => $input['condition'],
                 'created_at'     => date('Y-m-d H:i:s'),
             ]);

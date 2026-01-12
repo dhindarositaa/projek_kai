@@ -14,46 +14,43 @@ use App\Controllers\Assets;
  */
 
 // =======================
-// PUBLIC (TANPA LOGIN)
+// PUBLIC
 // =======================
 $routes->get('/', [AuthController::class, 'login']);
 $routes->get('register', [AuthController::class, 'register']);
 
-$routes->post('auth/processLogin', [AuthController::class, 'processLogin']);
 $routes->post('auth/processRegister', [AuthController::class, 'processRegister']);
+$routes->post('auth/processLogin', [AuthController::class, 'processLogin']);
 $routes->post('auth/checkEmail', [AuthController::class, 'checkEmail']);
-
-// Logout tetap harus lewat auth (biar session aman)
+$routes->post('logout', [AuthController::class, 'logout']);
 
 
 // =======================
-// PROTECTED (WAJIB LOGIN)
+// PROTECTED (LOGIN)
 // =======================
 $routes->group('', ['filter' => 'auth'], function ($routes) {
 
-    // ================= DASHBOARD =================
+    // home / dashboard
     $routes->get('home', [HomeController::class, 'index']);
-    $routes->get('dashboard', [HomeController::class, 'index']); // ← ini yang menyelamatkan dari 404
+    $routes->get('dashboard', [HomeController::class, 'index']);
 
-    // ================= AUTH =================
-    $routes->post('logout', [AuthController::class, 'logout']);
+    // pages
+    $routes->get('input', [InputController::class, 'index']);
+    $routes->post('input/store', [InputController::class, 'store']);
+    $routes->get('bulk-input', [BulkInputController::class, 'index']);
+    $routes->get('barang', [BarangController::class, 'index']);
 
-    // ================= ASSETS =================
-    $routes->group('assets', function ($routes) {
-        $routes->get('/', [Assets::class, 'index']);
-        $routes->get('create', [Assets::class, 'create']);
-        $routes->post('/', [Assets::class, 'store']);
-        $routes->get('(:num)', [Assets::class, 'show']);
-        $routes->get('(:num)/edit', [Assets::class, 'edit']);
-        $routes->post('(:num)/update', [Assets::class, 'update']);
-        $routes->post('(:num)/delete', [Assets::class, 'delete']);
-        $routes->get('monitoring', [Assets::class, 'monitoring']);
-        $routes->post('monitoring-status', [Assets::class, 'monitoringStatus']);
-    });
+    // assets
+    $routes->get('assets', 'Assets::index');
+    $routes->get('assets/create', 'Assets::create');
+    $routes->post('assets', 'Assets::store');
+    $routes->get('assets/(:num)', 'Assets::show/$1');
+    $routes->get('assets/(:num)/edit', 'Assets::edit/$1');
+    $routes->post('assets/(:num)/update', 'Assets::update/$1');
+    $routes->post('assets/(:num)/delete', 'Assets::delete/$1');
+    $routes->get('assets/monitoring', 'Assets::monitoring');
+    $routes->post('assets/monitoring-status', 'Assets::monitoringStatus');
 
-    // ================= API =================
-    $routes->group('api', function ($routes) {
-        $routes->get('assets', [Assets::class, 'apiList']);
-    });
-
+    // API
+    $routes->get('api/assets', 'Assets::apiList');
 });
