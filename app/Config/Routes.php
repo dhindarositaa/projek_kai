@@ -7,40 +7,47 @@ use App\Controllers\InputController;
 use App\Controllers\BulkInputController;
 use App\Controllers\BarangController;
 use App\Controllers\ImportExcel;
-use App\Controllers\Assets;
 
 /**
  * @var RouteCollection $routes
  */
 
-// =======================
-// PUBLIC
-// =======================
+// =======================================================
+// PUBLIC (tanpa login)
+// =======================================================
 $routes->get('/', [AuthController::class, 'login']);
 $routes->get('register', [AuthController::class, 'register']);
 
 $routes->post('auth/processRegister', [AuthController::class, 'processRegister']);
 $routes->post('auth/processLogin', [AuthController::class, 'processLogin']);
 $routes->post('auth/checkEmail', [AuthController::class, 'checkEmail']);
-$routes->post('logout', [AuthController::class, 'logout']);
+$routes->post('logout', 'AuthController::logout');
 
 
-// =======================
-// PROTECTED (LOGIN)
-// =======================
+// =======================================================
+// PROTECTED (wajib login)
+// =======================================================
 $routes->group('', ['filter' => 'auth'], function ($routes) {
 
-    // home / dashboard
+    // home
     $routes->get('home', [HomeController::class, 'index']);
     $routes->get('dashboard', [HomeController::class, 'index']);
 
     // pages
-    $routes->get('input', [InputController::class, 'index']);
-    $routes->post('input/store', [InputController::class, 'store']);
+    $routes->get('input', 'InputController::index');
+    $routes->post('input/store', 'InputController::store');
     $routes->get('bulk-input', [BulkInputController::class, 'index']);
     $routes->get('barang', [BarangController::class, 'index']);
 
-    // assets
+    // ===================================================
+    // IMPORT EXCEL
+    // ===================================================
+    $routes->post('import/process', [ImportExcel::class, 'process']);
+    $routes->get('import/logs', [ImportExcel::class, 'downloadLogs']);
+
+    // ===================================================
+    // ASSETS CRUD
+    // ===================================================
     $routes->get('assets', 'Assets::index');
     $routes->get('assets/create', 'Assets::create');
     $routes->post('assets', 'Assets::store');
@@ -54,3 +61,8 @@ $routes->group('', ['filter' => 'auth'], function ($routes) {
     // API
     $routes->get('api/assets', 'Assets::apiList');
 });
+
+// =======================================================
+// TEST / DEV
+// =======================================================
+$routes->get('test', 'Test::index');
