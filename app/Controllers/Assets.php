@@ -180,7 +180,7 @@ class Assets extends BaseController
                 'unit_id'        => $unitId,
                 'employee_id'    => $employeeId,
                 'specification'  => $input['specification'] ?? null,
-                'label_attached' => $input['label_attached'] ?? 'Belum',
+                'label_attached' => $input['label_attached'] ?? null,
                 'note'           => $input['keterangan'] ?? null, 
                 'condition'      => $input['condition'], 
                 'created_at'     => date('Y-m-d H:i:s'),
@@ -467,6 +467,7 @@ public function edit($id)
             'note'           => $input['keterangan']    ?? $asset['note'],
             'label_attached' => $input['label_attached'] ?? $asset['label_attached'],
             'condition'      => $input['condition'] ?? $asset['condition'],
+
         ];
 
         $this->db->table('assets')->where('id', $id)->update($newAssetData);
@@ -541,7 +542,7 @@ public function edit($id)
 
     public function apiList()
     {
-        $assets = $this->assetsModel->getAssetsWithRelations();
+        $assets = $this->assetsModel->getAssetsWithRelations(null, null, null, null, false);
         return $this->response->setJSON([
             'status' => 'ok',
             'data'   => $assets,
@@ -552,7 +553,9 @@ public function edit($id)
         $assetsModel = new AssetsModel();
         $kategori    = $this->request->getGet('kategori');
 
-        $allAssets   = $assetsModel->getAssetsWithRelations();
+        // Ambil SEMUA aset (termasuk yang diganti)
+        $allAssets = $assetsModel->getAssetsWithRelations(null, null, null, null, true);
+
         $now         = Time::now('Asia/Jakarta', 'en_US');
         $masaManfaat = 5;
 
@@ -560,9 +563,6 @@ public function edit($id)
 
         foreach ($allAssets as $asset) {
 
-            if (($asset['condition'] ?? '') === 'diganti') {
-                continue;
-            }
             $baseDate = $asset['purchase_date']
                 ?? $asset['procurement_date']
                 ?? null;
@@ -578,6 +578,7 @@ public function edit($id)
             $tahunKe = ($now->getYear() - $base->getYear()) + 1;
             $tahunKe = max(1, min($masaManfaat, $tahunKe));
 
+            // kategori umur
             if ($tahunKe >= 4) {
                 $kategoriUmur = 'merah';
             } elseif ($tahunKe == 3) {
@@ -586,10 +587,12 @@ public function edit($id)
                 $kategoriUmur = 'hijau';
             }
 
+            // FILTER TAB warna
             if ($kategori && $kategori !== $kategoriUmur) {
                 continue;
             }
 
+            // Pasang metadata
             $asset['tahun_ke']      = $tahunKe;
             $asset['kategori_umur'] = $kategoriUmur;
 
@@ -608,44 +611,38 @@ public function edit($id)
         ]);
     }
 
+
     public function monitoringStatus()
-{
-    $mode     = $this->request->getPost('mode');
-    $assetIds = $this->request->getPost('asset_ids');
+    {
+        $mode     = $this->request->getPost('mode');
+        $assetIds = $this->request->getPost('asset_ids');
 
-    if ($mode !== 'selected' || empty($assetIds)) {
-        return redirect()->back()->with('error', 'Data tidak valid.');
+        if ($mode !== 'selected' || empty($assetIds)) {
+            return redirect()->back()->with('error', 'Data tidak valid.');
+        }
+
+        helper('asset_log');
+
+        foreach ($assetIds as $id) {
+
+            $old = $this->db->table('assets')->where('id', $id)->get()->getRowArray();
+            if (! $old) continue;
+
+            // aset lama hanya ditandai sebagai diganti
+            $new = [
+                'condition'   => 'diganti',
+                'replaced_at' => date('Y-m-d'),
+                'updated_at'  => date('Y-m-d H:i:s'),
+            ];
+
+            $this->db->table('assets')->where('id', $id)->update($new);
+
+            // audit log
+            log_asset_changes($id, $old, $new, 'update');
+        }
+
+        return redirect()->back()->with('success', 'Aset berhasil ditandai sebagai diganti.');
     }
 
-    helper('asset_log');
-
-    foreach ($assetIds as $id) {
-
-        // ambil kondisi lama
-        $old = $this->db->table('assets')->where('id', $id)->get()->getRowArray();
-        if (! $old) continue;
-
-        // 1. tandai sebagai diganti dulu
-        $this->db->table('assets')->where('id', $id)->update([
-            'condition' => 'diganti'
-        ]);
-
-        // 2. data baru (hasil penggantian)
-        $new = [
-            'replaced_at'   => date('Y-m-d'),
-            'purchase_date'=> date('Y-m-d'),
-            'condition'    => 'baik',
-            'updated_at'   => date('Y-m-d H:i:s'),
-        ];
-
-        // 3. update final
-        $this->db->table('assets')->where('id', $id)->update($new);
-
-        // 4. catat ke asset_logs (INI YANG PENTING)
-        log_asset_changes($id, $old, $new, 'update');
-    }
-
-    return redirect()->back()->with('success', 'Aset berhasil diremajakan.');
-}
 
 }

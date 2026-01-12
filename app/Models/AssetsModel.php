@@ -54,52 +54,59 @@ class AssetsModel extends Model
      * List assets + relasi untuk index (bisa pakai search & filter kondisi).
      */
     public function getAssetsWithRelations(
-        ?int $limit = null,
-        ?int $offset = null,
-        ?string $search = null,
-        ?string $condition = null
-    ) {
-        $builder = $this->db->table($this->table . ' a');
-        $builder->select('
-            a.*,
-            p.no_npd,
-            p.procurement_date,
-            u.name      AS unit_name,
-            am.brand,
-            am.model    AS model_name,
-            e.name      AS employee_name
-        ');
+    ?int $limit = null,
+    ?int $offset = null,
+    ?string $search = null,
+    ?string $condition = null,
+    bool $includeReplaced = true
+) {
+    $builder = $this->db->table($this->table . ' a');
 
-        $builder->join('procurements p', 'a.procurement_id = p.id', 'left');
-        $builder->join('units u',        'a.unit_id        = u.id', 'left');
-        $builder->join('asset_models am','a.asset_model_id = am.id','left');
-        $builder->join('employees e',    'a.employee_id    = e.id', 'left');
-
-        // FILTER: search
-        if ($search) {
-            $builder->groupStart()
-                ->like('a.asset_code', $search)
-                ->orLike('am.brand', $search)
-                ->orLike('am.model', $search)
-                ->orLike('u.name', $search)
-                ->orLike('e.name', $search)
-                ->orLike('p.no_npd', $search)
-            ->groupEnd();
-        }
-
-        // FILTER: kondisi
-        if ($condition) {
-            $builder->where('a.condition', $condition);
-        }
-
-        $builder->orderBy('a.id', 'DESC');
-
-        if ($limit !== null) {
-            $builder->limit($limit, $offset ?? 0);
-        }
-
-        return $builder->get()->getResultArray();
+    // 🔥 FILTER DIGANTI DIKONTROL DI SINI
+    if (! $includeReplaced) {
+        $builder->where('a.condition !=', 'diganti');
     }
+
+    $builder->select('
+        a.*,
+        p.no_npd,
+        p.procurement_date,
+        u.name      AS unit_name,
+        am.brand,
+        am.model    AS model_name,
+        e.name      AS employee_name
+    ');
+
+    $builder->join('procurements p', 'a.procurement_id = p.id', 'left');
+    $builder->join('units u',        'a.unit_id        = u.id', 'left');
+    $builder->join('asset_models am','a.asset_model_id = am.id','left');
+    $builder->join('employees e',    'a.employee_id    = e.id', 'left');
+
+    if ($search) {
+        $builder->groupStart()
+            ->like('a.asset_code', $search)
+            ->orLike('am.brand', $search)
+            ->orLike('am.model', $search)
+            ->orLike('u.name', $search)
+            ->orLike('e.name', $search)
+            ->orLike('p.no_npd', $search)
+        ->groupEnd();
+    }
+
+    if ($condition) {
+        $builder->where('a.condition', $condition);
+    }
+
+    $builder->orderBy('a.id', 'DESC');
+
+    if ($limit !== null) {
+        $builder->limit($limit, $offset ?? 0);
+    }
+
+    return $builder->get()->getResultArray();
+}
+
+
 
     /**
      * Satu asset + relasi untuk detail & edit.
