@@ -1,0 +1,367 @@
+ERROR - 2026-01-12 16:20:47 --> mysqli_sql_exception: Duplicate column name 'no_wo_bast' in D:\laragon\www\projek_kai\system\Database\MySQLi\Connection.php:327
+Stack trace:
+#0 D:\laragon\www\projek_kai\system\Database\MySQLi\Connection.php(327): mysqli->query('ALTER TABLE `do...', 0)
+#1 D:\laragon\www\projek_kai\system\Database\BaseConnection.php(729): CodeIgniter\Database\MySQLi\Connection->execute('ALTER TABLE `do...')
+#2 D:\laragon\www\projek_kai\system\Database\BaseConnection.php(646): CodeIgniter\Database\BaseConnection->simpleQuery('ALTER TABLE `do...')
+#3 D:\laragon\www\projek_kai\system\Database\Forge.php(772): CodeIgniter\Database\BaseConnection->query('ALTER TABLE `do...')
+#4 D:\laragon\www\projek_kai\app\Database\Migrations\2026-01-11-095221_AddNoWoBastToDocuments.php(11): CodeIgniter\Database\Forge->addColumn('documents', Array)
+#5 D:\laragon\www\projek_kai\system\Database\MigrationRunner.php(876): App\Database\Migrations\AddNoWoBastToDocuments->up()
+#6 D:\laragon\www\projek_kai\system\Database\MigrationRunner.php(182): CodeIgniter\Database\MigrationRunner->migrate('up', Object(stdClass))
+#7 D:\laragon\www\projek_kai\system\Commands\Database\Migrate.php(85): CodeIgniter\Database\MigrationRunner->latest(NULL)
+#8 D:\laragon\www\projek_kai\system\CLI\Commands.php(74): CodeIgniter\Commands\Database\Migrate->run(Array)
+#9 D:\laragon\www\projek_kai\system\CLI\Console.php(47): CodeIgniter\CLI\Commands->run('migrate', Array)
+#10 D:\laragon\www\projek_kai\system\Boot.php(388): CodeIgniter\CLI\Console->run()
+#11 D:\laragon\www\projek_kai\system\Boot.php(133): CodeIgniter\Boot::runCommand(Object(CodeIgniter\CLI\Console))
+#12 D:\laragon\www\projek_kai\spark(87): CodeIgniter\Boot::bootSpark(Object(Config\Paths))
+#13 {main}
+ERROR - 2026-01-12 16:26:13 --> mysqli_sql_exception: Unknown column 'note' in 'field list' in D:\laragon\www\projek_kai\system\Database\MySQLi\Connection.php:327
+Stack trace:
+#0 D:\laragon\www\projek_kai\system\Database\MySQLi\Connection.php(327): mysqli->query('INSERT INTO `as...', 0)
+#1 D:\laragon\www\projek_kai\system\Database\BaseConnection.php(729): CodeIgniter\Database\MySQLi\Connection->execute('INSERT INTO `as...')
+#2 D:\laragon\www\projek_kai\system\Database\BaseConnection.php(646): CodeIgniter\Database\BaseConnection->simpleQuery('INSERT INTO `as...')
+#3 D:\laragon\www\projek_kai\system\Database\BaseBuilder.php(2345): CodeIgniter\Database\BaseConnection->query('INSERT INTO `as...', Array, false)
+#4 D:\laragon\www\projek_kai\app\Controllers\InputController.php(121): CodeIgniter\Database\BaseBuilder->insert(Array)
+#5 D:\laragon\www\projek_kai\system\CodeIgniter.php(933): App\Controllers\InputController->store()
+#6 D:\laragon\www\projek_kai\system\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\InputController))
+#7 D:\laragon\www\projek_kai\system\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#8 D:\laragon\www\projek_kai\system\Boot.php(363): CodeIgniter\CodeIgniter->run()
+#9 D:\laragon\www\projek_kai\system\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+#10 D:\laragon\www\projek_kai\public\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+#11 D:\laragon\www\projek_kai\system\rewrite.php(44): require_once('D:\\laragon\\www\\...')
+#12 {main}
+ERROR - 2026-01-12 16:26:42 --> mysqli_sql_exception: Unknown column 'doc_type' in 'where clause' in D:\laragon\www\projek_kai\system\Database\MySQLi\Connection.php:327
+Stack trace:
+#0 D:\laragon\www\projek_kai\system\Database\MySQLi\Connection.php(327): mysqli->query('SELECT *\nFROM `...', 0)
+#1 D:\laragon\www\projek_kai\system\Database\BaseConnection.php(729): CodeIgniter\Database\MySQLi\Connection->execute('SELECT *\nFROM `...')
+#2 D:\laragon\www\projek_kai\system\Database\BaseConnection.php(646): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT *\nFROM `...')
+#3 D:\laragon\www\projek_kai\system\Database\BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT *\nFROM `...', Array, false)
+#4 D:\laragon\www\projek_kai\system\Model.php(330): CodeIgniter\Database\BaseBuilder->get()
+#5 D:\laragon\www\projek_kai\system\BaseModel.php(715): CodeIgniter\Model->doFirst()
+#6 D:\laragon\www\projek_kai\app\Models\DocumentsModel.php(38): CodeIgniter\BaseModel->first()
+#7 D:\laragon\www\projek_kai\app\Controllers\Assets.php(259): App\Models\DocumentsModel->findBastByProcurementOrAsset('4', '4')
+#8 D:\laragon\www\projek_kai\system\CodeIgniter.php(933): App\Controllers\Assets->show('4')
+#9 D:\laragon\www\projek_kai\system\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Assets))
+#10 D:\laragon\www\projek_kai\system\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#11 D:\laragon\www\projek_kai\system\Boot.php(363): CodeIgniter\CodeIgniter->run()
+#12 D:\laragon\www\projek_kai\system\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+#13 D:\laragon\www\projek_kai\public\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+#14 D:\laragon\www\projek_kai\system\rewrite.php(44): require_once('D:\\laragon\\www\\...')
+#15 {main}
+CRITICAL - 2026-01-12 16:26:42 --> CodeIgniter\Database\Exceptions\DatabaseException: Unknown column 'doc_type' in 'where clause'
+[Method: GET, Route: assets/4]
+in SYSTEMPATH\Database\BaseConnection.php on line 684.
+ 1 SYSTEMPATH\Database\BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT *
+FROM `documents`
+WHERE `procurement_id` = :procurement_id:
+AND  `doc_type` LIKE :doc_type: ESCAPE \'!\'
+ORDER BY `id` DESC
+ LIMIT 1', [...], false)
+ 2 SYSTEMPATH\Model.php(330): CodeIgniter\Database\BaseBuilder->get()
+ 3 SYSTEMPATH\BaseModel.php(715): CodeIgniter\Model->doFirst()
+ 4 APPPATH\Models\DocumentsModel.php(38): CodeIgniter\BaseModel->first()
+ 5 APPPATH\Controllers\Assets.php(259): App\Models\DocumentsModel->findBastByProcurementOrAsset('4', '4')
+ 6 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Assets->show('4')
+ 7 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Assets))
+ 8 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+12 SYSTEMPATH\rewrite.php(44): require_once('D:\\laragon\\www\\projek_kai\\public\\index.php')
+CRITICAL - 2026-01-12 16:26:42 --> [Caused by] CodeIgniter\Database\Exceptions\DatabaseException: Unknown column 'doc_type' in 'where clause'
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 332.
+ 1 SYSTEMPATH\Database\BaseConnection.php(729): CodeIgniter\Database\MySQLi\Connection->execute('SELECT *
+FROM `documents`
+WHERE `procurement_id` = \'4\'
+AND  `doc_type` LIKE \'%BAST%\' ESCAPE \'!\'
+ORDER BY `id` DESC
+ LIMIT 1')
+ 2 SYSTEMPATH\Database\BaseConnection.php(646): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT *
+FROM `documents`
+WHERE `procurement_id` = \'4\'
+AND  `doc_type` LIKE \'%BAST%\' ESCAPE \'!\'
+ORDER BY `id` DESC
+ LIMIT 1')
+ 3 SYSTEMPATH\Database\BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT *
+FROM `documents`
+WHERE `procurement_id` = :procurement_id:
+AND  `doc_type` LIKE :doc_type: ESCAPE \'!\'
+ORDER BY `id` DESC
+ LIMIT 1', [...], false)
+ 4 SYSTEMPATH\Model.php(330): CodeIgniter\Database\BaseBuilder->get()
+ 5 SYSTEMPATH\BaseModel.php(715): CodeIgniter\Model->doFirst()
+ 6 APPPATH\Models\DocumentsModel.php(38): CodeIgniter\BaseModel->first()
+ 7 APPPATH\Controllers\Assets.php(259): App\Models\DocumentsModel->findBastByProcurementOrAsset('4', '4')
+ 8 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Assets->show('4')
+ 9 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Assets))
+10 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+11 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+12 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+13 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+14 SYSTEMPATH\rewrite.php(44): require_once('D:\\laragon\\www\\projek_kai\\public\\index.php')
+CRITICAL - 2026-01-12 16:26:42 --> [Caused by] mysqli_sql_exception: Unknown column 'doc_type' in 'where clause'
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 327.
+ 1 SYSTEMPATH\Database\MySQLi\Connection.php(327): mysqli->query('SELECT *
+FROM `documents`
+WHERE `procurement_id` = \'4\'
+AND  `doc_type` LIKE \'%BAST%\' ESCAPE \'!\'
+ORDER BY `id` DESC
+ LIMIT 1', 0)
+ 2 SYSTEMPATH\Database\BaseConnection.php(729): CodeIgniter\Database\MySQLi\Connection->execute('SELECT *
+FROM `documents`
+WHERE `procurement_id` = \'4\'
+AND  `doc_type` LIKE \'%BAST%\' ESCAPE \'!\'
+ORDER BY `id` DESC
+ LIMIT 1')
+ 3 SYSTEMPATH\Database\BaseConnection.php(646): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT *
+FROM `documents`
+WHERE `procurement_id` = \'4\'
+AND  `doc_type` LIKE \'%BAST%\' ESCAPE \'!\'
+ORDER BY `id` DESC
+ LIMIT 1')
+ 4 SYSTEMPATH\Database\BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT *
+FROM `documents`
+WHERE `procurement_id` = :procurement_id:
+AND  `doc_type` LIKE :doc_type: ESCAPE \'!\'
+ORDER BY `id` DESC
+ LIMIT 1', [...], false)
+ 5 SYSTEMPATH\Model.php(330): CodeIgniter\Database\BaseBuilder->get()
+ 6 SYSTEMPATH\BaseModel.php(715): CodeIgniter\Model->doFirst()
+ 7 APPPATH\Models\DocumentsModel.php(38): CodeIgniter\BaseModel->first()
+ 8 APPPATH\Controllers\Assets.php(259): App\Models\DocumentsModel->findBastByProcurementOrAsset('4', '4')
+ 9 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Assets->show('4')
+10 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Assets))
+11 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+12 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+13 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+14 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+15 SYSTEMPATH\rewrite.php(44): require_once('D:\\laragon\\www\\projek_kai\\public\\index.php')
+ERROR - 2026-01-12 16:27:02 --> mysqli_sql_exception: Unknown column 'doc_type' in 'where clause' in D:\laragon\www\projek_kai\system\Database\MySQLi\Connection.php:327
+Stack trace:
+#0 D:\laragon\www\projek_kai\system\Database\MySQLi\Connection.php(327): mysqli->query('SELECT *\nFROM `...', 0)
+#1 D:\laragon\www\projek_kai\system\Database\BaseConnection.php(729): CodeIgniter\Database\MySQLi\Connection->execute('SELECT *\nFROM `...')
+#2 D:\laragon\www\projek_kai\system\Database\BaseConnection.php(646): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT *\nFROM `...')
+#3 D:\laragon\www\projek_kai\system\Database\BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT *\nFROM `...', Array, false)
+#4 D:\laragon\www\projek_kai\system\Model.php(330): CodeIgniter\Database\BaseBuilder->get()
+#5 D:\laragon\www\projek_kai\system\BaseModel.php(715): CodeIgniter\Model->doFirst()
+#6 D:\laragon\www\projek_kai\app\Models\DocumentsModel.php(38): CodeIgniter\BaseModel->first()
+#7 D:\laragon\www\projek_kai\app\Controllers\Assets.php(259): App\Models\DocumentsModel->findBastByProcurementOrAsset('4', '4')
+#8 D:\laragon\www\projek_kai\system\CodeIgniter.php(933): App\Controllers\Assets->show('4')
+#9 D:\laragon\www\projek_kai\system\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Assets))
+#10 D:\laragon\www\projek_kai\system\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#11 D:\laragon\www\projek_kai\system\Boot.php(363): CodeIgniter\CodeIgniter->run()
+#12 D:\laragon\www\projek_kai\system\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+#13 D:\laragon\www\projek_kai\public\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+#14 D:\laragon\www\projek_kai\system\rewrite.php(44): require_once('D:\\laragon\\www\\...')
+#15 {main}
+CRITICAL - 2026-01-12 16:27:02 --> CodeIgniter\Database\Exceptions\DatabaseException: Unknown column 'doc_type' in 'where clause'
+[Method: GET, Route: assets/4]
+in SYSTEMPATH\Database\BaseConnection.php on line 684.
+ 1 SYSTEMPATH\Database\BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT *
+FROM `documents`
+WHERE `procurement_id` = :procurement_id:
+AND  `doc_type` LIKE :doc_type: ESCAPE \'!\'
+ORDER BY `id` DESC
+ LIMIT 1', [...], false)
+ 2 SYSTEMPATH\Model.php(330): CodeIgniter\Database\BaseBuilder->get()
+ 3 SYSTEMPATH\BaseModel.php(715): CodeIgniter\Model->doFirst()
+ 4 APPPATH\Models\DocumentsModel.php(38): CodeIgniter\BaseModel->first()
+ 5 APPPATH\Controllers\Assets.php(259): App\Models\DocumentsModel->findBastByProcurementOrAsset('4', '4')
+ 6 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Assets->show('4')
+ 7 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Assets))
+ 8 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+12 SYSTEMPATH\rewrite.php(44): require_once('D:\\laragon\\www\\projek_kai\\public\\index.php')
+CRITICAL - 2026-01-12 16:27:02 --> [Caused by] CodeIgniter\Database\Exceptions\DatabaseException: Unknown column 'doc_type' in 'where clause'
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 332.
+ 1 SYSTEMPATH\Database\BaseConnection.php(729): CodeIgniter\Database\MySQLi\Connection->execute('SELECT *
+FROM `documents`
+WHERE `procurement_id` = \'4\'
+AND  `doc_type` LIKE \'%BAST%\' ESCAPE \'!\'
+ORDER BY `id` DESC
+ LIMIT 1')
+ 2 SYSTEMPATH\Database\BaseConnection.php(646): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT *
+FROM `documents`
+WHERE `procurement_id` = \'4\'
+AND  `doc_type` LIKE \'%BAST%\' ESCAPE \'!\'
+ORDER BY `id` DESC
+ LIMIT 1')
+ 3 SYSTEMPATH\Database\BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT *
+FROM `documents`
+WHERE `procurement_id` = :procurement_id:
+AND  `doc_type` LIKE :doc_type: ESCAPE \'!\'
+ORDER BY `id` DESC
+ LIMIT 1', [...], false)
+ 4 SYSTEMPATH\Model.php(330): CodeIgniter\Database\BaseBuilder->get()
+ 5 SYSTEMPATH\BaseModel.php(715): CodeIgniter\Model->doFirst()
+ 6 APPPATH\Models\DocumentsModel.php(38): CodeIgniter\BaseModel->first()
+ 7 APPPATH\Controllers\Assets.php(259): App\Models\DocumentsModel->findBastByProcurementOrAsset('4', '4')
+ 8 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Assets->show('4')
+ 9 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Assets))
+10 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+11 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+12 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+13 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+14 SYSTEMPATH\rewrite.php(44): require_once('D:\\laragon\\www\\projek_kai\\public\\index.php')
+CRITICAL - 2026-01-12 16:27:02 --> [Caused by] mysqli_sql_exception: Unknown column 'doc_type' in 'where clause'
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 327.
+ 1 SYSTEMPATH\Database\MySQLi\Connection.php(327): mysqli->query('SELECT *
+FROM `documents`
+WHERE `procurement_id` = \'4\'
+AND  `doc_type` LIKE \'%BAST%\' ESCAPE \'!\'
+ORDER BY `id` DESC
+ LIMIT 1', 0)
+ 2 SYSTEMPATH\Database\BaseConnection.php(729): CodeIgniter\Database\MySQLi\Connection->execute('SELECT *
+FROM `documents`
+WHERE `procurement_id` = \'4\'
+AND  `doc_type` LIKE \'%BAST%\' ESCAPE \'!\'
+ORDER BY `id` DESC
+ LIMIT 1')
+ 3 SYSTEMPATH\Database\BaseConnection.php(646): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT *
+FROM `documents`
+WHERE `procurement_id` = \'4\'
+AND  `doc_type` LIKE \'%BAST%\' ESCAPE \'!\'
+ORDER BY `id` DESC
+ LIMIT 1')
+ 4 SYSTEMPATH\Database\BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT *
+FROM `documents`
+WHERE `procurement_id` = :procurement_id:
+AND  `doc_type` LIKE :doc_type: ESCAPE \'!\'
+ORDER BY `id` DESC
+ LIMIT 1', [...], false)
+ 5 SYSTEMPATH\Model.php(330): CodeIgniter\Database\BaseBuilder->get()
+ 6 SYSTEMPATH\BaseModel.php(715): CodeIgniter\Model->doFirst()
+ 7 APPPATH\Models\DocumentsModel.php(38): CodeIgniter\BaseModel->first()
+ 8 APPPATH\Controllers\Assets.php(259): App\Models\DocumentsModel->findBastByProcurementOrAsset('4', '4')
+ 9 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Assets->show('4')
+10 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Assets))
+11 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+12 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+13 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+14 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+15 SYSTEMPATH\rewrite.php(44): require_once('D:\\laragon\\www\\projek_kai\\public\\index.php')
+ERROR - 2026-01-12 16:33:56 --> mysqli_sql_exception: Table 'projek_kai.documents' doesn't exist in D:\laragon\www\projek_kai\system\Database\MySQLi\Connection.php:327
+Stack trace:
+#0 D:\laragon\www\projek_kai\system\Database\MySQLi\Connection.php(327): mysqli->query('ALTER TABLE `do...', 0)
+#1 D:\laragon\www\projek_kai\system\Database\BaseConnection.php(729): CodeIgniter\Database\MySQLi\Connection->execute('ALTER TABLE `do...')
+#2 D:\laragon\www\projek_kai\system\Database\BaseConnection.php(646): CodeIgniter\Database\BaseConnection->simpleQuery('ALTER TABLE `do...')
+#3 D:\laragon\www\projek_kai\system\Database\Forge.php(772): CodeIgniter\Database\BaseConnection->query('ALTER TABLE `do...')
+#4 D:\laragon\www\projek_kai\app\Database\Migrations\2026-01-11-095221_AddNoWoBastToDocuments.php(11): CodeIgniter\Database\Forge->addColumn('documents', Array)
+#5 D:\laragon\www\projek_kai\system\Database\MigrationRunner.php(876): App\Database\Migrations\AddNoWoBastToDocuments->up()
+#6 D:\laragon\www\projek_kai\system\Database\MigrationRunner.php(182): CodeIgniter\Database\MigrationRunner->migrate('up', Object(stdClass))
+#7 D:\laragon\www\projek_kai\system\Commands\Database\Migrate.php(85): CodeIgniter\Database\MigrationRunner->latest(NULL)
+#8 D:\laragon\www\projek_kai\system\CLI\Commands.php(74): CodeIgniter\Commands\Database\Migrate->run(Array)
+#9 D:\laragon\www\projek_kai\system\CLI\Console.php(47): CodeIgniter\CLI\Commands->run('migrate', Array)
+#10 D:\laragon\www\projek_kai\system\Boot.php(388): CodeIgniter\CLI\Console->run()
+#11 D:\laragon\www\projek_kai\system\Boot.php(133): CodeIgniter\Boot::runCommand(Object(CodeIgniter\CLI\Console))
+#12 D:\laragon\www\projek_kai\spark(87): CodeIgniter\Boot::bootSpark(Object(Config\Paths))
+#13 {main}
+ERROR - 2026-01-12 16:35:04 --> Error connecting to the database: mysqli_sql_exception: Unknown database 'projek_kai' in D:\laragon\www\projek_kai\system\Database\MySQLi\Connection.php:201
+Stack trace:
+#0 D:\laragon\www\projek_kai\system\Database\MySQLi\Connection.php(201): mysqli->real_connect('localhost', 'root', Object(SensitiveParameterValue), 'projek_kai', 3306, '', 0)
+#1 D:\laragon\www\projek_kai\system\Database\BaseConnection.php(419): CodeIgniter\Database\MySQLi\Connection->connect(false)
+#2 D:\laragon\www\projek_kai\system\Database\BaseConnection.php(614): CodeIgniter\Database\BaseConnection->initialize()
+#3 D:\laragon\www\projek_kai\system\Database\BaseConnection.php(1525): CodeIgniter\Database\BaseConnection->query('SHOW TABLES FRO...')
+#4 D:\laragon\www\projek_kai\system\Database\BaseConnection.php(1545): CodeIgniter\Database\BaseConnection->listTables()
+#5 D:\laragon\www\projek_kai\system\Database\MigrationRunner.php(768): CodeIgniter\Database\BaseConnection->tableExists('migrations')
+#6 D:\laragon\www\projek_kai\system\Database\MigrationRunner.php(162): CodeIgniter\Database\MigrationRunner->ensureTable()
+#7 D:\laragon\www\projek_kai\system\Commands\Database\Migrate.php(85): CodeIgniter\Database\MigrationRunner->latest(NULL)
+#8 D:\laragon\www\projek_kai\system\CLI\Commands.php(74): CodeIgniter\Commands\Database\Migrate->run(Array)
+#9 D:\laragon\www\projek_kai\system\CLI\Console.php(47): CodeIgniter\CLI\Commands->run('migrate', Array)
+#10 D:\laragon\www\projek_kai\system\Boot.php(388): CodeIgniter\CLI\Console->run()
+#11 D:\laragon\www\projek_kai\system\Boot.php(133): CodeIgniter\Boot::runCommand(Object(CodeIgniter\CLI\Console))
+#12 D:\laragon\www\projek_kai\spark(87): CodeIgniter\Boot::bootSpark(Object(Config\Paths))
+#13 {main}
+
+Next CodeIgniter\Database\Exceptions\DatabaseException: Unknown database 'projek_kai' in D:\laragon\www\projek_kai\system\Database\MySQLi\Connection.php:246
+Stack trace:
+#0 D:\laragon\www\projek_kai\system\Database\BaseConnection.php(419): CodeIgniter\Database\MySQLi\Connection->connect(false)
+#1 D:\laragon\www\projek_kai\system\Database\BaseConnection.php(614): CodeIgniter\Database\BaseConnection->initialize()
+#2 D:\laragon\www\projek_kai\system\Database\BaseConnection.php(1525): CodeIgniter\Database\BaseConnection->query('SHOW TABLES FRO...')
+#3 D:\laragon\www\projek_kai\system\Database\BaseConnection.php(1545): CodeIgniter\Database\BaseConnection->listTables()
+#4 D:\laragon\www\projek_kai\system\Database\MigrationRunner.php(768): CodeIgniter\Database\BaseConnection->tableExists('migrations')
+#5 D:\laragon\www\projek_kai\system\Database\MigrationRunner.php(162): CodeIgniter\Database\MigrationRunner->ensureTable()
+#6 D:\laragon\www\projek_kai\system\Commands\Database\Migrate.php(85): CodeIgniter\Database\MigrationRunner->latest(NULL)
+#7 D:\laragon\www\projek_kai\system\CLI\Commands.php(74): CodeIgniter\Commands\Database\Migrate->run(Array)
+#8 D:\laragon\www\projek_kai\system\CLI\Console.php(47): CodeIgniter\CLI\Commands->run('migrate', Array)
+#9 D:\laragon\www\projek_kai\system\Boot.php(388): CodeIgniter\CLI\Console->run()
+#10 D:\laragon\www\projek_kai\system\Boot.php(133): CodeIgniter\Boot::runCommand(Object(CodeIgniter\CLI\Console))
+#11 D:\laragon\www\projek_kai\spark(87): CodeIgniter\Boot::bootSpark(Object(Config\Paths))
+#12 {main}
+ERROR - 2026-01-12 16:37:34 --> mysqli_sql_exception: Unknown column 'first_name' in 'field list' in D:\laragon\www\projek_kai\system\Database\MySQLi\Connection.php:327
+Stack trace:
+#0 D:\laragon\www\projek_kai\system\Database\MySQLi\Connection.php(327): mysqli->query('\r\n            I...', 0)
+#1 D:\laragon\www\projek_kai\system\Database\BaseConnection.php(729): CodeIgniter\Database\MySQLi\Connection->execute('\r\n            I...')
+#2 D:\laragon\www\projek_kai\system\Database\BaseConnection.php(646): CodeIgniter\Database\BaseConnection->simpleQuery('\r\n            I...')
+#3 D:\laragon\www\projek_kai\app\Database\Migrations\2025-11-15-063734_Register.php(61): CodeIgniter\Database\BaseConnection->query('\r\n            I...')
+#4 D:\laragon\www\projek_kai\system\Database\MigrationRunner.php(876): App\Database\Migrations\UpdateUsersTableToSimple->up()
+#5 D:\laragon\www\projek_kai\system\Database\MigrationRunner.php(182): CodeIgniter\Database\MigrationRunner->migrate('up', Object(stdClass))
+#6 D:\laragon\www\projek_kai\system\Commands\Database\Migrate.php(85): CodeIgniter\Database\MigrationRunner->latest(NULL)
+#7 D:\laragon\www\projek_kai\system\CLI\Commands.php(74): CodeIgniter\Commands\Database\Migrate->run(Array)
+#8 D:\laragon\www\projek_kai\system\CLI\Console.php(47): CodeIgniter\CLI\Commands->run('migrate', Array)
+#9 D:\laragon\www\projek_kai\system\Boot.php(388): CodeIgniter\CLI\Console->run()
+#10 D:\laragon\www\projek_kai\system\Boot.php(133): CodeIgniter\Boot::runCommand(Object(CodeIgniter\CLI\Console))
+#11 D:\laragon\www\projek_kai\spark(87): CodeIgniter\Boot::bootSpark(Object(Config\Paths))
+#12 {main}
+ERROR - 2026-01-12 16:37:34 --> mysqli_sql_exception: Duplicate column name 'no_wo_bast' in D:\laragon\www\projek_kai\system\Database\MySQLi\Connection.php:327
+Stack trace:
+#0 D:\laragon\www\projek_kai\system\Database\MySQLi\Connection.php(327): mysqli->query('ALTER TABLE `do...', 0)
+#1 D:\laragon\www\projek_kai\system\Database\BaseConnection.php(729): CodeIgniter\Database\MySQLi\Connection->execute('ALTER TABLE `do...')
+#2 D:\laragon\www\projek_kai\system\Database\BaseConnection.php(646): CodeIgniter\Database\BaseConnection->simpleQuery('ALTER TABLE `do...')
+#3 D:\laragon\www\projek_kai\system\Database\Forge.php(772): CodeIgniter\Database\BaseConnection->query('ALTER TABLE `do...')
+#4 D:\laragon\www\projek_kai\app\Database\Migrations\2026-01-11-095221_AddNoWoBastToDocuments.php(11): CodeIgniter\Database\Forge->addColumn('documents', Array)
+#5 D:\laragon\www\projek_kai\system\Database\MigrationRunner.php(876): App\Database\Migrations\AddNoWoBastToDocuments->up()
+#6 D:\laragon\www\projek_kai\system\Database\MigrationRunner.php(182): CodeIgniter\Database\MigrationRunner->migrate('up', Object(stdClass))
+#7 D:\laragon\www\projek_kai\system\Commands\Database\Migrate.php(85): CodeIgniter\Database\MigrationRunner->latest(NULL)
+#8 D:\laragon\www\projek_kai\system\CLI\Commands.php(74): CodeIgniter\Commands\Database\Migrate->run(Array)
+#9 D:\laragon\www\projek_kai\system\CLI\Console.php(47): CodeIgniter\CLI\Commands->run('migrate', Array)
+#10 D:\laragon\www\projek_kai\system\Boot.php(388): CodeIgniter\CLI\Console->run()
+#11 D:\laragon\www\projek_kai\system\Boot.php(133): CodeIgniter\Boot::runCommand(Object(CodeIgniter\CLI\Console))
+#12 D:\laragon\www\projek_kai\spark(87): CodeIgniter\Boot::bootSpark(Object(Config\Paths))
+#13 {main}
+ERROR - 2026-01-12 16:41:23 --> mysqli_sql_exception: Unknown column 'first_name' in 'field list' in D:\laragon\www\projek_kai\system\Database\MySQLi\Connection.php:327
+Stack trace:
+#0 D:\laragon\www\projek_kai\system\Database\MySQLi\Connection.php(327): mysqli->query('\r\n            I...', 0)
+#1 D:\laragon\www\projek_kai\system\Database\BaseConnection.php(729): CodeIgniter\Database\MySQLi\Connection->execute('\r\n            I...')
+#2 D:\laragon\www\projek_kai\system\Database\BaseConnection.php(646): CodeIgniter\Database\BaseConnection->simpleQuery('\r\n            I...')
+#3 D:\laragon\www\projek_kai\app\Database\Migrations\2025-11-15-063734_Register.php(61): CodeIgniter\Database\BaseConnection->query('\r\n            I...')
+#4 D:\laragon\www\projek_kai\system\Database\MigrationRunner.php(876): App\Database\Migrations\UpdateUsersTableToSimple->up()
+#5 D:\laragon\www\projek_kai\system\Database\MigrationRunner.php(182): CodeIgniter\Database\MigrationRunner->migrate('up', Object(stdClass))
+#6 D:\laragon\www\projek_kai\system\Commands\Database\Migrate.php(85): CodeIgniter\Database\MigrationRunner->latest(NULL)
+#7 D:\laragon\www\projek_kai\system\CLI\Commands.php(74): CodeIgniter\Commands\Database\Migrate->run(Array)
+#8 D:\laragon\www\projek_kai\system\CLI\Console.php(47): CodeIgniter\CLI\Commands->run('migrate', Array)
+#9 D:\laragon\www\projek_kai\system\Boot.php(388): CodeIgniter\CLI\Console->run()
+#10 D:\laragon\www\projek_kai\system\Boot.php(133): CodeIgniter\Boot::runCommand(Object(CodeIgniter\CLI\Console))
+#11 D:\laragon\www\projek_kai\spark(87): CodeIgniter\Boot::bootSpark(Object(Config\Paths))
+#12 {main}
+ERROR - 2026-01-12 16:41:23 --> mysqli_sql_exception: Unknown column 'no_wo_bast' in 'documents' in D:\laragon\www\projek_kai\system\Database\MySQLi\Connection.php:327
+Stack trace:
+#0 D:\laragon\www\projek_kai\system\Database\MySQLi\Connection.php(327): mysqli->query('\r\n            A...', 0)
+#1 D:\laragon\www\projek_kai\system\Database\BaseConnection.php(729): CodeIgniter\Database\MySQLi\Connection->execute('\r\n            A...')
+#2 D:\laragon\www\projek_kai\system\Database\BaseConnection.php(646): CodeIgniter\Database\BaseConnection->simpleQuery('\r\n            A...')
+#3 D:\laragon\www\projek_kai\app\Database\Migrations\2026-01-11-094116_RenameDocTypeToNoWoBast.php(11): CodeIgniter\Database\BaseConnection->query('\r\n            A...')
+#4 D:\laragon\www\projek_kai\system\Database\MigrationRunner.php(876): App\Database\Migrations\RenameDocTypeToNoWoBast->up()
+#5 D:\laragon\www\projek_kai\system\Database\MigrationRunner.php(182): CodeIgniter\Database\MigrationRunner->migrate('up', Object(stdClass))
+#6 D:\laragon\www\projek_kai\system\Commands\Database\Migrate.php(85): CodeIgniter\Database\MigrationRunner->latest(NULL)
+#7 D:\laragon\www\projek_kai\system\CLI\Commands.php(74): CodeIgniter\Commands\Database\Migrate->run(Array)
+#8 D:\laragon\www\projek_kai\system\CLI\Console.php(47): CodeIgniter\CLI\Commands->run('migrate', Array)
+#9 D:\laragon\www\projek_kai\system\Boot.php(388): CodeIgniter\CLI\Console->run()
+#10 D:\laragon\www\projek_kai\system\Boot.php(133): CodeIgniter\Boot::runCommand(Object(CodeIgniter\CLI\Console))
+#11 D:\laragon\www\projek_kai\spark(87): CodeIgniter\Boot::bootSpark(Object(Config\Paths))
+#12 {main}
+ERROR - 2026-01-12 16:43:52 --> mysqli_sql_exception: Unknown column 'first_name' in 'field list' in D:\laragon\www\projek_kai\system\Database\MySQLi\Connection.php:327
+Stack trace:
+#0 D:\laragon\www\projek_kai\system\Database\MySQLi\Connection.php(327): mysqli->query('\r\n            I...', 0)
+#1 D:\laragon\www\projek_kai\system\Database\BaseConnection.php(729): CodeIgniter\Database\MySQLi\Connection->execute('\r\n            I...')
+#2 D:\laragon\www\projek_kai\system\Database\BaseConnection.php(646): CodeIgniter\Database\BaseConnection->simpleQuery('\r\n            I...')
+#3 D:\laragon\www\projek_kai\app\Database\Migrations\2025-11-15-063734_Register.php(61): CodeIgniter\Database\BaseConnection->query('\r\n            I...')
+#4 D:\laragon\www\projek_kai\system\Database\MigrationRunner.php(876): App\Database\Migrations\UpdateUsersTableToSimple->up()
+#5 D:\laragon\www\projek_kai\system\Database\MigrationRunner.php(182): CodeIgniter\Database\MigrationRunner->migrate('up', Object(stdClass))
+#6 D:\laragon\www\projek_kai\system\Commands\Database\Migrate.php(85): CodeIgniter\Database\MigrationRunner->latest(NULL)
+#7 D:\laragon\www\projek_kai\system\CLI\Commands.php(74): CodeIgniter\Commands\Database\Migrate->run(Array)
+#8 D:\laragon\www\projek_kai\system\CLI\Console.php(47): CodeIgniter\CLI\Commands->run('migrate', Array)
+#9 D:\laragon\www\projek_kai\system\Boot.php(388): CodeIgniter\CLI\Console->run()
+#10 D:\laragon\www\projek_kai\system\Boot.php(133): CodeIgniter\Boot::runCommand(Object(CodeIgniter\CLI\Console))
+#11 D:\laragon\www\projek_kai\spark(87): CodeIgniter\Boot::bootSpark(Object(Config\Paths))
+#12 {main}

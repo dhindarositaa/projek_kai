@@ -214,7 +214,7 @@
                 <label class="text-xs text-gray-700">Keterangan</label>
                 <textarea rows="3"
                           class="mt-1 w-full border rounded px-3 py-2"
-                          readonly><?= esc($asset['keterangan'] ?? '-') ?></textarea>
+                          readonly><?= esc($asset['note'] ?? '-') ?></textarea>
               </div>
             </div>
           </fieldset>
