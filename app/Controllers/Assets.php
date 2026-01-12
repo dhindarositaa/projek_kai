@@ -187,6 +187,8 @@ class Assets extends BaseController
             ];
             $this->db->table('assets')->insert($assetPayload);
             $assetId = (int) $this->db->insertID();
+            helper('asset_log');
+            log_asset_changes($assetId, [], $assetPayload, 'create');
             $docNumber = $input['no_bast_bmc'] ?? null;
             $noWoBast  = $input['no_wo_bast'] ?? null;
 
@@ -234,62 +236,82 @@ class Assets extends BaseController
     }
 
     public function show($id)
-    {
-        $asset = $this->assetsModel->findWithRelations($id);
-        if (! $asset) {
-            return redirect()->to('assets')->with('error', 'Data tidak ditemukan.');
-        }
-
-        $procurementsModel = new ProcurementsModel();
-        $documentsModel    = new DocumentsModel();
-        $employeesModel    = new EmployeesModel();
-
-        $no_rab = '-';
-        if (!empty($asset['procurement_id'])) {
-            $proc = $procurementsModel->find($asset['procurement_id']);
-            if ($proc) {
-                $no_rab = $proc['no_rab'] ?? '-';
-            }
-        }
-
-        $no_bast_bmc = '-';
-        $no_wo_bast  = '-';
-        $link_bast   = null;
-
-        $doc = $documentsModel->findBastByProcurementOrAsset(
-            $asset['procurement_id'] ?? null,
-            $asset['id'] ?? null
-        );
-
-        if ($doc) {
-            $no_bast_bmc = $doc['doc_number'] ?? '-';
-            $no_wo_bast  = $doc['no_wo_bast'] ?? '-';
-            $link_bast   = $doc['doc_link'] ?? null;
-        }
-
-        $asset['no_wo_bast'] = $no_wo_bast;
-
-        $employee_name = $asset['employee_name'] ?? '-';
-        $nipp          = $asset['employee_nipp'] ?? '-';
-        if (!empty($asset['employee_id'])) {
-            $emp = $employeesModel->find($asset['employee_id']);
-            if ($emp) {
-                $employee_name = $emp['name'] ?? $employee_name;
-                $nipp          = $emp['nipp'] ?? $nipp;
-            }
-        }
-
-        $asset['no_rab']        = $no_rab;
-        $asset['no_bast_bmc']   = $no_bast_bmc;
-        $asset['link_bast']     = $link_bast;
-        $asset['employee_name'] = $employee_name;
-        $asset['nipp']          = $nipp;
-
-        return view('dashboard/barang_detail', [
-            'title' => 'Detail Barang',
-            'asset' => $asset,
-        ]);
+{
+    $asset = $this->assetsModel->findWithRelations($id);
+    if (! $asset) {
+        return redirect()->to('assets')->with('error', 'Data tidak ditemukan.');
     }
+
+    $procurementsModel = new ProcurementsModel();
+    $documentsModel    = new DocumentsModel();
+    $employeesModel    = new EmployeesModel();
+
+    /* ================= PROCUREMENT ================= */
+    $no_rab = '-';
+    if (!empty($asset['procurement_id'])) {
+        $proc = $procurementsModel->find($asset['procurement_id']);
+        if ($proc) {
+            $no_rab = $proc['no_rab'] ?? '-';
+        }
+    }
+
+    /* ================= DOCUMENT ================= */
+    $no_bast_bmc = '-';
+    $no_wo_bast  = '-';
+    $link_bast   = null;
+
+    $doc = $documentsModel->findBastByProcurementOrAsset(
+        $asset['procurement_id'] ?? null,
+        $asset['id'] ?? null
+    );
+
+    if ($doc) {
+        $no_bast_bmc = $doc['doc_number'] ?? '-';
+        $no_wo_bast  = $doc['no_wo_bast'] ?? '-';
+        $link_bast   = $doc['doc_link'] ?? null;
+    }
+
+    /* ================= EMPLOYEE ================= */
+    $employee_name = $asset['employee_name'] ?? '-';
+    $nipp          = $asset['employee_nipp'] ?? '-';
+
+    if (!empty($asset['employee_id'])) {
+        $emp = $employeesModel->find($asset['employee_id']);
+        if ($emp) {
+            $employee_name = $emp['name'] ?? $employee_name;
+            $nipp          = $emp['nipp'] ?? $nipp;
+        }
+    }
+
+    /* ================= TERAKHIR DIGANTI (AUDIT LOG) ================= */
+    $lastChange = $this->db->table('asset_logs')
+        ->where('asset_id', $id)
+        ->orderBy('created_at', 'DESC')
+        ->get()
+        ->getRowArray();
+
+    $asset['replaced_at']       = $lastChange['created_at'] ?? null;
+    $asset['last_change_field'] = $lastChange['field'] ?? null;
+    $asset['last_old_value']    = $lastChange['old_value'] ?? null;
+    $asset['last_new_value']    = $lastChange['new_value'] ?? null;
+
+
+    /* ================= PASANG KE $asset ================= */
+    $asset['no_rab']         = $no_rab;
+    $asset['no_bast_bmc']    = $no_bast_bmc;
+    $asset['no_wo_bast']     = $no_wo_bast;
+    $asset['link_bast']      = $link_bast;
+    $asset['employee_name'] = $employee_name;
+    $asset['nipp']          = $nipp;
+
+
+    return view('dashboard/barang_detail', [
+        'title' => 'Detail Barang',
+        'asset' => $asset,
+    ]);
+}
+
+
 
 public function edit($id)
 {
@@ -334,7 +356,6 @@ public function edit($id)
 
     $input = $this->request->getPost();
 
-    // ================= VALIDATION (SEMUA OPTIONAL) =================
     $rules = [
         'proc_no_rab'       => 'permit_empty',
         'proc_no_npd'       => 'permit_empty',
@@ -361,24 +382,13 @@ public function edit($id)
         return redirect()->back()->withInput()->with('error', $this->validator->getErrors());
     }
 
-    // ================= CEK KODE INVENTARIS =================
-    if (!empty($input['asset_code']) && $input['asset_code'] !== $asset['asset_code']) {
-        $exists = $this->db->table('assets')
-            ->where('asset_code', $input['asset_code'])
-            ->where('id !=', $id)
-            ->countAllResults();
-
-        if ($exists) {
-            return redirect()->back()->withInput()->with('error', [
-                'asset_code' => 'Kode inventaris sudah dipakai.'
-            ]);
-        }
-    }
+    $oldAsset = $this->db->table('assets')->where('id', $id)->get()->getRowArray();
 
     $this->db->transStart();
 
     try {
-        // ================= PROCUREMENT =================
+
+        /* ================= PROCUREMENTS ================= */
         $this->db->table('procurements')
             ->where('id', $asset['procurement_id'])
             ->update([
@@ -387,7 +397,7 @@ public function edit($id)
                 'procurement_date' => $input['procurement_date'] ?? $asset['procurement_date'],
             ]);
 
-        // ================= ASSET MODEL =================
+        /* ================= ASSET MODEL ================= */
         $assetModelId = $asset['asset_model_id'];
         if (!empty($input['asset_brand']) || !empty($input['asset_model_name'])) {
             $brand = $input['asset_brand']      ?? $asset['brand'];
@@ -411,7 +421,7 @@ public function edit($id)
             }
         }
 
-        // ================= UNIT =================
+        /* ================= UNIT ================= */
         $unitId = $asset['unit_id'];
         if (!empty($input['unit_name'])) {
             $unit = $this->db->table('units')->where('name', $input['unit_name'])->get()->getRowArray();
@@ -426,7 +436,7 @@ public function edit($id)
             }
         }
 
-        // ================= EMPLOYEE =================
+        /* ================= EMPLOYEE ================= */
         $employeeId = $asset['employee_id'];
         if (!empty($input['employee_nipp']) || !empty($input['employee_name'])) {
             $emp = $this->db->table('employees')->where('nipp', $input['employee_nipp'])->get()->getRowArray();
@@ -445,8 +455,8 @@ public function edit($id)
             }
         }
 
-        // ================= ASSETS =================
-        $this->db->table('assets')->where('id', $id)->update([
+        /* ================= ASSETS ================= */
+        $newAssetData = [
             'asset_code'     => $input['asset_code']     ?? $asset['asset_code'],
             'asset_model_id' => $assetModelId,
             'serial_number'  => $input['serial_number']  ?? $asset['serial_number'],
@@ -457,9 +467,15 @@ public function edit($id)
             'note'           => $input['keterangan']    ?? $asset['note'],
             'label_attached' => $input['label_attached'] ?? $asset['label_attached'],
             'condition'      => $input['condition'] ?? $asset['condition'],
-        ]);
+        ];
 
-        // ================= DOCUMENT =================
+        $this->db->table('assets')->where('id', $id)->update($newAssetData);
+
+        /* ================= AUDIT LOG ================= */
+        helper('asset_log');
+        log_asset_changes($id, $oldAsset, $newAssetData, 'update');
+
+        /* ================= DOCUMENT ================= */
         $documentsModel = new DocumentsModel();
         $doc = $documentsModel->findBastByProcurementOrAsset($asset['procurement_id'], $id);
 
@@ -500,6 +516,7 @@ public function edit($id)
         return redirect()->back()->withInput()->with('error', 'Gagal mengubah data: '.$e->getMessage());
     }
 }
+
 
 
 
@@ -596,36 +613,39 @@ public function edit($id)
     $mode     = $this->request->getPost('mode');
     $assetIds = $this->request->getPost('asset_ids');
 
-    if ($mode !== 'selected') {
-        return redirect()->back()->with('error', 'Mode tidak valid.');
+    if ($mode !== 'selected' || empty($assetIds)) {
+        return redirect()->back()->with('error', 'Data tidak valid.');
     }
 
-    if (empty($assetIds) || !is_array($assetIds)) {
-        return redirect()->back()->with('error', 'Tidak ada aset yang dipilih.');
-    }
+    helper('asset_log');
 
-    $this->db->table('assets')
-        ->whereIn('id', $assetIds)
-        ->where('condition !=', 'diganti')
-        ->update([
-            'replaced_at'   => date('Y-m-d'), // 🧾 CATAT RIWAYAT
-            'purchase_date'=> date('Y-m-d'), // 🔄 RESET UMUR
-            'condition'    => 'baik',         // ♻️ AKTIF LAGI
-            'updated_at'   => date('Y-m-d H:i:s'),
+    foreach ($assetIds as $id) {
+
+        // ambil kondisi lama
+        $old = $this->db->table('assets')->where('id', $id)->get()->getRowArray();
+        if (! $old) continue;
+
+        // 1. tandai sebagai diganti dulu
+        $this->db->table('assets')->where('id', $id)->update([
+            'condition' => 'diganti'
         ]);
 
-    $count = $this->db->affectedRows();
+        // 2. data baru (hasil penggantian)
+        $new = [
+            'replaced_at'   => date('Y-m-d'),
+            'purchase_date'=> date('Y-m-d'),
+            'condition'    => 'baik',
+            'updated_at'   => date('Y-m-d H:i:s'),
+        ];
 
-    if ($count === 0) {
-        return redirect()->back()->with(
-            'warning',
-            'Tidak ada aset yang diubah.'
-        );
+        // 3. update final
+        $this->db->table('assets')->where('id', $id)->update($new);
+
+        // 4. catat ke asset_logs (INI YANG PENTING)
+        log_asset_changes($id, $old, $new, 'update');
     }
 
-    return redirect()->back()->with(
-        'success',
-        $count . ' aset berhasil diubah menjadi Diganti.'
-    );
+    return redirect()->back()->with('success', 'Aset berhasil diremajakan.');
 }
+
 }
