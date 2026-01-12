@@ -61,12 +61,19 @@ abstract class BaseController extends Controller
     protected function getStats(): array
     {
         $assetsModel = new AssetsModel();
-        $allAssets   = $assetsModel->getAssetsWithRelations();
+
+        // AMBIL SEMUA ASET (TERMASUK DIGANTI)
+        $allAssets = $assetsModel->getAssetsWithRelations();
 
         $now   = Time::now('Asia/Jakarta');
         $merah = 0;
 
         foreach ($allAssets as $asset) {
+
+            // ❗️ABAIKAN JIKA STATUS DIGANTI (KHUSUS MERAH)
+            if (($asset['condition'] ?? null) === 'diganti') {
+                continue;
+            }
 
             $baseDate = $asset['purchase_date']
                 ?? $asset['procurement_date']
@@ -81,12 +88,11 @@ abstract class BaseController extends Controller
             }
         }
 
-        // ✅ TOTAL ASLI (BOLEH 0)
+        // ✅ TOTAL ASLI (SEMUA ASET, TERMASUK DIGANTI)
         $totalAsli = count($allAssets);
-
-        // ✅ TOTAL UNTUK PEMBAGI (ANTI DIVIDE BY ZERO)
         $totalBagi = max(1, $totalAsli);
 
+        // ❗️RUSAK & BAIK TIDAK DIABAIKAN
         $rusak = $assetsModel->where('condition', 'rusak')->countAllResults();
         $baik  = $assetsModel->where('condition', 'baik')->countAllResults();
 
@@ -95,7 +101,7 @@ abstract class BaseController extends Controller
             'perlu_pengadaan' => $merah,
             'rusak'           => $rusak,
             'baik'            => $baik,
-            'total'           => $totalAsli, // 🔥 FIX DI SINI
+            'total'           => $totalAsli,
 
             // persentase
             'persen_pengadaan' => round($merah / $totalBagi * 100),
@@ -104,5 +110,6 @@ abstract class BaseController extends Controller
             'persen_total'     => $totalAsli > 0 ? 100 : 0,
         ];
     }
+
 
 }
