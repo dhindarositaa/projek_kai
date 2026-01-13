@@ -58,3 +58,73 @@ Additionally, make sure that the following extensions are enabled in your PHP:
 - json (enabled by default - don't turn it off)
 - [mysqlnd](http://php.net/manual/en/mysqlnd.install.php) if you plan to use MySQL
 - [libcurl](http://php.net/manual/en/curl.requirements.php) if you plan to use the HTTP\CURLRequest library
+
+
+Additional Requirement – Excel Import Module
+
+This application uses an Excel Import feature for bulk asset input.
+To enable this feature, an additional PHP library is required.
+
+Required Package
+
+The system requires the following Composer package:
+
+PhpOffice PhpSpreadsheet
+
+
+This library is used to read and parse .xls and .xlsx files.
+
+Installation
+
+Run this command in the root folder of the project:
+
+composer require phpoffice/phpspreadsheet
+
+
+This will automatically create:
+
+/vendor
+/vendor/autoload.php
+/vendor/phpoffice/phpspreadsheet
+
+
+These files are required for the Excel import controller to work.
+
+Shared Hosting / No Composer
+
+If the production server does not support Composer:
+
+Run composer require phpoffice/phpspreadsheet on your local machine.
+
+Upload the following files and folders to the server:
+
+/vendor
+composer.json
+composer.lock
+
+
+Make sure the file below exists on the server:
+
+/vendor/autoload.php
+
+Why This Is Required
+
+The Excel import feature uses:
+
+PhpOffice\PhpSpreadsheet\IOFactory
+PhpOffice\PhpSpreadsheet\Shared\Date
+
+
+Without the PhpSpreadsheet library, the system will not be able to read Excel files and the import process will fail.
+
+Summary
+
+To use the Excel Import feature, the following is mandatory:
+
+PHP 8.1+
+
+CodeIgniter 4
+
+PhpOffice PhpSpreadsheet installed via Composer
+
+This requirement applies to both development and production environments.
